@@ -1,0 +1,34 @@
+<div *ngIf="selectedPropSetDef" class="card">
+  <div class="card-header"><h5 class="card-title">{{selectedPropSetDef.name}}</h5></div>
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+      <tr>
+        <th>name</th>
+        <td>{{selectedPropSetDef.name}}</td>
+      </tr>
+      <tr>
+        <th>definition</th>
+        <td>{{selectedPropSetDef.definition}}</td>
+      </tr>
+      <tr>
+        <th>applicable classes</th>
+        <td>{{selectedPropSetDef.applicableClasses}}</td>
+      </tr>
+      <tr>
+        <th>property definitions</th>
+        <td><a *ngFor="let propertyDef of sort(selectedPropSetDef.propertyDefs); let last = last"
+               (click)="selectPropertyDef(propertyDef)"
+               [class]="selectedPropDef?(propertyDef.name==selectedPropDef.name?'selected-property-def link-item':'link-item'):'link-item'"
+               >{{propertyDef.name}}{{last ? '' : ', '}}</a>
+        </td>
+      </tr>
+      <tr *ngIf="selectedPropDef">
+        <td colspan="2">
+          <app-property-definition [selectedPropDef]="selectedPropDef"></app-property-definition>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

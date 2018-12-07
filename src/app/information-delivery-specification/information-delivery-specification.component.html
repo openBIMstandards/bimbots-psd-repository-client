@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-header"><h5>Information Delivery Specifications</h5></div>
+  <div *ngIf="allIDSs" class="card-body">
+    <table class="table">
+      <thead>
+      <th>id</th><th>name</th>
+      </thead>
+      <tbody>
+      <tr class="link-item" (click)="onClickIds(ids)" *ngFor="let ids of allIDSs">
+        <td class="d-sm-table-cell">{{ids.id}}</td>
+        <td>{{ids.name}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="card" *ngIf="selectedIDS">
+      <div class="card-header"><h6>{{selectedIDS.name}}</h6></div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>PSET</th>
+            <th>mandatory properties</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let pset of selectedIDS.reqPsets">
+            <td>{{pset.propertySetDef.name}}</td>
+            <td><span *ngFor="let propDef of pset.reqProps; let last = last">{{propDef.name}}{{last ? '' : ', '}}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

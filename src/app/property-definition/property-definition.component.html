@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+      <tr>
+        <th>name</th>
+        <td>{{selectedPropDef.name}}</td>
+      </tr>
+      <tr>
+        <th>definition</th>
+        <td>{{selectedPropDef.definition}}</td>
+      </tr>
+      <tr>
+        <th>property type</th>
+        <td>{{selectedPropDef.propertyType.type}}</td>
+      </tr>
+      <tr>
+        <th><span>{{selectedPropDef.propertyType.dataType ? 'data type' : 'enum items'}}</span></th>
+        <td *ngIf="selectedPropDef.propertyType.dataType">{{selectedPropDef.propertyType.dataType}}</td>
+        <td *ngIf="!selectedPropDef.propertyType.dataType"><span
+          *ngFor="let item of selectedPropDef.propertyType.enumItems; let last = last">{{last ? item : item + ', '}}</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header"><h5>Product property sets</h5></div>
+  <div class="card-body">
+    <table class="table">
+      <tr>
+        <th><label for="ifcProductClass">IFC Product class: </label></th>
+        <td><select id="ifcProductClass" class="form-control" [ngModel]="classId"
+                    (ngModelChange)="onProductClassSelection($event)">
+          <option [ngValue]="null">Select IFC Product class</option>
+          <option *ngFor="let product of products" [ngValue]="product"
+                  [selected]="product===classId">{{product}}</option>
+        </select></td>
+      </tr>
+      <tr>
+        <th>property sets</th>
+        <td><a *ngFor="let psd of propertySetDefinitions; let last = last"
+               (click)="selectPropertySetDef(psd)"
+               [class]="selectedPropSetDef?(psd.name===selectedPropSetDef.name?'selected-property-set-def link-item':'link-item'):'link-item'"
+               >{{psd.name}}{{last ? '' : ', '}}</a>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+  <!--<span *ngFor="let psd of propertySetDefinitions; let last = last">{{psd.name}}{{last ? '' : ', '}}</span>-->
+  <app-property-set-definition [selectedPropSetDef]="selectedPropSetDef"></app-property-set-definition>
+</div>
