@@ -48,6 +48,7 @@ export class AppModule {
       // By default, this client will send queries to the
       // `/graphql` endpoint on the same host
       link: httpLink.create({uri: 'http://localhost:8080/graphql'}),
+ //     link: httpLink.create({uri: 'https://gentle-lake-13895.herokuapp.com/graphql'}),
       cache: new InMemoryCache()
     });
   }
