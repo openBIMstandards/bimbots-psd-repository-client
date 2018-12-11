@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import {AppComponent} from './app.component';
 import {PropertySetDefinitionComponent} from './property-set-definition/property-set-definition.component';
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    AngularFontAwesomeModule,
     RouterModule.forRoot(appRoutes),
     NgbModule,
     HttpClientModule, // provides HttpClient for HttpLink

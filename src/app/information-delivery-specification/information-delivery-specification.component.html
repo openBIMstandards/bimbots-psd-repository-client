@@ -3,7 +3,8 @@
   <div *ngIf="allIDSs" class="card-body">
     <table class="table">
       <thead>
-      <th>id</th><th>name</th>
+      <th>id</th>
+      <th>name</th>
       </thead>
       <tbody>
       <tr class="link-item" (click)="onClickIds(ids)" *ngFor="let ids of allIDSs">
@@ -25,7 +26,18 @@
           <tbody>
           <tr *ngFor="let pset of selectedIDS.reqPsets">
             <td>{{pset.propertySetDef.name}}</td>
-            <td><span *ngFor="let propDef of pset.reqProps; let last = last">{{propDef.name}}{{last ? '' : ', '}}</span>
+            <td *ngIf="!(pset==editedPset)"><span
+              *ngFor="let propDef of pset.reqProps; let last = last">{{propDef.name}}{{last ? '' : ', '}}</span>
+            <td *ngIf="(pset==editedPset)"><label style="margin-right: 2em"
+                                                  *ngFor="let propdef of pset.propertySetDef.propertyDefs"><input
+              class="form-check-inline" [checked]="isChecked(propdef, pset)"
+              type="checkbox"> {{propdef.name}}</label>
+            </td>
+            <td>
+              <button type="button" [class]="pset===editedPset? 'btn btn-success':'btn'"
+                      (click)="toggleEditedPset(pset)">
+                <fa name="edit"></fa>
+              </button>
             </td>
           </tr>
           </tbody>

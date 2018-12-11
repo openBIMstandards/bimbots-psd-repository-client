@@ -49,6 +49,9 @@ const oneIDS = gql`
       reqPsets {
         propertySetDef {
           name
+          propertyDefs {
+            name
+          }
         }
         reqProps {
           name

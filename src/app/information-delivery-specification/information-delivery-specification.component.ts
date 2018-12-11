@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
-import {InformationDeliverySpecification} from './information-delivery-specification.model';
+import {InformationDeliverySpecification, RequiredPropertySet} from './information-delivery-specification.model';
+import {PropertyDefinition} from '../property-definition/property-definition.model';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -10,6 +11,7 @@ import {InformationDeliverySpecification} from './information-delivery-specifica
 export class InformationDeliverySpecificationComponent implements OnInit {
   allIDSs: [InformationDeliverySpecification];
   selectedIDS: InformationDeliverySpecification;
+  editedPset: RequiredPropertySet;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
@@ -29,6 +31,23 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     } else {
       this.selectedIDS = ids;
     }
+  }
+
+  toggleEditedPset(pset: RequiredPropertySet): void {
+    if (pset === this.editedPset) {
+      this.editedPset = null;
+    } else {
+      this.editedPset = pset;
+    }
+  }
+
+  isChecked(propDef: PropertyDefinition, pset: RequiredPropertySet): boolean {
+    for (let index = 0; index < pset.reqProps.length; index++) {
+      if (pset.reqProps[index].name === propDef.name) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
