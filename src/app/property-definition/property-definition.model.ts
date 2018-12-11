@@ -1,11 +1,12 @@
 export class PropertyDefinition {
-  name: String;
-  definition: String;
+  id: string;
+  name: string;
+  definition: string;
   propertyType: PropertyType;
 }
 
 export class PropertyType {
-  type: String;
-  dataType: String;
-  enumItems: [String];
+  type: string;
+  dataType: string;
+  enumItems: [string];
 }

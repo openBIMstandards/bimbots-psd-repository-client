@@ -2,8 +2,8 @@ import {EventEmitter, Injectable} from '@angular/core';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
 import {PropertySetDefinition} from './property-set-definition/property-set-definition.model';
-import {Query} from './query';
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
+import {Mutation, Query} from './graphql';
 
 const onePSD = gql`
   query onePSD($name: String!) {
@@ -48,8 +48,54 @@ const oneIDS = gql`
       name
       reqPsets {
         propertySetDef {
+          id
           name
           propertyDefs {
+            id
+            name
+          }
+        }
+        reqProps {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const addProp2Pset2Ids = gql`
+  mutation addProp2Pset2Ids($idsId: String!, $psetId: String!, $propId: String!) {
+    addProp2Pset2Ids(idsId: $idsId, psetId: $psetId, propId: $propId) {
+      id
+      name
+      reqPsets {
+        propertySetDef {
+          id
+          name
+          propertyDefs {
+            id
+            name
+          }
+        }
+        reqProps {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const removeProp2Pset2Ids = gql`
+  mutation removeProp2Pset2Ids($idsId: String!, $psetId: String!, $propId: String!) {
+    removeProp2Pset2Ids(idsId: $idsId, psetId: $psetId, propId: $propId) {
+      id
+      name
+      reqPsets {
+        propertySetDef {
+          id
+          name
+          propertyDefs {
+            id
             name
           }
         }
@@ -98,5 +144,27 @@ export class PropertySetDefinitionService {
       query: oneIDS,
       variables: {id: id}
     }).valueChanges.subscribe(value => this.idsReceived.emit(value.data.oneIDS));
+  }
+
+  public addProp2Pset2Ids(idsId: string, psetId: string, propId: string): void {
+    this.apollo.mutate<Mutation>({
+      mutation: addProp2Pset2Ids,
+      variables: {
+        idsId: idsId,
+        psetId: psetId,
+        propId: propId
+      }
+    }).subscribe(value => this.idsReceived.emit(value.data.addProp2Pset2Ids));
+  }
+
+  public removeProp2Pset2Ids(idsId: string, psetId: string, propId: string): void {
+    this.apollo.mutate<Mutation>({
+      mutation: removeProp2Pset2Ids,
+      variables: {
+        idsId: idsId,
+        psetId: psetId,
+        propId: propId
+      }
+    }).subscribe(value => this.idsReceived.emit(value.data.removeProp2Pset2Ids));
   }
 }
