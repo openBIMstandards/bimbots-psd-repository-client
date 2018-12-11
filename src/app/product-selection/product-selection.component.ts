@@ -7,6 +7,7 @@ const PRODUCTS = [
   'http://ifcowl.openbimstandards.org/IFC4#IfcBeam',
   'http://ifcowl.openbimstandards.org/IFC4#IfcBuilding',
   'http://ifcowl.openbimstandards.org/IFC4#IfcBuildingStorey',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcChimney',
   'http://ifcowl.openbimstandards.org/IFC4#IfcColumn',
   'http://ifcowl.openbimstandards.org/IFC4#IfcCovering',
   'http://ifcowl.openbimstandards.org/IFC4#IfcDoor',

@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 import {AppComponent} from './app.component';
 import {PropertySetDefinitionComponent} from './property-set-definition/property-set-definition.component';
@@ -50,7 +50,7 @@ export class AppModule {
       // By default, this client will send queries to the
       // `/graphql` endpoint on the same host
       link: httpLink.create({uri: 'http://localhost:8080/graphql'}),
- //     link: httpLink.create({uri: 'https://gentle-lake-13895.herokuapp.com/graphql'}),
+      // link: httpLink.create({uri: 'https://gentle-lake-13895.herokuapp.com/graphql'}),
       cache: new InMemoryCache()
     });
   }
