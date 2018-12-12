@@ -13,14 +13,19 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   allIDSs: [InformationDeliverySpecification];
   selectedIDS: InformationDeliverySpecification;
   editedPset: RequiredPropertySet;
-  loading: boolean;
+  loadingAllIDSs: boolean;
+  loadingOneIDS: boolean;
+  loadingPropUpdate: boolean;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
-    this.loading = false;
-    this.propertySetDefinitionService.idssReceived.subscribe(allIDSs => this.allIDSs = allIDSs);
+    this.loadingAllIDSs = true;
+    this.propertySetDefinitionService.idssReceived.subscribe(allIDSs => {
+      this.allIDSs = allIDSs;
+      this.loadingAllIDSs = false;
+    });
     this.propertySetDefinitionService.allIDSs();
   }
 
@@ -29,9 +34,9 @@ export class InformationDeliverySpecificationComponent implements OnInit {
       this.propertySetDefinitionService.idsReceived.subscribe(oneIDS => {
         ids = oneIDS;
         this.selectedIDS = ids;
-        this.loading = false;
+        this.loadingOneIDS = false;
       });
-      this.loading = true;
+      this.loadingOneIDS = true;
       this.propertySetDefinitionService.oneIDS(ids.id);
     } else {
       this.selectedIDS = ids;
@@ -60,8 +65,10 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   onChange(propdef: PropertyDefinition, pset: RequiredPropertySet): void {
     const subscription = <Subscription>this.propertySetDefinitionService.idsReceived.subscribe(ids => {
       this.selectedIDS = ids;
+      this.loadingPropUpdate = false;
       subscription.unsubscribe();
     });
+    this.loadingPropUpdate = true;
     if (this.isChecked(propdef, pset)) {
       this.propertySetDefinitionService.removeProp2Pset2Ids(this.selectedIDS.id, this.editedPset.propertySetDef.id, propdef.id);
     } else {

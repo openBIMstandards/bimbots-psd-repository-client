@@ -1,5 +1,7 @@
 <div class="card">
-  <div class="card-header"><h5>Information Delivery Specifications</h5></div>
+  <div class="card-header"><h5>Information Delivery Specifications</h5><span *ngIf="loadingAllIDSs"><i
+    class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span></span></div>
   <div *ngIf="allIDSs" class="card-body">
     <table class="table">
       <thead>
@@ -10,7 +12,7 @@
       <tr class="link-item" (click)="onClickIds(ids)" *ngFor="let ids of allIDSs">
         <td class="d-sm-table-cell">{{ids.id}}</td>
         <td>{{ids.name}}</td>
-        <td *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        <td *ngIf="loadingOneIDS"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></td>
       </tr>
       </tbody>
@@ -35,12 +37,14 @@
               class="form-check-inline" [checked]="isChecked(propdef, pset)" (change)="onChange(propdef, pset)"
               type="checkbox"> {{propdef.name}}</label>
             </td>
-            <td>
+            <td *ngIf="!loadingPropUpdate || pset!==editedPset">
               <button type="button" [class]="pset===editedPset? 'btn btn-success':'btn'"
                       (click)="toggleEditedPset(pset)">
                 <fa name="edit"></fa>
               </button>
             </td>
+            <td *ngIf="loadingPropUpdate && pset===editedPset"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+              <span class="sr-only">Loading...</span></td>
           </tr>
           </tbody>
         </table>

@@ -1,5 +1,7 @@
 <div class="card">
-  <div class="card-header"><h5>Product property sets</h5></div>
+  <div class="card-header"><h5>Product property sets</h5><span *ngIf="loadingAllIDSs"><i
+    class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span></span></div>
   <div class="card-body">
     <table class="table">
       <tr>
@@ -16,7 +18,7 @@
         <td><a *ngFor="let psd of propertySetDefinitions; let last = last"
                (click)="selectPropertySetDef(psd)"
                [class]="selectedPropSetDef?(psd.name===selectedPropSetDef.name?'selected-property-set-def link-item':'link-item'):'link-item'"
-               >{{psd.name}}{{last ? '' : ', '}}</a>
+        >{{psd.name}}{{last ? '' : ', '}}</a>
         </td>
       </tr>
 

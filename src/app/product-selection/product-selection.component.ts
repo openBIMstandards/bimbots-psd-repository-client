@@ -33,6 +33,7 @@ export class ProductSelectionComponent implements OnInit {
   propertySetDefinitions: [PropertySetDefinition];
   classId: string;
   products: string[];
+  loadingAllPSDsForClass: boolean;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
     this.products = PRODUCTS;
@@ -42,7 +43,9 @@ export class ProductSelectionComponent implements OnInit {
     this.classId = this.products[0];
     this.propertySetDefinitionService.psdsReceived.subscribe(psds => {
       this.propertySetDefinitions = psds;
+      this.loadingAllPSDsForClass = false;
     });
+    this.loadingAllPSDsForClass = true;
     this.propertySetDefinitionService.allPSDsForClass(this.classId);
   }
 
