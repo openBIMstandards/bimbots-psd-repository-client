@@ -3,6 +3,7 @@ import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {InformationDeliverySpecification, RequiredPropertySet} from './information-delivery-specification.model';
 import {PropertyDefinition} from '../property-definition/property-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
+import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -12,9 +13,12 @@ import {Subscription} from 'apollo-client/util/Observable';
 export class InformationDeliverySpecificationComponent implements OnInit {
   allIDSs: [InformationDeliverySpecification];
   selectedIDS: InformationDeliverySpecification;
+  allPSDs: [PropertySetDefinition];
+  selectedPSD: PropertySetDefinition;
   editedPset: RequiredPropertySet;
   loadingAllIDSs: boolean;
   loadingOneIDS: boolean;
+  loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
@@ -27,6 +31,10 @@ export class InformationDeliverySpecificationComponent implements OnInit {
       this.loadingAllIDSs = false;
     });
     this.propertySetDefinitionService.allIDSs();
+    this.propertySetDefinitionService.psdsReceived.subscribe(allPSDs => {
+      this.allPSDs = allPSDs;
+    });
+    this.propertySetDefinitionService.allPSDs();
   }
 
   onClickIds(ids: InformationDeliverySpecification) {
@@ -41,6 +49,17 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     } else {
       this.selectedIDS = ids;
     }
+  }
+
+  addPset(selectedPSD: PropertySetDefinition): void {
+    const subscription = <Subscription>this.propertySetDefinitionService.idsReceived.subscribe(ids => {
+      this.selectedIDS = ids;
+      this.selectedPSD = null;
+      this.loadingPsetUpdate = false;
+      subscription.unsubscribe();
+    });
+    this.loadingPsetUpdate = true;
+    this.propertySetDefinitionService.addPset2Ids(this.selectedIDS.id, selectedPSD.id);
   }
 
   toggleEditedPset(pset: RequiredPropertySet): void {

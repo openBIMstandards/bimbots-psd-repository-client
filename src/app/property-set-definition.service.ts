@@ -24,6 +24,15 @@ const onePSD = gql`
   }
 `;
 
+const allPSDs = gql`
+  query allPSDs {
+    allPSDs {
+      id
+      name
+    }
+  }
+`;
+
 const allPSDsForClass = gql`
   query allPSDsForClass($classId: String!) {
     allPSDsForClass(classId: $classId) {
@@ -44,6 +53,28 @@ const allIDSs = gql`
 const oneIDS = gql`
   query oneIDS($id: String!) {
     oneIDS(id: $id) {
+      id
+      name
+      reqPsets {
+        propertySetDef {
+          id
+          name
+          propertyDefs {
+            id
+            name
+          }
+        }
+        reqProps {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const addPset2Ids = gql`
+  mutation addPset2Ids($idsId: String!, $psetId: String!, $propIds: [String]) {
+    addPset2Ids(idsId: $idsId, psetId: $psetId, propIds: $propIds) {
       id
       name
       reqPsets {
@@ -126,6 +157,12 @@ export class PropertySetDefinitionService {
     }).valueChanges.subscribe(value => this.psdReceived.emit(value.data.onePSD));
   }
 
+  public allPSDs(): void {
+    this.apollo.watchQuery<Query>({
+      query: allPSDs
+    }).valueChanges.subscribe(values => this.psdsReceived.emit(values.data.allPSDs));
+  }
+
   public allPSDsForClass(classId: string): void {
     this.apollo.watchQuery<Query>({
       query: allPSDsForClass,
@@ -144,6 +181,16 @@ export class PropertySetDefinitionService {
       query: oneIDS,
       variables: {id: id}
     }).valueChanges.subscribe(value => this.idsReceived.emit(value.data.oneIDS));
+  }
+
+  public addPset2Ids(idsId: string, psetId: string): void {
+    this.apollo.mutate<Mutation>({
+      mutation: addPset2Ids,
+      variables: {
+        idsId: idsId,
+        psetId: psetId
+      }
+    }).subscribe(value => this.idsReceived.emit(value.data.addPset2Ids));
   }
 
   public addProp2Pset2Ids(idsId: string, psetId: string, propId: string): void {

@@ -3,24 +3,33 @@ import {InformationDeliverySpecification} from './information-delivery-specifica
 
 export interface Query {
   onePSD: PropertySetDefinition;
+  allPSDs: [PropertySetDefinition];
   allPSDsForClass: [PropertySetDefinition];
   allIDSs: [InformationDeliverySpecification];
   oneIDS: InformationDeliverySpecification;
 }
 
 export interface Mutation {
+  // Add a required property set to an information delivery specification
+  // GRAPHQL: addPset2Ids(
+  //  idsId: String!,
+  //  psetId: String!,
+  //  propIds: [String]): InformationDeliverySpecification
+
+  addPset2Ids(idsId: string, psetId: string, propIds: [string]): InformationDeliverySpecification;
+
   // Add a mandatory property to a required property set to an information delivery specification
   // GRAPHQL: addProp2Pset2Ids(
-  //  idsId: String!
-  //  psetId: String!
+  //  idsId: String!,
+  //  psetId: String!,
   //  propId: String!): InformationDeliverySpecification
 
   addProp2Pset2Ids(idsId: string, psetId: string, propId: string): InformationDeliverySpecification;
 
   // Remove a mandatory property from a required property set to an information delivery specification
   // GRAPHQL: addProp2Pset2Ids(
-  //  idsId: String!
-  //  psetId: String!
+  //  idsId: String!,
+  //  psetId: String!,
   //  propId: String!): InformationDeliverySpecification
 
   removeProp2Pset2Ids(idsId: string, psetId: string, propId: string): InformationDeliverySpecification;
