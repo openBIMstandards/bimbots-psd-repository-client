@@ -34,7 +34,7 @@ const allPSDs = gql`
 `;
 
 const allPSDsForClass = gql`
-  query allPSDsForClass($classId: String!) {
+  query allPSDsForClass($classId: ID!) {
     allPSDsForClass(classId: $classId) {
       name
     }
@@ -51,7 +51,7 @@ const allIDSs = gql`
 `;
 
 const oneIDS = gql`
-  query oneIDS($id: String!) {
+  query oneIDS($id: ID!) {
     oneIDS(id: $id) {
       id
       name
@@ -73,7 +73,7 @@ const oneIDS = gql`
 `;
 
 const addPset2Ids = gql`
-  mutation addPset2Ids($idsId: String!, $psetId: String!, $propIds: [String]) {
+  mutation addPset2Ids($idsId: ID!, $psetId: ID!, $propIds: [ID]) {
     addPset2Ids(idsId: $idsId, psetId: $psetId, propIds: $propIds) {
       id
       name
@@ -94,8 +94,30 @@ const addPset2Ids = gql`
   }
 `;
 
+const removePset2Ids = gql`
+  mutation removePset2Ids($idsId: ID!, $psetId: ID!) {
+    removePset2Ids(idsId: $idsId, psetId: $psetID) {
+      id
+      name
+      reqPsets {
+        propertySetDef {
+          id
+          name
+          propertyDefs {
+            id
+            name
+          }
+        }
+        reqProps {
+          name
+        }
+      }
+    }
+  }
+`;
+
 const addProp2Pset2Ids = gql`
-  mutation addProp2Pset2Ids($idsId: String!, $psetId: String!, $propId: String!) {
+  mutation addProp2Pset2Ids($idsId: ID!, $psetId: ID!, $propId: ID!) {
     addProp2Pset2Ids(idsId: $idsId, psetId: $psetId, propId: $propId) {
       id
       name
@@ -117,7 +139,7 @@ const addProp2Pset2Ids = gql`
 `;
 
 const removeProp2Pset2Ids = gql`
-  mutation removeProp2Pset2Ids($idsId: String!, $psetId: String!, $propId: String!) {
+  mutation removeProp2Pset2Ids($idsId: ID!, $psetId: ID!, $propId: ID!) {
     removeProp2Pset2Ids(idsId: $idsId, psetId: $psetId, propId: $propId) {
       id
       name
@@ -191,6 +213,16 @@ export class PropertySetDefinitionService {
         psetId: psetId
       }
     }).subscribe(value => this.idsReceived.emit(value.data.addPset2Ids));
+  }
+
+  public removePset2Ids(idsId: string, psetId: string): void {
+    this.apollo.mutate<Mutation>({
+      mutation: removePset2Ids,
+      variables: {
+        idsId: idsId,
+        psetId: psetId
+      }
+    }).subscribe(value => this.idsReceived.emit(value.data.removePset2Ids));
   }
 
   public addProp2Pset2Ids(idsId: string, psetId: string, propId: string): void {

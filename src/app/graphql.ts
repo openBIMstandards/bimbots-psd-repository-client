@@ -18,6 +18,13 @@ export interface Mutation {
 
   addPset2Ids(idsId: string, psetId: string, propIds: [string]): InformationDeliverySpecification;
 
+  // Remove a required property set from an information delivery specification
+  // GRAPHQL: removePset2Ids(
+  //  idsId: ID!,
+  //  psetId: ID!): InformationDeliverySpecification
+
+  removePsetIds(idsId: string, psetId: string): InformationDeliverySpecification;
+
   // Add a mandatory property to a required property set to an information delivery specification
   // GRAPHQL: addProp2Pset2Ids(
   //  idsId: String!,
