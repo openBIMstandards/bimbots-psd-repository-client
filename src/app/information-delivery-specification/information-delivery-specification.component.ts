@@ -16,6 +16,7 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   allPSDs: [PropertySetDefinition];
   selectedPSD: PropertySetDefinition;
   editedPset: RequiredPropertySet;
+  selectedPset: RequiredPropertySet;
   loadingAllIDSs: boolean;
   loadingOneIDS: boolean;
   loadingPsetUpdate: boolean;
@@ -62,6 +63,17 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     this.propertySetDefinitionService.addPset2Ids(this.selectedIDS.id, selectedPSD.id);
   }
 
+  removePset(pset: RequiredPropertySet): void {
+    const subscription = <Subscription>this.propertySetDefinitionService.idsReceived.subscribe(ids => {
+      this.selectedIDS = ids;
+      this.selectedPSD = null;
+      this.loadingPsetUpdate = false;
+      subscription.unsubscribe();
+    });
+    this.loadingPsetUpdate = true;
+    this.propertySetDefinitionService.removePset2Ids(this.selectedIDS.id, pset.propertySetDef.id);
+  }
+
   toggleEditedPset(pset: RequiredPropertySet): void {
     if (pset === this.editedPset) {
       this.editedPset = null;
@@ -93,6 +105,10 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     } else {
       this.propertySetDefinitionService.addProp2Pset2Ids(this.selectedIDS.id, this.editedPset.propertySetDef.id, propdef.id);
     }
+  }
+
+  selectPset(pset: RequiredPropertySet): void {
+    this.selectedPset = pset === this.selectedPset ? null : pset;
   }
 
 }

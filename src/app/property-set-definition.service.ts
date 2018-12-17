@@ -96,7 +96,7 @@ const addPset2Ids = gql`
 
 const removePset2Ids = gql`
   mutation removePset2Ids($idsId: ID!, $psetId: ID!) {
-    removePset2Ids(idsId: $idsId, psetId: $psetID) {
+    removePset2Ids(idsId: $idsId, psetId: $psetId) {
       id
       name
       reqPsets {
