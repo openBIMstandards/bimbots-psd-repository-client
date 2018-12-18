@@ -14,8 +14,10 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 import {HttpClientModule} from '@angular/common/http';
 import {ProductSelectionComponent} from './product-selection/product-selection.component';
 import {InformationDeliverySpecificationComponent} from './information-delivery-specification/information-delivery-specification.component';
+import { PropertySetRepositoryComponent } from './property-set-repository/property-set-repository.component';
 
 const appRoutes: Routes = [
+  {path: 'property_set_repository', component: PropertySetRepositoryComponent},
   {path: 'information_delivery_specification', component: InformationDeliverySpecificationComponent},
   {path: 'products', component: ProductSelectionComponent}
 ];
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
     PropertySetDefinitionComponent,
     PropertyDefinitionComponent,
     ProductSelectionComponent,
-    InformationDeliverySpecificationComponent
+    InformationDeliverySpecificationComponent,
+    PropertySetRepositoryComponent
   ],
   imports: [
     BrowserModule,

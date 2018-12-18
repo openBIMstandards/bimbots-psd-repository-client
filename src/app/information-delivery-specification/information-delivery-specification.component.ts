@@ -21,6 +21,7 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   loadingOneIDS: boolean;
   loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
+  loadingIDS: InformationDeliverySpecification;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
@@ -38,14 +39,18 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     this.propertySetDefinitionService.allPSDs();
   }
 
+  isLoadingIDS(ids: InformationDeliverySpecification): boolean {
+    return ids === this.loadingIDS;
+  }
+
   onClickIds(ids: InformationDeliverySpecification) {
     if (!ids.reqPsets) {
       this.propertySetDefinitionService.idsReceived.subscribe(oneIDS => {
         ids = oneIDS;
         this.selectedIDS = ids;
-        this.loadingOneIDS = false;
+        this.loadingIDS = null;
       });
-      this.loadingOneIDS = true;
+      this.loadingIDS = ids;
       this.propertySetDefinitionService.oneIDS(ids.id);
     } else {
       this.selectedIDS = ids;
