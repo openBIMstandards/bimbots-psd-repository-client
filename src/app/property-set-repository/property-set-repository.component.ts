@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
-import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
+import {Subscription} from 'apollo-client/util/Observable';
 
 @Component({
   selector: 'app-property-set-repository',
@@ -10,13 +10,46 @@ import {PropertySetDefinition} from '../property-set-definition/property-set-def
 })
 export class PropertySetRepositoryComponent implements OnInit {
   allPSDs: [PropertySetDefinition];
+  selectedPSD: PropertySetDefinition;
+  loadingAllPSDs: boolean;
+  loadingOnePSD: string;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
-    this.propertySetDefinitionService.psdsReceived.subscribe(allPSDs => this.allPSDs = allPSDs);
+    this.propertySetDefinitionService.psdsReceived.subscribe(allPSDs => {
+      this.allPSDs = allPSDs;
+      this.loadingAllPSDs = false;
+    });
+    this.loadingAllPSDs = true;
     this.propertySetDefinitionService.allPSDs();
   }
 
+  trackById(index: number, item: PropertySetDefinition) {
+    return item.id; // or item.id
+  }
+
+  isSelected(psd): boolean {
+    return this.selectedPSD ? psd.id === this.selectedPSD.id : false;
+  }
+
+  selectPsd(psd: PropertySetDefinition): void {
+    if (psd) {
+      const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe((onePSD) => {
+          psd = onePSD;
+          this.selectedPSD = psd;
+          this.loadingOnePSD = null;
+        }
+      );
+      this.loadingOnePSD = psd.name;
+      this.propertySetDefinitionService.getPropertySetDefinition(psd.name);
+    } else {
+      this.selectedPSD = null;
+    }
+  }
+
+  isLoadingOnePSD(psd): boolean {
+    return psd.name === this.loadingOnePSD;
+  }
 }

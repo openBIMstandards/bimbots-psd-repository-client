@@ -1,0 +1,12 @@
+.selected-property-set-def {
+  font-weight: bold;
+}
+
+.link-item {
+  cursor: pointer;
+}
+
+.repository-body {
+  height: 80vh;
+  overflow-y: auto;
+}

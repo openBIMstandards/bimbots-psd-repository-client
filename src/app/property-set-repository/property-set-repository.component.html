@@ -1,6 +1,24 @@
-<p>
-  property-set-repository works!
-</p>
-<ol>
-  <li *ngFor="let psd of allPSDs">{{psd.name}}</li>
-</ol>
+<div class="card">
+  <div class="card-header"><h5>Property set repository</h5><span *ngIf="loadingAllPSDs"><i
+    class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span></span></div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-4 repository-body">
+        <table class="table">
+          <tr *ngFor="let psd of allPSDs;trackBy: trackById" (click)="selectPsd(psd)"
+              [class]="isSelected(psd)?'selected-property-set-def':''">
+            <td class="link-item">{{psd.name}}</td>
+            <td><span *ngIf="isLoadingOnePSD(psd)"><i
+              class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span></span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-8">
+        <app-property-set-definition *ngIf="selectedPSD"
+                                     [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
+      </div>
+    </div>
+  </div>
+</div>

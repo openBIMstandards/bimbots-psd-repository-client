@@ -8,6 +8,7 @@ import {Mutation, Query} from './graphql';
 const onePSD = gql`
   query onePSD($name: String!) {
     onePSD(name: $name) {
+      id
       name
       definition
       applicableClasses
