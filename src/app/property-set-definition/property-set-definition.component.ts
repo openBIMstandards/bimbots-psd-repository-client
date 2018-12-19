@@ -18,7 +18,12 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   }
 
   selectPropertyDef(propertyDef: PropertyDefinition) {
-    this.selectedPropDef = propertyDef;
+    if (this.selectedPropDef) {
+      this.selectedPropDef = this.selectedPropDef.name === propertyDef.name ? null : propertyDef;
+    } else {
+      this.selectedPropDef = propertyDef;
+    }
+
   }
 
   sort(propertyDefs: PropertyDefinition[]): PropertyDefinition[] {
