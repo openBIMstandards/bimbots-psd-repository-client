@@ -1,12 +1,15 @@
 <div class="card">
-  <div class="card-header"><h5>Property set repository</h5><span *ngIf="loadingAllPSDs"><i
-    class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-          <span class="sr-only">Loading...</span></span></div>
-  <div class="card-body">
-    <div class="row">
-      <a type="button" class="col-1 btn" style="margin: 0px; padding: 0px; color: #15a589"><i
-        class="fas fa-plus-circle fa-3x"></i></a>
-      <div class="col-4 repository-body">
+  <div class="row card-header">
+    <h5>Property set repository</h5>
+    <button ngbTooltip="Add a property set" placement="right" (click)="onAddPropertySet()"
+            type="button" class="col-1 btn" style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+      class="fas fa-plus-circle fa-3x"></i></button>
+    <span *ngIf="loadingAllPSDs"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span></span>
+  </div>
+  <div class="row card-body">
+    <div class="col-4">
+      <div class="row repository-body">
         <table class="table">
           <tr *ngFor="let psd of allPSDs;trackBy: trackById" (click)="selectPsd(psd)"
               [class]="isSelected(psd)?'selected-property-set-def':''">
@@ -17,10 +20,10 @@
           </tr>
         </table>
       </div>
-      <div class="col-7">
-        <app-property-set-definition *ngIf="selectedPSD"
-                                     [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
-      </div>
+    </div>
+    <div class="col-7">
+      <app-property-set-definition *ngIf="selectedPSD"
+                                   [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
     </div>
   </div>
 </div>

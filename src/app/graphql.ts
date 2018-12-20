@@ -1,4 +1,4 @@
-import {PropertySetDefinition} from './property-set-definition/property-set-definition.model';
+import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition/property-set-definition.model';
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
 
 export interface Query {
@@ -40,4 +40,10 @@ export interface Mutation {
   //  propId: String!): InformationDeliverySpecification
 
   removeProp2Pset2Ids(idsId: string, psetId: string, propId: string): InformationDeliverySpecification;
+
+  // Create a property set definition specified by this PropertySetDefinitionInput instance
+  // GRAPHQL: createPropertySetDefinition(
+  //  psdInput: PropertySetDefinitionInput!): PropertySetDefinition
+
+  createPropertySetDefinition(psdInput: PropertySetDefinitionInput): PropertySetDefinition;
 }

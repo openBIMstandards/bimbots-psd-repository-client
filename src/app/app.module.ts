@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length */
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
@@ -14,7 +15,8 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 import {HttpClientModule} from '@angular/common/http';
 import {ProductSelectionComponent} from './product-selection/product-selection.component';
 import {InformationDeliverySpecificationComponent} from './information-delivery-specification/information-delivery-specification.component';
-import { PropertySetRepositoryComponent } from './property-set-repository/property-set-repository.component';
+import {PropertySetRepositoryComponent} from './property-set-repository/property-set-repository.component';
+import {CreatePropertySetDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-set-definition.component';
 
 const appRoutes: Routes = [
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
@@ -29,8 +31,10 @@ const appRoutes: Routes = [
     PropertyDefinitionComponent,
     ProductSelectionComponent,
     InformationDeliverySpecificationComponent,
-    PropertySetRepositoryComponent
+    PropertySetRepositoryComponent,
+    CreatePropertySetDefinitionComponent
   ],
+  entryComponents: [CreatePropertySetDefinitionComponent],
   imports: [
     BrowserModule,
     FormsModule,

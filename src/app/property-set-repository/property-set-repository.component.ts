@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CreatePropertySetDefinitionComponent} from './create-property-set-definition/create-property-set-definition.component';
 
 @Component({
   selector: 'app-property-set-repository',
@@ -14,7 +16,8 @@ export class PropertySetRepositoryComponent implements OnInit {
   loadingAllPSDs: boolean;
   loadingOnePSD: string;
 
-  constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
+  constructor(private propertySetDefinitionService: PropertySetDefinitionService,
+              private modal: NgbModal) {
   }
 
   ngOnInit() {
@@ -51,5 +54,12 @@ export class PropertySetRepositoryComponent implements OnInit {
 
   isLoadingOnePSD(psd): boolean {
     return psd.name === this.loadingOnePSD;
+  }
+
+  onAddPropertySet(): void {
+    const modal = this.modal.open(CreatePropertySetDefinitionComponent);
+    modal.result.then((result) => {
+      this.selectPsd(result);
+    });
   }
 }

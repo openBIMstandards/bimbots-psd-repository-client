@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
-import {PropertySetDefinition} from './property-set-definition/property-set-definition.model';
+import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition/property-set-definition.model';
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
 import {Mutation, Query} from './graphql';
 
@@ -161,6 +161,15 @@ const removeProp2Pset2Ids = gql`
   }
 `;
 
+const createPropertySetDefinition = gql`
+  mutation createPropertySetDefinition($psdInput: PropertySetDefinitionInput!) {
+    createPropertySetDefinition(psdInput: $psdInput) {
+      id
+      name
+    }
+  }
+`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -247,4 +256,18 @@ export class PropertySetDefinitionService {
       }
     }).subscribe(value => this.idsReceived.emit(value.data.removeProp2Pset2Ids));
   }
+
+  public createPropertySetDefinition(psdInput: PropertySetDefinitionInput) {
+    let result = null;
+    this.apollo.mutate<Mutation>({
+      mutation: createPropertySetDefinition,
+      variables: {
+        psdInput
+      },
+      refetchQueries: [{
+        query: allPSDs
+      }]
+    }).subscribe((value) => result = value.data.createPropertySetDefinition, null, () => this.psdReceived.emit(result));
+  }
+
 }

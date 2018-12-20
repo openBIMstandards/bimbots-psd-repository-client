@@ -7,3 +7,8 @@ export class PropertySetDefinition {
   applicableClasses: [string];
   propertyDefs: [PropertyDefinition];
 }
+
+export class PropertySetDefinitionInput {
+  constructor(private id: string, private name: string) {
+  }
+}
