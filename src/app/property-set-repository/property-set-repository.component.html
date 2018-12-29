@@ -14,17 +14,18 @@
         <table class="table">
           <tr *ngFor="let psd of allPSDs;trackBy: trackById" (click)="selectPsd(psd)"
               [class]="isSelected(psd)?'selected-property-set-def':''">
-            <td class="link-item">{{psd.name}}</td>
-            <td><span *ngIf="isLoadingOnePSD(psd)"><i
-              class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-          <span class="sr-only">Loading...</span></span></td>
-            <td><span *ngIf="!isLoadingOnePSD(psd) && isSelected(psd)">
-              <button ngbTooltip="Delete this property set"
-                      placement="left"
+            <td class="first-column"><i *ngIf="isLoadingOnePSD(psd)"
+                                        class="fa fa-spinner fa-pulse fa-2x fa-fw"></i><span
+              class="sr-only">Loading...</span></td>
+            <td class="first-column">
+              <button *ngIf="!isLoadingOnePSD(psd) && isSelected(psd)" ngbTooltip="Delete this property set"
+                      placement="top"
                       (click)="onDeletePropertySet(psd)"
                       type="button" class="col-1 btn"
                       style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
-                class="fas fa-trash fa-3x"></i></button></span></td>
+                class="fas fa-trash fa-2x"></i></button>
+            </td>
+            <td class="link-item" class="name-column">{{psd.name}}</td>
           </tr>
         </table>
       </div>

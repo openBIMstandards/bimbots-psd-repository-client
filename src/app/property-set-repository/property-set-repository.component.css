@@ -10,3 +10,12 @@
   height: 80vh;
   overflow-y: auto;
 }
+
+.first-column {
+  width: 20px;
+  padding: 5px 0px 0px 0px;
+}
+
+.name-column {
+  width: 200px;
+}
