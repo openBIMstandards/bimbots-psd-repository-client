@@ -2,8 +2,9 @@
   <div class="row card-header">
     <h5>Property set repository</h5>
     <button ngbTooltip="Add a property set" placement="right" (click)="onAddPropertySet()"
-            type="button" class="col-1 btn" style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
-      class="fas fa-plus-circle fa-3x"></i></button>
+            type="button" class="col-1 btn" style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+      <i
+        class="fas fa-plus-circle fa-3x"></i></button>
     <span *ngIf="loadingAllPSDs"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></span>
   </div>
@@ -17,6 +18,13 @@
             <td><span *ngIf="isLoadingOnePSD(psd)"><i
               class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></span></td>
+            <td><span *ngIf="!isLoadingOnePSD(psd) && isSelected(psd)">
+              <button ngbTooltip="Delete this property set"
+                      placement="left"
+                      (click)="onDeletePropertySet()"
+                      type="button" class="col-1 btn"
+                      style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+                class="fas fa-trash fa-3x"></i></button></span></td>
           </tr>
         </table>
       </div>

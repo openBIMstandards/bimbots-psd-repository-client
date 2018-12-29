@@ -170,6 +170,12 @@ const createPropertySetDefinition = gql`
   }
 `;
 
+const deletePropertySetDefinition = gql`
+  mutation deletePropertySetDefinition($psetId: ID!) {
+    deletePropertySetDefinition(psetID: $psedId)
+  }
+`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -178,6 +184,7 @@ export class PropertySetDefinitionService {
   public psdsReceived = new EventEmitter<[PropertySetDefinition]>();
   public idsReceived = new EventEmitter<InformationDeliverySpecification>();
   public idssReceived = new EventEmitter<[InformationDeliverySpecification]>();
+  public psdDeleted = new EventEmitter<boolean>();
 
   constructor(private apollo: Apollo) {
   }
@@ -268,6 +275,19 @@ export class PropertySetDefinitionService {
         query: allPSDs
       }]
     }).subscribe((value) => result = value.data.createPropertySetDefinition, null, () => this.psdReceived.emit(result));
+  }
+
+  public deletePropertySetDefinition(psetId: string): void {
+    let result = false;
+    this.apollo.mutate<Mutation>({
+      mutation: deletePropertySetDefinition,
+      variables: {
+        psetId
+      },
+      refetchQueries: [{
+        query: allPSDs
+      }]
+    }).subscribe((value) => result = value.data.deletePropertySetDefinition, null, () => this.psdDeleted.emit(result));
   }
 
 }

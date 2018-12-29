@@ -46,4 +46,10 @@ export interface Mutation {
   //  psdInput: PropertySetDefinitionInput!): PropertySetDefinition
 
   createPropertySetDefinition(psdInput: PropertySetDefinitionInput): PropertySetDefinition;
+
+  // Delete a property set definition
+  // GRAPHQL: deletePropertySetDefinition(
+  //  psetId: ID!): Boolean
+
+  deletePropertySetDefinition(psetId: string): boolean;
 }
