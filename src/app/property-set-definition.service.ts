@@ -172,7 +172,7 @@ const createPropertySetDefinition = gql`
 
 const deletePropertySetDefinition = gql`
   mutation deletePropertySetDefinition($psetId: ID!) {
-    deletePropertySetDefinition(psetID: $psedId)
+    deletePropertySetDefinition(psetId: $psetId)
   }
 `;
 

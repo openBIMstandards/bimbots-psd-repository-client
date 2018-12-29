@@ -21,7 +21,7 @@
             <td><span *ngIf="!isLoadingOnePSD(psd) && isSelected(psd)">
               <button ngbTooltip="Delete this property set"
                       placement="left"
-                      (click)="onDeletePropertySet()"
+                      (click)="onDeletePropertySet(psd)"
                       type="button" class="col-1 btn"
                       style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
                 class="fas fa-trash fa-3x"></i></button></span></td>

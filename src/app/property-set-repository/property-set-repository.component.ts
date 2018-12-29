@@ -62,4 +62,13 @@ export class PropertySetRepositoryComponent implements OnInit {
       this.selectPsd(result);
     });
   }
+
+  onDeletePropertySet(pset: PropertySetDefinition): void {
+    const subscription = <Subscription>this.propertySetDefinitionService.psdDeleted.subscribe((value) => {
+      this.selectedPSD = null;
+      console.log('Result delete property set definition: ' + value);
+      subscription.unsubscribe();
+    });
+    this.propertySetDefinitionService.deletePropertySetDefinition(pset.id);
+  }
 }
