@@ -3,29 +3,45 @@
   <div class="card-body">
     <table class="table">
       <tbody>
-      <tr>
+      <tr class="link-item">
         <th>name</th>
-        <td>{{selectedPropSetDef.name}}</td>
+        <td *ngIf="!(editedItem==='name')" (click)="selectItem('name')"
+            [class]="selectedItem==='name'?'selected-item link-item':'link-item'">{{selectedPropSetDef.name}}</td>
+        <td *ngIf="editedItem==='name'">
+          <input class="form-control" type="text" [(ngModel)]="selectedPropSetDef.name" placeholder="Enter name"></td>
+        <td *ngIf="selectedItem==='name'">
+          <button (click)="editItem('name')"
+                  ngbTooltip="Update name"
+                  placement="top"
+                  type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+            class="fas fa-edit fa-2x"></i></button>
+        </td>
+        <td *ngIf="!(selectedItem==='name')"></td>
       </tr>
       <tr>
         <th>ID</th>
         <td>{{selectedPropSetDef.id}}</td>
+        <td *ngIf="!(selectedItem==='ID')"></td>
       </tr>
       <tr>
         <th>definition</th>
         <td>{{selectedPropSetDef.definition}}</td>
+        <td *ngIf="!(selectedItem==='definition')"></td>
       </tr>
       <tr>
         <th>applicable classes</th>
         <td>{{selectedPropSetDef.applicableClasses}}</td>
+        <td *ngIf="!(selectedItem==='applicableClasses')"></td>
       </tr>
       <tr>
         <th>property definitions</th>
         <td><a *ngFor="let propertyDef of sort(selectedPropSetDef.propertyDefs); let last = last"
                (click)="selectPropertyDef(propertyDef)"
                [class]="selectedPropDef?(propertyDef.name==selectedPropDef.name?'selected-property-def link-item':'link-item'):'link-item'"
-               >{{propertyDef.name}}{{last ? '' : ', '}}</a>
+        >{{propertyDef.name}}{{last ? '' : ', '}}</a>
         </td>
+        <td *ngIf="!(selectedItem==='propertyDefs')"></td>
       </tr>
       <tr *ngIf="selectedPropDef">
         <td colspan="2">

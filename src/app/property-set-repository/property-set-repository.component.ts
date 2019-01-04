@@ -23,6 +23,14 @@ export class PropertySetRepositoryComponent implements OnInit {
   ngOnInit() {
     this.propertySetDefinitionService.psdsReceived.subscribe(allPSDs => {
       this.allPSDs = allPSDs;
+      if (this.selectedPSD) {
+        for (let i = 0; i < this.allPSDs.length; i++) {
+          if (this.allPSDs[i].id === this.selectedPSD.id) {
+            this.selectPsd(this.allPSDs[i]);
+            break;
+          }
+        }
+      }
       this.loadingAllPSDs = false;
     });
     this.loadingAllPSDs = true;

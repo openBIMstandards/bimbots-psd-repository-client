@@ -25,14 +25,16 @@
                       style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
                 class="fas fa-trash fa-2x"></i></button>
             </td>
-            <td class="link-item" class="name-column">{{psd.name}}</td>
+            <td class="link-item name-column">{{psd.name}}</td>
           </tr>
         </table>
       </div>
     </div>
     <div class="col-7">
-      <app-property-set-definition *ngIf="selectedPSD"
-                                   [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
+      <app-property-set-definition
+        *ngIf="selectedPSD"
+        (propDefUpdated)="onPropDefUpdated($event)"
+        [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
     </div>
   </div>
 </div>

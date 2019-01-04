@@ -1,6 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PropertyDefinition} from '../property-definition/property-definition.model';
-import {PropertySetDefinition} from './property-set-definition.model';
+import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition.model';
+import {Subscription} from 'apollo-client/util/Observable';
+import {PropertySetDefinitionService} from '../property-set-definition.service';
 
 @Component({
   selector: 'app-property-set-definition',
@@ -9,9 +11,12 @@ import {PropertySetDefinition} from './property-set-definition.model';
 })
 export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   @Input() selectedPropSetDef: PropertySetDefinition;
+  @Output() propDefUpdated = new EventEmitter<PropertyDefinition>();
   selectedPropDef: PropertyDefinition;
+  selectedItem: string;
+  editedItem: string;
 
-  constructor() {
+  constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
@@ -42,6 +47,28 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
     if (changes['selectedPropSetDef']) {
       this.selectedPropDef = null;
     }
+  }
+
+  selectItem(itemName: string): void {
+    this.selectedItem = itemName === this.selectedItem ? null : itemName;
+  }
+
+  editItem(itemName: string): void {
+    if (this.editedItem) {
+      this.editedItem = null;
+      this.update();
+    } else {
+      this.editedItem = itemName === this.editedItem ? null : itemName;
+    }
+  }
+
+  update(): void {
+    const psdInput = new PropertySetDefinitionInput(this.selectedPropSetDef.id, this.selectedPropSetDef.name);
+    const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
+      this.propDefUpdated.emit(value);
+      subscription.unsubscribe();
+    });
+    this.propertySetDefinitionService.updatePropertySetDefinition(psdInput);
   }
 
 }

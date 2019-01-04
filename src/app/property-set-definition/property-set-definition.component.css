@@ -2,6 +2,10 @@
   font-weight: bold;
 }
 
+.selected-item {
+  font-weight: bold;
+}
+
 .link-item {
   cursor: pointer;
 }

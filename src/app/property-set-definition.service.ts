@@ -170,6 +170,26 @@ const createPropertySetDefinition = gql`
   }
 `;
 
+const updatePropertySetDefinition = gql`
+  mutation updatePropertySetDefinition($psdInput: PropertySetDefinitionInput!) {
+    updatePropertySetDefinition(psdInput: $psdInput) {
+      id
+      name
+      definition
+      applicableClasses
+      propertyDefs {
+        name
+        definition
+        propertyType {
+          type
+          dataType
+          enumItems
+        }
+      }
+    }
+  }
+`;
+
 const deletePropertySetDefinition = gql`
   mutation deletePropertySetDefinition($psetId: ID!) {
     deletePropertySetDefinition(psetId: $psetId)
@@ -275,6 +295,22 @@ export class PropertySetDefinitionService {
         query: allPSDs
       }]
     }).subscribe((value) => result = value.data.createPropertySetDefinition, null, () => this.psdReceived.emit(result));
+  }
+
+  public updatePropertySetDefinition(psdInput: PropertySetDefinitionInput) {
+    let result = null;
+    this.apollo.mutate<Mutation>({
+      mutation: updatePropertySetDefinition,
+      variables: {
+        psdInput
+      },
+      refetchQueries: [{
+        query: allPSDs
+      }]
+    }).subscribe((
+      value) => result = value.data.updatePropertySetDefinition,
+      null,
+      () => this.psdReceived.emit(result));
   }
 
   public deletePropertySetDefinition(psetId: string): void {
