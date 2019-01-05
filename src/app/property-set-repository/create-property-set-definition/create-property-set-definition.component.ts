@@ -23,7 +23,7 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
 
   create(): void {
     this.pset.id = 'http://openbimstandards.org/pset_repository#' + this.pset.name.replace(/\s/g, '_');
-    const psdInput = new PropertySetDefinitionInput(this.pset.id, this.pset.name);
+    const psdInput = new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition);
     const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
       this.activeModal.close(value);
       subscription.unsubscribe();

@@ -3,6 +3,8 @@
   <div class="card-body">
     <table class="table">
       <tbody>
+
+      <!-- Name -->
       <tr class="link-item">
         <th>name</th>
         <td *ngIf="!(editedItem==='name')" (click)="selectItem('name')"
@@ -19,21 +21,41 @@
         </td>
         <td *ngIf="!(selectedItem==='name')"></td>
       </tr>
+
+      <!-- ID -->
       <tr>
         <th>ID</th>
         <td>{{selectedPropSetDef.id}}</td>
         <td *ngIf="!(selectedItem==='ID')"></td>
       </tr>
-      <tr>
+
+      <!-- Definition -->
+      <tr class="link-item">
         <th>definition</th>
-        <td>{{selectedPropSetDef.definition}}</td>
+        <td *ngIf="!(editedItem==='definition')" (click)="selectItem('definition')"
+            [class]="selectedItem==='definition'?'selected-item link-item':'link-item'">{{selectedPropSetDef.definition}}</td>
+        <td *ngIf="editedItem==='definition'">
+          <input class="form-control" type="text" [(ngModel)]="selectedPropSetDef.definition"
+                 placeholder="Enter definition"></td>
+        <td *ngIf="selectedItem==='definition'">
+          <button (click)="editItem('definition')"
+                  ngbTooltip="Update definition"
+                  placement="top"
+                  type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+            class="fas fa-edit fa-2x"></i></button>
+        </td>
         <td *ngIf="!(selectedItem==='definition')"></td>
       </tr>
+
+      <!-- Applicable classes -->
       <tr>
         <th>applicable classes</th>
         <td>{{selectedPropSetDef.applicableClasses}}</td>
         <td *ngIf="!(selectedItem==='applicableClasses')"></td>
       </tr>
+
+      <!-- Property definitions -->
       <tr>
         <th>property definitions</th>
         <td><a *ngFor="let propertyDef of sort(selectedPropSetDef.propertyDefs); let last = last"

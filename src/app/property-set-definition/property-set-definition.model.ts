@@ -9,6 +9,6 @@ export class PropertySetDefinition {
 }
 
 export class PropertySetDefinitionInput {
-  constructor(private id: string, private name: string) {
+  constructor(private id: string, private name: string, private definition: string) {
   }
 }
