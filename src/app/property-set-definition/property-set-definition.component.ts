@@ -15,11 +15,14 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   selectedPropDef: PropertyDefinition;
   selectedItem: string;
   editedItem: string;
+  products: string[];
+  applicableProduct: string;
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
+    this.products = this.propertySetDefinitionService.getProducts();
   }
 
   selectPropertyDef(propertyDef: PropertyDefinition) {
@@ -32,15 +35,18 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   }
 
   sort(propertyDefs: PropertyDefinition[]): PropertyDefinition[] {
-    return propertyDefs.sort((a, b) => {
-      if (a.name > b.name) {
-        return 1;
-      }
-      if (a.name < b.name) {
-        return -1;
-      }
-      return 0;
-    });
+    if (propertyDefs) {
+      return propertyDefs.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    return null;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,13 +69,33 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   }
 
   update(): void {
-    const psdInput =
-      new PropertySetDefinitionInput(this.selectedPropSetDef.id, this.selectedPropSetDef.name, this.selectedPropSetDef.definition);
+    const psdInput = new PropertySetDefinitionInput(
+      this.selectedPropSetDef.id,
+      this.selectedPropSetDef.name,
+      this.selectedPropSetDef.definition,
+      this.selectedPropSetDef.applicableClasses);
     const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
       this.propDefUpdated.emit(value);
       subscription.unsubscribe();
     });
     this.propertySetDefinitionService.updatePropertySetDefinition(psdInput);
+  }
+
+  addApplicableClass(): void {
+    if (this.selectedPropSetDef) {
+      if (!this.selectedPropSetDef.applicableClasses) {
+        this.selectedPropSetDef.applicableClasses = [];
+      }
+      this.selectedPropSetDef.applicableClasses.push(this.applicableProduct);
+      this.applicableProduct = null;
+    }
+  }
+
+  removeApplicableClass(applicableClass): void {
+    if (this.selectedPropSetDef) {
+      const index = this.selectedPropSetDef.applicableClasses.indexOf(applicableClass);
+      this.selectedPropSetDef.applicableClasses.splice(index, 1);
+    }
   }
 
 }

@@ -51,9 +51,67 @@
       <!-- Applicable classes -->
       <tr>
         <th>applicable classes</th>
-        <td>{{selectedPropSetDef.applicableClasses}}</td>
+        <td *ngIf="!(editedItem==='applicableClasses')" (click)="selectItem('applicableClasses')"
+            [class]="selectedItem==='applicableClasses'?'selected-item link-item':'link-item'"><span
+          *ngFor="let appClass of selectedPropSetDef.applicableClasses; let last = last">{{appClass}}{{!last ? ', ' : ''}}</span>
+        </td>
+        <td *ngIf="editedItem==='applicableClasses'">
+          <table>
+            <ng-container *ngIf="selectedPropSetDef.applicableClasses">
+              <tr *ngFor="let applicableClass of selectedPropSetDef.applicableClasses">
+                <td>{{applicableClass}}</td>
+                <td>
+                  <button class="btn" (click)="removeApplicableClass(applicableClass)" ngbTooltip="Remove this class"
+                          placement="top"
+                          (click)="removeApplicableClass(applicableClass)"
+                          type="button" class="btn"
+                          style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+                    class="fas fa-minus-circle"></i></button>
+                </td>
+              </tr>
+            </ng-container>
+            <tr>
+              <td><select class="form-control" [(ngModel)]="applicableProduct">
+                <option *ngFor="let product of products">{{product}}</option>
+              </select></td>
+              <td>
+                <button type="button" class="btn" (click)="addApplicableClass()" ngbTooltip="Add this class"
+                        placement="top"
+                        [disabled]="!applicableProduct"
+                        style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+                  class="fas fa-plus-circle"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td *ngIf="selectedItem==='applicableClasses'">
+          <button (click)="editItem('applicableClasses')"
+                  ngbTooltip="Update applicable classes"
+                  placement="top"
+                  type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+            class="fas fa-edit fa-2x"></i></button>
+        </td>
         <td *ngIf="!(selectedItem==='applicableClasses')"></td>
       </tr>
+
+      <!--     <label>Applicable classes</label>
+           <table>
+             <ng-container *ngIf="pset.applicableClasses">
+               <tr *ngFor="let applicableClass of pset.applicableClasses">
+                 <td>{{applicableClass}}</td>
+               </tr>
+             </ng-container>
+             <tr>
+               <td><select class="form-control" [(ngModel)]="applicableProduct">
+                 <option *ngFor="let product of products">{{product}}</option>
+               </select></td>
+               <td>
+                 <button class="btn" (click)="addApplicableClass()" [disabled]="!applicableProduct">add</button>
+               </td>
+             </tr>
+           </table>-->
 
       <!-- Property definitions -->
       <tr>

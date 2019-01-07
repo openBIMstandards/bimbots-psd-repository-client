@@ -5,6 +5,26 @@ import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
 import {Mutation, Query} from './graphql';
 
+const PRODUCTS = [
+  'http://ifcowl.openbimstandards.org/IFC4#IfcBeam',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcBuilding',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcBuildingStorey',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcChimney',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcColumn',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcCovering',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcDoor',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcMaterial',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcMember',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcOpeningElement',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcPile',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcPlate',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcSlab',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcSpace',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcStair',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcWall',
+  'http://ifcowl.openbimstandards.org/IFC4#IfcWindow'
+];
+
 const onePSD = gql`
   query onePSD($name: String!) {
     onePSD(name: $name) {
@@ -207,6 +227,10 @@ export class PropertySetDefinitionService {
   public psdDeleted = new EventEmitter<boolean>();
 
   constructor(private apollo: Apollo) {
+  }
+
+  public getProducts(): string[] {
+    return PRODUCTS;
   }
 
   public getPropertySetDefinition(psdName: string): void {

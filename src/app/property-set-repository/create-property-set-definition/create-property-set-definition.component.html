@@ -6,8 +6,26 @@
 </div>
 <div class="modal-body">
   <label>Name</label><input class="form-control" [(ngModel)]="pset.name" placeholder="Enter pset name">
-  <label>Definition</label><input class="form-control" [(ngModel)]="pset.definition" placeholder="Enter pset definition">
+  <label>Definition</label><input class="form-control" [(ngModel)]="pset.definition"
+                                  placeholder="Enter pset definition">
+  <label>Applicable classes</label>
+  <table>
+    <ng-container *ngIf="pset.applicableClasses">
+      <tr *ngFor="let applicableClass of pset.applicableClasses">
+        <td>{{applicableClass}}</td>
+      </tr>
+    </ng-container>
+    <tr>
+      <td><select class="form-control" [(ngModel)]="applicableProduct">
+        <option *ngFor="let product of products">{{product}}</option>
+      </select></td>
+      <td>
+        <button class="btn" (click)="addApplicableClass()" [disabled]="!applicableProduct">add</button>
+      </td>
+    </tr>
+  </table>
+
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="create()">Create</button>
+  <button type="button" class="btn btn-success" (click)="create()" [disabled]="!pset.name">Create</button>
 </div>

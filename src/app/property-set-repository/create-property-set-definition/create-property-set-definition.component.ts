@@ -11,19 +11,31 @@ import {Subscription} from 'apollo-client/util/Observable';
 })
 export class CreatePropertySetDefinitionComponent implements OnInit {
   pset: PropertySetDefinition;
+  products: string[];
+  applicableProduct: string;
 
   constructor(public activeModal: NgbActiveModal,
               private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
-    console.log('Start CreatePropertySetDefinitionComponent');
+    this.products = this.propertySetDefinitionService.getProducts();
     this.pset = new PropertySetDefinition();
+  }
+
+  addApplicableClass(): void {
+    if (this.pset) {
+      if (!this.pset.applicableClasses) {
+        this.pset.applicableClasses = [];
+      }
+      this.pset.applicableClasses.push(this.applicableProduct);
+      this.applicableProduct = null;
+    }
   }
 
   create(): void {
     this.pset.id = 'http://openbimstandards.org/pset_repository#' + this.pset.name.replace(/\s/g, '_');
-    const psdInput = new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition);
+    const psdInput = new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition, this.pset.applicableClasses);
     const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
       this.activeModal.close(value);
       subscription.unsubscribe();
