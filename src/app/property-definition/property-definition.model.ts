@@ -10,3 +10,13 @@ export class PropertyType {
   dataType: string;
   enumItems: [string];
 }
+
+export class PropertyDefinitionInput {
+  constructor(private name: string, private propertyType: PropertyTypeInput) {
+  }
+}
+
+export class PropertyTypeInput {
+  constructor(private type: string) {
+  }
+}

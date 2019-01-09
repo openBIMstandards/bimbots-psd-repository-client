@@ -1,14 +1,18 @@
-import {PropertyDefinition} from '../property-definition/property-definition.model';
+import {PropertyDefinition, PropertyDefinitionInput} from '../property-definition/property-definition.model';
 
 export class PropertySetDefinition {
   id: string;
   name: string;
   definition: string;
   applicableClasses: string[];
-  propertyDefs: [PropertyDefinition];
+  propertyDefs: PropertyDefinition[];
 }
 
 export class PropertySetDefinitionInput {
-  constructor(private id: string, private name: string, private definition: string, private applicableClasses: string[]) {
+  constructor(private id: string,
+              private name: string,
+              private definition: string,
+              private applicableClasses: string[],
+              private propertyDefs: PropertyDefinitionInput[]) {
   }
 }

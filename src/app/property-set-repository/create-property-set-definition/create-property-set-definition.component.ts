@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PropertySetDefinition, PropertySetDefinitionInput} from '../../property-set-definition/property-set-definition.model';
 import {PropertySetDefinitionService} from '../../property-set-definition.service';
 import {Subscription} from 'apollo-client/util/Observable';
+import {CreatePropertyDefinitionComponent} from './create-property-definition/create-property-definition.component';
+import {PropertyDefinitionInput, PropertyTypeInput} from '../../property-definition/property-definition.model';
 
 @Component({
   selector: 'app-create-property-set-definition',
@@ -15,6 +17,7 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
   applicableProduct: string;
 
   constructor(public activeModal: NgbActiveModal,
+              private modal: NgbModal,
               private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
@@ -33,9 +36,31 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
     }
   }
 
+  onAddProperty(): void {
+    const modal = this.modal.open(CreatePropertyDefinitionComponent);
+    modal.result.then((result) => {
+      console.log('CreatePropertyDefinitionComponent fulfilled');
+      if (!this.pset.propertyDefs) {
+        this.pset.propertyDefs = [];
+      }
+      this.pset.propertyDefs.push(result);
+    }, () => {
+      console.log('CreatePropertyDefinitionComponent rejected');
+    });
+  }
+
+
   create(): void {
     this.pset.id = 'http://openbimstandards.org/pset_repository#' + this.pset.name.replace(/\s/g, '_');
-    const psdInput = new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition, this.pset.applicableClasses);
+    const propDefInputs = [];
+    if (this.pset.propertyDefs) {
+      for (let index = 0; index < this.pset.propertyDefs.length; index++) {
+        propDefInputs.push(new PropertyDefinitionInput(this.pset.propertyDefs[index].name,
+          new PropertyTypeInput(this.pset.propertyDefs[index].propertyType.type)));
+      }
+    }
+    const psdInput =
+      new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition, this.pset.applicableClasses, propDefInputs);
     const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
       this.activeModal.close(value);
       subscription.unsubscribe();

@@ -17,6 +17,7 @@ import {ProductSelectionComponent} from './product-selection/product-selection.c
 import {InformationDeliverySpecificationComponent} from './information-delivery-specification/information-delivery-specification.component';
 import {PropertySetRepositoryComponent} from './property-set-repository/property-set-repository.component';
 import {CreatePropertySetDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-set-definition.component';
+import {CreatePropertyDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-definition/create-property-definition.component';
 
 const appRoutes: Routes = [
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
@@ -32,9 +33,10 @@ const appRoutes: Routes = [
     ProductSelectionComponent,
     InformationDeliverySpecificationComponent,
     PropertySetRepositoryComponent,
-    CreatePropertySetDefinitionComponent
+    CreatePropertySetDefinitionComponent,
+    CreatePropertyDefinitionComponent
   ],
-  entryComponents: [CreatePropertySetDefinitionComponent],
+  entryComponents: [CreatePropertySetDefinitionComponent, CreatePropertyDefinitionComponent],
   imports: [
     BrowserModule,
     FormsModule,

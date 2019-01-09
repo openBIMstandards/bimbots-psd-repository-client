@@ -73,7 +73,7 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
       this.selectedPropSetDef.id,
       this.selectedPropSetDef.name,
       this.selectedPropSetDef.definition,
-      this.selectedPropSetDef.applicableClasses);
+      this.selectedPropSetDef.applicableClasses, null);
     const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
       this.propDefUpdated.emit(value);
       subscription.unsubscribe();
