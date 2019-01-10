@@ -4,6 +4,7 @@ import {Apollo} from 'apollo-angular';
 import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition/property-set-definition.model';
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
 import {Mutation, Query} from './graphql';
+import {PropertyDefinition} from './property-definition/property-definition.model';
 
 const PRODUCTS = [
   'http://ifcowl.openbimstandards.org/IFC4#IfcBeam',
@@ -57,6 +58,17 @@ const allPSDs = gql`
 const allPSDsForClass = gql`
   query allPSDsForClass($classId: ID!) {
     allPSDsForClass(classId: $classId) {
+      name
+    }
+  }
+`;
+
+const allPDs = gql`
+  query allPDs {
+    id
+    name
+    invPropertySetDefinitions {
+      id
       name
     }
   }
@@ -222,6 +234,7 @@ const deletePropertySetDefinition = gql`
 export class PropertySetDefinitionService {
   public psdReceived = new EventEmitter<PropertySetDefinition>();
   public psdsReceived = new EventEmitter<[PropertySetDefinition]>();
+  public pdsReceived = new EventEmitter<[PropertyDefinition]>();
   public idsReceived = new EventEmitter<InformationDeliverySpecification>();
   public idssReceived = new EventEmitter<[InformationDeliverySpecification]>();
   public psdDeleted = new EventEmitter<boolean>();
@@ -251,6 +264,12 @@ export class PropertySetDefinitionService {
       query: allPSDsForClass,
       variables: {classId: classId}
     }).valueChanges.subscribe(values => this.psdsReceived.emit(values.data.allPSDsForClass));
+  }
+
+  public allPDs(): void {
+    this.apollo.watchQuery<Query>({
+      query: allPDs
+    }).valueChanges.subscribe(values => this.pdsReceived.emit(values.data.allPDs));
   }
 
   public allIDSs(): void {
