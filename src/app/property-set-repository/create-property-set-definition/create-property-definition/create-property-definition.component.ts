@@ -33,7 +33,9 @@ const DATA_TYPES = [
 })
 export class CreatePropertyDefinitionComponent implements OnInit {
   types = PROPERTY_TYPES;
+  dataTypes = DATA_TYPES;
   propDef: PropertyDefinition;
+  item: string;
 
   constructor(public activeModal: NgbActiveModal) {
   }
@@ -42,6 +44,22 @@ export class CreatePropertyDefinitionComponent implements OnInit {
     this.propDef = new PropertyDefinition();
     this.propDef.propertyType = new PropertyType();
     this.propDef.propertyType.type = this.types[5];
+  }
+
+  onChangeType(): void {
+    if (this.propDef.propertyType.type == this.types[2]) {
+      this.propDef.propertyType.dataType = null;
+    } else {
+      this.propDef.propertyType.enumItems = null;
+    }
+  }
+
+  addItem(): void {
+    if (!this.propDef.propertyType.enumItems) {
+      this.propDef.propertyType.enumItems = [];
+    }
+    this.propDef.propertyType.enumItems.push(this.item);
+    this.item = null;
   }
 
   create(): void {

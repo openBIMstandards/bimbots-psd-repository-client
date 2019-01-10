@@ -8,15 +8,15 @@ export class PropertyDefinition {
 export class PropertyType {
   type: string;
   dataType: string;
-  enumItems: [string];
+  enumItems: string[];
 }
 
 export class PropertyDefinitionInput {
-  constructor(private name: string, private propertyType: PropertyTypeInput) {
+  constructor(private name: string, private definition: string, private propertyType: PropertyTypeInput) {
   }
 }
 
 export class PropertyTypeInput {
-  constructor(private type: string) {
+  constructor(private type: string, private dataType: string, private enumItems: string[]) {
   }
 }

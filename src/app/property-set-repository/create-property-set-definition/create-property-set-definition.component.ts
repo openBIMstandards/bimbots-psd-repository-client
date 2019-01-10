@@ -55,8 +55,13 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
     const propDefInputs = [];
     if (this.pset.propertyDefs) {
       for (let index = 0; index < this.pset.propertyDefs.length; index++) {
-        propDefInputs.push(new PropertyDefinitionInput(this.pset.propertyDefs[index].name,
-          new PropertyTypeInput(this.pset.propertyDefs[index].propertyType.type)));
+        propDefInputs.push(new PropertyDefinitionInput(
+          this.pset.propertyDefs[index].name,
+          this.pset.propertyDefs[index].definition,
+          new PropertyTypeInput(
+            this.pset.propertyDefs[index].propertyType.type,
+            this.pset.propertyDefs[index].propertyType.dataType,
+            this.pset.propertyDefs[index].propertyType.enumItems)));
       }
     }
     const psdInput =
