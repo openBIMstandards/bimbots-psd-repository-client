@@ -1,0 +1,14 @@
+.property-item {
+  margin-bottom: 1rem;
+  border: thin solid lightgray;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.property-item table {
+  margin-bottom: 0;
+}
+
+.property-item label {
+  font-size: small;
+}

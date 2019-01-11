@@ -65,11 +65,13 @@ const allPSDsForClass = gql`
 
 const allPDs = gql`
   query allPDs {
-    id
-    name
-    invPropertySetDefinitions {
+    allPDs {
       id
       name
+      invPropertySetDefinitions {
+        id
+        name
+      }
     }
   }
 `;

@@ -4,7 +4,7 @@ import {PropertySetDefinition, PropertySetDefinitionInput} from '../../property-
 import {PropertySetDefinitionService} from '../../property-set-definition.service';
 import {Subscription} from 'apollo-client/util/Observable';
 import {CreatePropertyDefinitionComponent} from './create-property-definition/create-property-definition.component';
-import {PropertyDefinitionInput, PropertyTypeInput} from '../../property-definition/property-definition.model';
+import {PropertyDefinition, PropertyDefinitionInput, PropertyTypeInput} from '../../property-definition/property-definition.model';
 
 @Component({
   selector: 'app-create-property-set-definition',
@@ -15,6 +15,8 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
   pset: PropertySetDefinition;
   products: string[];
   applicableProduct: string;
+  allPDs: [PropertyDefinition];
+  selectedPD: PropertyDefinition;
 
   constructor(public activeModal: NgbActiveModal,
               private modal: NgbModal,
@@ -22,8 +24,10 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.products = this.propertySetDefinitionService.getProducts();
     this.pset = new PropertySetDefinition();
+    this.products = this.propertySetDefinitionService.getProducts();
+    this.propertySetDefinitionService.pdsReceived.subscribe((values) => this.allPDs = values);
+    this.propertySetDefinitionService.allPDs();
   }
 
   addApplicableClass(): void {
@@ -41,12 +45,20 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
     modal.result.then((result) => {
       console.log('CreatePropertyDefinitionComponent fulfilled');
       if (!this.pset.propertyDefs) {
-        this.pset.propertyDefs = [];
+        this.pset.propertyDefs = <[PropertyDefinition]>[];
       }
       this.pset.propertyDefs.push(result);
     }, () => {
       console.log('CreatePropertyDefinitionComponent rejected');
     });
+  }
+
+  addPropertyDef(): void {
+    if (!this.pset.propertyDefs) {
+      this.pset.propertyDefs = <[PropertyDefinition]>[];
+    }
+    this.pset.propertyDefs.push(this.selectedPD);
+    this.selectedPD = null;
   }
 
 
@@ -55,22 +67,26 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
     const propDefInputs = [];
     if (this.pset.propertyDefs) {
       for (let index = 0; index < this.pset.propertyDefs.length; index++) {
-        propDefInputs.push(new PropertyDefinitionInput(
-          this.pset.propertyDefs[index].name,
-          this.pset.propertyDefs[index].definition,
-          new PropertyTypeInput(
-            this.pset.propertyDefs[index].propertyType.type,
-            this.pset.propertyDefs[index].propertyType.dataType,
-            this.pset.propertyDefs[index].propertyType.enumItems)));
+        if (this.pset.propertyDefs[index].id) {
+          propDefInputs.push(new PropertyDefinitionInput(this.pset.propertyDefs[index].id));
+        } else {
+          propDefInputs.push(new PropertyDefinitionInput(
+            null,
+            this.pset.propertyDefs[index].name,
+            this.pset.propertyDefs[index].definition,
+            new PropertyTypeInput(
+              this.pset.propertyDefs[index].propertyType.type,
+              this.pset.propertyDefs[index].propertyType.dataType,
+              this.pset.propertyDefs[index].propertyType.enumItems)));
+        }
       }
+      const psdInput =
+        new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition, this.pset.applicableClasses, propDefInputs);
+      const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
+        this.activeModal.close(value);
+        subscription.unsubscribe();
+      });
+      this.propertySetDefinitionService.createPropertySetDefinition(psdInput);
     }
-    const psdInput =
-      new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition, this.pset.applicableClasses, propDefInputs);
-    const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
-      this.activeModal.close(value);
-      subscription.unsubscribe();
-    });
-    this.propertySetDefinitionService.createPropertySetDefinition(psdInput);
   }
-
 }

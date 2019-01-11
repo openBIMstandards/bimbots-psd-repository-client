@@ -5,34 +5,56 @@
   </button>
 </div>
 <div class="modal-body">
-  <label>Name</label><input class="form-control" [(ngModel)]="pset.name" placeholder="Enter pset name">
-  <label>Definition</label><input class="form-control" [(ngModel)]="pset.definition"
-                                  placeholder="Enter pset definition">
-  <label>Applicable classes</label>
-  <table>
-    <ng-container *ngIf="pset.applicableClasses">
-      <tr *ngFor="let applicableClass of pset.applicableClasses">
-        <td>{{applicableClass}}</td>
+  <div class="property-item">
+    <label>Name</label><input class="form-control" [(ngModel)]="pset.name" placeholder="Enter pset name"></div>
+  <div class="property-item">
+    <label>Definition</label>
+    <input class="form-control" [(ngModel)]="pset.definition" placeholder="Enter pset definition"></div>
+  <div class="property-item">
+    <label>Applicable classes</label>
+    <table>
+      <ng-container *ngIf="pset.applicableClasses">
+        <tr *ngFor="let applicableClass of pset.applicableClasses">
+          <td>{{applicableClass}}</td>
+        </tr>
+      </ng-container>
+      <tr>
+        <td><select class="form-control" [(ngModel)]="applicableProduct">
+          <option *ngFor="let product of products">{{product}}</option>
+        </select></td>
+        <td>
+          <button class="btn" (click)="addApplicableClass()" [disabled]="!applicableProduct">add</button>
+        </td>
       </tr>
-    </ng-container>
-    <tr>
-      <td><select class="form-control" [(ngModel)]="applicableProduct">
-        <option *ngFor="let product of products">{{product}}</option>
-      </select></td>
-      <td>
-        <button class="btn" (click)="addApplicableClass()" [disabled]="!applicableProduct">add</button>
-      </td>
-    </tr>
-  </table>
-  <label>Property definitions</label>
-  <table>
-    <ng-container *ngIf="pset.propertyDefs">
-      <tr *ngFor="let propertyDef of pset.propertyDefs">
-        <td>{{propertyDef.name}}</td>
+    </table>
+  </div>
+  <div class="property-item">
+    <label>Property definitions</label>
+    <table class="table">
+      <ng-container *ngIf="pset.propertyDefs">
+        <tr *ngFor="let propertyDef of pset.propertyDefs">
+          <td>{{propertyDef.name}}</td>
+        </tr>
+      </ng-container>
+      <tr>
+        <td><select [(ngModel)]="selectedPD" class="form-control">
+          <option *ngFor="let propertyDef of allPDs" [ngValue]="propertyDef">
+            {{propertyDef.name}} <span
+            *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}})</span>
+          </option>
+        </select></td>
+        <td>
+          <button class="btn" (click)="addPropertyDef()" [disabled]="!selectedPD">add</button>
+        </td>
       </tr>
-    </ng-container>
-    <tr><td><button type="button" class="btn btn-secondary" (click)="onAddProperty()">Add property definition</button></td></tr>
-  </table>
+      <tr>
+        <td>
+          <button type="button" class="btn btn-secondary" (click)="onAddProperty()">Create new property definition
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-success" (click)="create()" [disabled]="!pset.name">Create</button>

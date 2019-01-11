@@ -1,8 +1,11 @@
+import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
+
 export class PropertyDefinition {
   id: string;
   name: string;
   definition: string;
   propertyType: PropertyType;
+  invPropertySetDefinitions: [PropertySetDefinition];
 }
 
 export class PropertyType {
@@ -12,7 +15,10 @@ export class PropertyType {
 }
 
 export class PropertyDefinitionInput {
-  constructor(private name: string, private definition: string, private propertyType: PropertyTypeInput) {
+  constructor(private id: string,
+              private name: string = null,
+              private definition: string = null,
+              private propertyType: PropertyTypeInput = null) {
   }
 }
 

@@ -5,7 +5,7 @@ export class PropertySetDefinition {
   name: string;
   definition: string;
   applicableClasses: string[];
-  propertyDefs: PropertyDefinition[];
+  propertyDefs: [PropertyDefinition];
 }
 
 export class PropertySetDefinitionInput {
