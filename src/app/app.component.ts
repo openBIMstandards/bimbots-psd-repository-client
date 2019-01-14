@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {PropertySetDefinition} from './property-set-definition/property-set-definition.model';
-import {PropertySetDefinitionService} from './property-set-definition.service';
-import {PropertyDefinition} from './property-definition/property-definition.model';
-import {Subscription} from 'apollo-client/util/Observable';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {LoginComponent} from './login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +8,23 @@ import {Subscription} from 'apollo-client/util/Observable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  isCollapsed = false;
 
-  constructor() {
+  constructor(private modal: NgbModal) {
   }
 
   ngOnInit(): void {
   }
 
+  toggleCollapsed(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  onLogin(): void {
+    console.log('Show login popup window');
+    const modal = this.modal.open(LoginComponent);
+    modal.result.then((result) => {
+      console.log('Login window fulfilled.');
+    });
+  }
 }

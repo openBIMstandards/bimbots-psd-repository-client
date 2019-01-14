@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
 import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition/property-set-definition.model';
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
-import {Mutation, Query} from './graphql';
+import {AuthData, Mutation, Query, SigninPayload} from './graphql';
 import {PropertyDefinition} from './property-definition/property-definition.model';
 
 const PRODUCTS = [
@@ -25,6 +25,18 @@ const PRODUCTS = [
   'http://ifcowl.openbimstandards.org/IFC4#IfcWall',
   'http://ifcowl.openbimstandards.org/IFC4#IfcWindow'
 ];
+
+const signinUser = gql`
+  mutation signinUser($auth: AuthData) {
+    signinUser(auth: $auth) {
+      token
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
 
 const onePSD = gql`
   query onePSD($name: String!) {
@@ -234,6 +246,7 @@ const deletePropertySetDefinition = gql`
   providedIn: 'root'
 })
 export class PropertySetDefinitionService {
+  public signinPayloadReceived = new EventEmitter<SigninPayload>();
   public psdReceived = new EventEmitter<PropertySetDefinition>();
   public psdsReceived = new EventEmitter<[PropertySetDefinition]>();
   public pdsReceived = new EventEmitter<[PropertyDefinition]>();
@@ -285,6 +298,15 @@ export class PropertySetDefinitionService {
       query: oneIDS,
       variables: {id: id}
     }).valueChanges.subscribe(value => this.idsReceived.emit(value.data.oneIDS));
+  }
+
+  public signinUser(auth: AuthData): void {
+    this.apollo.mutate<Mutation>({
+      mutation: signinUser,
+      variables: {
+        auth: auth
+      }
+    }).subscribe(value => this.signinPayloadReceived.emit(value.data.signinUser));
   }
 
   public addPset2Ids(idsId: string, psetId: string): void {

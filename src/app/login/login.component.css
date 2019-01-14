@@ -1,0 +1,10 @@
+.login-item {
+  margin-bottom: 1rem;
+  border: thin solid lightgray;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.login-item label {
+  font-size: small;
+}

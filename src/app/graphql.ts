@@ -60,4 +60,25 @@ export interface Mutation {
   //  psetId: ID!): Boolean
 
   deletePropertySetDefinition(psetId: string): boolean;
+
+  // 		# Sign in a user.
+  // 	GRAPHQL: signinUser(auth: AuthData): SigninPayload
+
+  signinUser(auth: AuthData): SigninPayload;
+}
+
+export class SigninPayload {
+  token: string;
+  user: User;
+}
+
+export class User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export class AuthData {
+  constructor(private email: string, private password: string) {
+  }
 }
