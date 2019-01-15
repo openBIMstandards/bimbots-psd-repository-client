@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
 import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition/property-set-definition.model';
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
-import {AuthData, Mutation, Query, SigninPayload} from './graphql';
+import {AuthData, Mutation, Query, SigninPayload, User} from './graphql';
 import {PropertyDefinition} from './property-definition/property-definition.model';
 
 const PRODUCTS = [
@@ -306,7 +306,10 @@ export class PropertySetDefinitionService {
       variables: {
         auth: auth
       }
-    }).subscribe(value => this.signinPayloadReceived.emit(value.data.signinUser));
+    }).subscribe(
+      value => this.signinPayloadReceived.emit(value.data.signinUser),
+      null,
+      () => this.apollo.getClient().resetStore());
   }
 
   public addPset2Ids(idsId: string, psetId: string): void {

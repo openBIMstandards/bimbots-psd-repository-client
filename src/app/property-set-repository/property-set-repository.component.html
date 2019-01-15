@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-xs-12">
-      <div class="card">
-        <div class="row card-header">
+    <div class="card">
+      <div class="row card-header">
+        <div class="col-xs-12">
           <h5>Property set repository</h5>
           <button ngbTooltip="Add a property set" placement="right" (click)="onAddPropertySet()"
                   type="button" class="col-1 btn"
@@ -12,7 +12,8 @@
           <span *ngIf="loadingAllPSDs"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></span>
         </div>
-        <div class="row card-body">
+      </div>
+      <div class="row card-body">
           <div [class]="selectedPSD?'col-xs-12 col-sm-12 col-md-4':'col-xs-12 col-sm-12 col-md-12  col-lg-12'">
             <div class="row repository-body">
               <table class="table">
@@ -35,11 +36,10 @@
               </table>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-8">
-            <app-property-set-definition
-              *ngIf="selectedPSD"
-              [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
-          </div>
+        <div class="col-xs-12 col-sm-12 col-md-8">
+          <app-property-set-definition
+            *ngIf="selectedPSD"
+            [selectedPropSetDef]="selectedPSD"></app-property-set-definition>
         </div>
       </div>
     </div>

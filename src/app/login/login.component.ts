@@ -26,6 +26,10 @@ export class LoginComponent implements OnInit {
     console.log('Login button clicked');
     const subscription = <Subscription>this.propertySetDefinitionService.signinPayloadReceived.subscribe(payload => {
       this.payload = <SigninPayload>payload;
+      localStorage.token = this.payload ? this.payload.token : null;
+      if (this.payload && this.payload.user) {
+        this.activeModal.close(this.payload.user);
+      }
       subscription.unsubscribe();
     });
     this.propertySetDefinitionService.signinUser(new AuthData(this.email, this.password));

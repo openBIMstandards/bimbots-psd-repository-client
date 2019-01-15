@@ -19,7 +19,7 @@ import {InformationDeliverySpecificationComponent} from './information-delivery-
 import {PropertySetRepositoryComponent} from './property-set-repository/property-set-repository.component';
 import {CreatePropertySetDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-set-definition.component';
 import {CreatePropertyDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-definition/create-property-definition.component';
-import { LoginComponent } from './login/login.component';
+import {LoginComponent} from './login/login.component';
 
 const appRoutes: Routes = [
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
@@ -71,7 +71,10 @@ export class AppModule {
         return {};
       } else {
         return {
-          headers: headers.append('Authorization', `Bearer ${token}`)
+          //         headers: headers.append('Authorization', `Bearer ${token}`)
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         };
       }
     });
