@@ -57,5 +57,8 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="create()" [disabled]="!pset.name">Create</button>
+  <button *ngIf="!errorMessage" type="button" class="btn btn-success" (click)="create()" [disabled]="!pset.name">Create</button>
+  <div *ngIf="errorMessage" class="container-fluid">
+    <ngb-alert (close)="closeAlert()">{{errorMessage}}</ngb-alert>
+  </div>
 </div>

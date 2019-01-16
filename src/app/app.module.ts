@@ -12,6 +12,7 @@ import {PropertyDefinitionComponent} from './property-definition/property-defini
 import {Apollo, ApolloModule} from 'apollo-angular';
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {setContext} from 'apollo-link-context';
+import {onError} from 'apollo-link-error';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {HttpClientModule} from '@angular/common/http';
 import {ProductSelectionComponent} from './product-selection/product-selection.component';
@@ -26,6 +27,19 @@ const appRoutes: Routes = [
   {path: 'information_delivery_specification', component: InformationDeliverySpecificationComponent},
   {path: 'products', component: ProductSelectionComponent}
 ];
+const link = onError(({graphQLErrors, networkError}) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({message, locations, path}) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+  }
+
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`);
+  }
+});
 
 @NgModule({
   declarations: [
@@ -90,7 +104,15 @@ export class AppModule {
     apollo.create({
       link: auth.concat(http_localhost),
       // link: auth.concat(http),
-      cache: new InMemoryCache()
+      cache: new InMemoryCache(),
+      defaultOptions: {
+        watchQuery: {
+          errorPolicy: 'all'
+        },
+        mutate: {
+          errorPolicy: 'all'
+        }
+      }
     });
 
   }

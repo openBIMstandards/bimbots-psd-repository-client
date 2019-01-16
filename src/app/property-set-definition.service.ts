@@ -364,7 +364,21 @@ export class PropertySetDefinitionService {
       refetchQueries: [{
         query: allPSDs
       }]
-    }).subscribe((value) => result = value.data.createPropertySetDefinition, null, () => this.psdReceived.emit(result));
+    }).subscribe(
+      (value) => {
+        if (value.errors) {
+          this.psdReceived.error(value.errors[0].message);
+        } else {
+          result = value.data.createPropertySetDefinition;
+        }
+      },
+      null,
+      () => {
+        if (result) {
+          this.psdReceived.emit(result);
+        }
+      }
+    );
   }
 
   public updatePropertySetDefinition(psdInput: PropertySetDefinitionInput) {

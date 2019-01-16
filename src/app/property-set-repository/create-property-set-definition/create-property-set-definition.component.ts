@@ -17,6 +17,7 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
   applicableProduct: string;
   allPDs: [PropertyDefinition];
   selectedPD: PropertyDefinition;
+  errorMessage: string;
 
   constructor(public activeModal: NgbActiveModal,
               private modal: NgbModal,
@@ -24,6 +25,7 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.errorMessage = null;
     this.pset = new PropertySetDefinition();
     this.products = this.propertySetDefinitionService.getProducts();
     this.propertySetDefinitionService.pdsReceived.subscribe((values) => this.allPDs = values);
@@ -85,8 +87,17 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
       const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
         this.activeModal.close(value);
         subscription.unsubscribe();
+      }, (message) => {
+        console.log(message);
+        alert(message);
+        this.errorMessage = message;
+//        this.activeModal.close();
       });
       this.propertySetDefinitionService.createPropertySetDefinition(psdInput);
     }
+  }
+
+  closeAlert(): void {
+    this.activeModal.close();
   }
 }
