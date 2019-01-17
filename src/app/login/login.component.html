@@ -6,14 +6,18 @@
 </div>
 <div class="modal-body">
   <div class="login-item">
-    <label>Email</label><input type="text" class="form-control" [(ngModel)]="email" placeholder="Enter email"></div>
+    <label>Email</label>
+    <input type="text" class="form-control" [(ngModel)]="email" placeholder="Enter email">
+  </div>
   <div class="login-item">
-    <label>Password</label><input type="password" class="form-control" [(ngModel)]="password" placeholder="Enter email">
+    <label>Password</label>
+    <input type="password" class="form-control" [(ngModel)]="password" placeholder="Enter password">
   </div>
   <div *ngIf="payload"><p>{{payload.token}}</p></div>
 </div>
 <div class="modal-footer">
-  <button *ngIf="!errorMessage" type="button" class="btn btn-success" (click)="login()" [disabled]="!email">Login</button>
+  <button *ngIf="!errorMessage" type="button" class="btn btn-success" (click)="login()" [disabled]="!email">Login
+  </button>
   <div *ngIf="errorMessage" class="container-fluid">
     <ngb-alert (close)="closeAlert()">{{errorMessage}}</ngb-alert>
   </div>
