@@ -27,7 +27,7 @@ const PRODUCTS = [
 ];
 
 const signinUser = gql`
-  mutation signinUser($auth: AuthData) {
+  mutation signinUser($auth: AuthData!) {
     signinUser(auth: $auth) {
       token
       user {
@@ -35,6 +35,12 @@ const signinUser = gql`
         name
       }
     }
+  }
+`;
+
+const signoutUser = gql`
+  mutation signoutUser($token: String!) {
+    signoutUser(token: $token)
   }
 `;
 
@@ -247,6 +253,7 @@ const deletePropertySetDefinition = gql`
 })
 export class PropertySetDefinitionService {
   public signinPayloadReceived = new EventEmitter<SigninPayload>();
+  public signoutResult = new EventEmitter<boolean>();
   public psdReceived = new EventEmitter<PropertySetDefinition>();
   public psdsReceived = new EventEmitter<[PropertySetDefinition]>();
   public pdsReceived = new EventEmitter<[PropertyDefinition]>();
@@ -307,9 +314,24 @@ export class PropertySetDefinitionService {
         auth: auth
       }
     }).subscribe(
-      value => this.signinPayloadReceived.emit(value.data.signinUser),
+      value => {
+        if (value.errors) {
+          this.signinPayloadReceived.error(value.errors[0].message);
+        } else {
+          this.signinPayloadReceived.emit(value.data.signinUser);
+        }
+      },
       null,
       () => this.apollo.getClient().resetStore());
+  }
+
+  public signoutUser(token: string): void {
+    this.apollo.mutate<Mutation>({
+      mutation: signoutUser,
+      variables: {
+        token: token
+      }
+    }).subscribe(value => this.signoutResult.emit(value.data.signoutUser));
   }
 
   public addPset2Ids(idsId: string, psetId: string): void {

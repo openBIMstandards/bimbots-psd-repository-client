@@ -65,6 +65,11 @@ export interface Mutation {
   // 	GRAPHQL: signinUser(auth: AuthData): SigninPayload
 
   signinUser(auth: AuthData): SigninPayload;
+
+  // 		# Sign out a user.
+  // 	GRAPHQL: signoutUser(token: String!): Boolean!
+
+  signoutUser(token: string): boolean;
 }
 
 export class SigninPayload {

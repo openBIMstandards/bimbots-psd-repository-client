@@ -89,9 +89,9 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
         subscription.unsubscribe();
       }, (message) => {
         console.log(message);
-        alert(message);
+//        alert(message);
+        sessionStorage.removeItem('token');
         this.errorMessage = message;
-//        this.activeModal.close();
       });
       this.propertySetDefinitionService.createPropertySetDefinition(psdInput);
     }

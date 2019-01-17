@@ -79,4 +79,8 @@ export class PropertySetRepositoryComponent implements OnInit {
     });
     this.propertySetDefinitionService.deletePropertySetDefinition(pset.id);
   }
+
+  getToken(): string {
+    return sessionStorage.token;
+  }
 }
