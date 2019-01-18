@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PropertyDefinition} from '../property-definition/property-definition.model';
+import {PropertyDefinition, PropertyDefinitionInput, PropertyTypeInput} from '../property-definition/property-definition.model';
 import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
@@ -17,12 +17,16 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   editedItem: string;
   products: string[];
   applicableProduct: string;
+  selectedPD: PropertyDefinition;
+  allPDs: [PropertyDefinition];
 
   constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
     this.products = this.propertySetDefinitionService.getProducts();
+    this.propertySetDefinitionService.pdsReceived.subscribe((allPDs) => this.allPDs = allPDs);
+    this.propertySetDefinitionService.allPDs();
   }
 
   selectPropertyDef(propertyDef: PropertyDefinition) {
@@ -69,11 +73,20 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   }
 
   update(): void {
+    const pdsInput = <[PropertyDefinitionInput]>[];
+    if (this.selectedPropSetDef.propertyDefs) {
+      for (let index = 0; index < this.selectedPropSetDef.propertyDefs.length; index++) {
+        pdsInput.push(new PropertyDefinitionInput(
+          this.selectedPropSetDef.propertyDefs[index].id
+        ));
+      }
+    }
     const psdInput = new PropertySetDefinitionInput(
       this.selectedPropSetDef.id,
       this.selectedPropSetDef.name,
       this.selectedPropSetDef.definition,
-      this.selectedPropSetDef.applicableClasses, null);
+      this.selectedPropSetDef.applicableClasses,
+      this.selectedPropSetDef.propertyDefs ? pdsInput : null);
     const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
       this.propDefUpdated.emit(value);
       subscription.unsubscribe();
@@ -98,4 +111,20 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
     }
   }
 
+  addPropertyDef(): void {
+    if (this.selectedPropSetDef) {
+      if (!this.selectedPropSetDef.propertyDefs) {
+        this.selectedPropSetDef.propertyDefs = <[PropertyDefinition]>[];
+      }
+      this.selectedPropSetDef.propertyDefs.push(this.selectedPD);
+      this.selectedPD = null;
+    }
+  }
+
+  removePropertyDef(propertyDef): void {
+    if (this.selectedPropSetDef) {
+      const index = this.selectedPropSetDef.propertyDefs.indexOf(propertyDef);
+      this.selectedPropSetDef.propertyDefs.splice(index, 1);
+    }
+  }
 }

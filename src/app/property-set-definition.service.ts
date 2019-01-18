@@ -52,6 +52,7 @@ const onePSD = gql`
       definition
       applicableClasses
       propertyDefs {
+        id
         name
         definition
         propertyType {
@@ -252,6 +253,8 @@ const deletePropertySetDefinition = gql`
   providedIn: 'root'
 })
 export class PropertySetDefinitionService {
+  public user: User;
+
   public signinPayloadReceived = new EventEmitter<SigninPayload>();
   public signoutResult = new EventEmitter<boolean>();
   public psdReceived = new EventEmitter<PropertySetDefinition>();
@@ -429,7 +432,17 @@ export class PropertySetDefinitionService {
       refetchQueries: [{
         query: allPSDs
       }]
-    }).subscribe((value) => result = value.data.deletePropertySetDefinition, null, () => this.psdDeleted.emit(result));
+    }).subscribe(
+      (value) => {
+        result = value.data.deletePropertySetDefinition;
+        if (value.errors) {
+          this.psdDeleted.error(value.errors[0].message);
+        } else {
+          result = value.data.deletePropertySetDefinition;
+        }
+      },
+      null,
+      () => this.psdDeleted.emit(result));
   }
 
 }

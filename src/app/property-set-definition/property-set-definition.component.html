@@ -95,30 +95,54 @@
         <td *ngIf="!(selectedItem==='applicableClasses')"></td>
       </tr>
 
-      <!--     <label>Applicable classes</label>
-           <table>
-             <ng-container *ngIf="pset.applicableClasses">
-               <tr *ngFor="let applicableClass of pset.applicableClasses">
-                 <td>{{applicableClass}}</td>
-               </tr>
-             </ng-container>
-             <tr>
-               <td><select class="form-control" [(ngModel)]="applicableProduct">
-                 <option *ngFor="let product of products">{{product}}</option>
-               </select></td>
-               <td>
-                 <button class="btn" (click)="addApplicableClass()" [disabled]="!applicableProduct">add</button>
-               </td>
-             </tr>
-           </table>-->
-
       <!-- Property definitions -->
       <tr>
         <th>property definitions</th>
-        <td><a *ngFor="let propertyDef of sort(selectedPropSetDef.propertyDefs); let last = last"
-               (click)="selectPropertyDef(propertyDef)"
-               [class]="selectedPropDef?(propertyDef.name==selectedPropDef.name?'selected-property-def link-item':'link-item'):'link-item'"
-        >{{propertyDef.name}}{{last ? '' : ', '}}</a>
+        <td *ngIf="!(editedItem==='propertyDefs')" (click)="selectItem('propertyDefs')"
+            [class]="selectedItem==='propertyDefs'?'selected-item link-item':'link-item'">
+          <a *ngFor="let propertyDef of sort(selectedPropSetDef.propertyDefs); let last = last"
+             (click)="selectPropertyDef(propertyDef)"
+             [class]="selectedPropDef?(propertyDef.name==selectedPropDef.name?'selected-property-def link-item':'link-item'):'link-item'"
+          >{{propertyDef.name}}{{last ? '' : ', '}}</a>
+        </td>
+        <td *ngIf="editedItem==='propertyDefs'">
+          <table>
+            <ng-container *ngIf="selectedPropSetDef.propertyDefs">
+              <tr *ngFor="let propertyDef of selectedPropSetDef.propertyDefs">
+                <td>{{propertyDef.name}}</td>
+                <td>
+                  <button class="btn" (click)="removePropertyDef(propertyDef)"
+                          ngbTooltip="Remove this property" placement="top"
+                          type="button" class="btn"
+                          style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+                    class="fas fa-minus-circle fa-2x"></i></button>
+                </td>
+              </tr>
+            </ng-container>
+            <tr>
+              <td><select [(ngModel)]="selectedPD" class="form-control">
+                <option *ngFor="let propertyDef of allPDs" [ngValue]="propertyDef">
+                  {{propertyDef.name}} <span
+                  *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}})</span>
+                </option>
+              </select></td>
+              <td>
+                <button type="button" class="btn" (click)="addPropertyDef()"
+                        ngbTooltip="Add this property" placement="top"
+                        [disabled]="!selectedPD"
+                        style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+                  class="fas fa-plus-circle fa-2x"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td *ngIf="selectedItem==='propertyDefs'">
+          <button (click)="editItem('propertyDefs')"
+                  ngbTooltip="Update properties" placement="top"
+                  type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+            class="fas fa-edit fa-2x"></i></button>
         </td>
         <td *ngIf="!(selectedItem==='propertyDefs')"></td>
       </tr>

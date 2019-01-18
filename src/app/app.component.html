@@ -1,31 +1,31 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+  <h3 class="navbar-brand">BIMbots PSD Repository</h3>
+  <button id="login-btn" class="btn btn-outline-light" type="button" [ngbTooltip]="getUserInfo()" placement="bottom"
+          (click)="onLogin()">{{getToken() == null ? 'login' : 'logout'}}</button>
+  <button class="navbar-toggler" type="button" (click)="toggleCollapsed()" data-toggle="collapse"
+          data-target="#navbarResponsive">
+    <span class="navbar-toggler-icon" ngToggler></span>
+  </button>
+  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="navbarResponsive">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" routerLinkActive="active activeTab">
+        <a class="nav-link" [routerLink]="['property_set_repository']" href="#" (click)="isCollapsed=true">
+          property set repository</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active activeTab">
+        <a class="nav-link" [routerLink]="['information_delivery_specification']" href="#" (click)="isCollapsed=true">
+          information delivery specification</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active activeTab">
+        <a class="nav-link" [routerLink]="['products']" href="#" (click)="isCollapsed=true">
+          products</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 <div class="container-fluid">
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-    <h3 class="navbar-brand">BIMbots PSD Repository</h3>
-    <button id="login-btn" class="btn btn-outline-light" type="button" [ngbTooltip]="getUserInfo()" placement="bottom"
-            (click)="onLogin()">{{getToken() == null ? 'login' : 'logout'}}</button>
-    <button class="navbar-toggler" type="button" (click)="toggleCollapsed()" data-toggle="collapse"
-            data-target="#navbarResponsive">
-      <span class="navbar-toggler-icon" ngToggler></span>
-    </button>
-    <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item" routerLinkActive="active activeTab">
-          <a class="nav-link" [routerLink]="['property_set_repository']" href="#" (click)="isCollapsed=true">
-            property set repository</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active activeTab">
-          <a class="nav-link" [routerLink]="['information_delivery_specification']" href="#" (click)="isCollapsed=true">
-            information delivery specification</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active activeTab">
-          <a class="nav-link" [routerLink]="['products']" href="#" (click)="isCollapsed=true">
-            products</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
   <div class="row">
-    <div class="col-12">
+    <div class="col-sm-12">
       <router-outlet></router-outlet>
     </div>
   </div>

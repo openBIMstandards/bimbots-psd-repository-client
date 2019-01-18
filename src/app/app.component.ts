@@ -12,7 +12,6 @@ import {Subscription} from 'apollo-client/util/Observable';
 })
 export class AppComponent implements OnInit {
   isCollapsed = true;
-  user: User;
 
   constructor(
     private modal: NgbModal,
@@ -20,7 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.user) {
+    if (!this.propertySetDefinitionService.user) {
       sessionStorage.removeItem('token');
     }
   }
@@ -34,7 +33,7 @@ export class AppComponent implements OnInit {
       const modal = this.modal.open(LoginComponent);
       modal.result.then((user) => {
         console.log('Logged in: ' + (<User>user).name);
-        this.user = user;
+        this.propertySetDefinitionService.user = user;
       }, (reason) => console.log('Login rejected: ' + reason));
     } else {
       const subscription = <Subscription>this.propertySetDefinitionService.signoutResult.subscribe((result) => {
@@ -43,7 +42,7 @@ export class AppComponent implements OnInit {
       });
       this.propertySetDefinitionService.signoutUser(sessionStorage.getItem('token'));
       sessionStorage.removeItem('token');
-      this.user = null;
+      this.propertySetDefinitionService.user = null;
     }
   }
 
@@ -52,6 +51,6 @@ export class AppComponent implements OnInit {
   }
 
   getUserInfo(): string {
-    return this.user ? 'user: ' + this.user.name : 'user not logged in';
+    return this.propertySetDefinitionService.user ? 'user: ' + this.propertySetDefinitionService.user.name : 'user not logged in';
   }
 }

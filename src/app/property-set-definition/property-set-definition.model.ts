@@ -13,6 +13,6 @@ export class PropertySetDefinitionInput {
               private name: string,
               private definition: string,
               private applicableClasses: string[],
-              private propertyDefs: PropertyDefinitionInput[]) {
+              private propertyDefs: [PropertyDefinitionInput]) {
   }
 }

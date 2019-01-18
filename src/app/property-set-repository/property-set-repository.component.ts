@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CreatePropertySetDefinitionComponent} from './create-property-set-definition/create-property-set-definition.component';
+import {User} from '../graphql';
 
 @Component({
   selector: 'app-property-set-repository',
@@ -76,6 +77,10 @@ export class PropertySetRepositoryComponent implements OnInit {
       this.selectedPSD = null;
       console.log('Result delete property set definition: ' + value);
       subscription.unsubscribe();
+    }, (message) => {
+      sessionStorage.removeItem('token');
+      this.propertySetDefinitionService.user = null;
+      alert(message);
     });
     this.propertySetDefinitionService.deletePropertySetDefinition(pset.id);
   }
