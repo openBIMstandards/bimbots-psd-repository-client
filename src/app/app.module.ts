@@ -21,6 +21,7 @@ import {PropertySetRepositoryComponent} from './property-set-repository/property
 import {CreatePropertySetDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-set-definition.component';
 import {CreatePropertyDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-definition/create-property-definition.component';
 import {LoginComponent} from './login/login.component';
+import {ExportIdsComponent} from './information-delivery-specification/export-ids/export-ids.component';
 
 const appRoutes: Routes = [
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
@@ -51,9 +52,15 @@ const link = onError(({graphQLErrors, networkError}) => {
     PropertySetRepositoryComponent,
     CreatePropertySetDefinitionComponent,
     CreatePropertyDefinitionComponent,
-    LoginComponent
+    LoginComponent,
+    ExportIdsComponent
   ],
-  entryComponents: [LoginComponent, CreatePropertySetDefinitionComponent, CreatePropertyDefinitionComponent],
+  entryComponents: [
+    LoginComponent,
+    CreatePropertySetDefinitionComponent,
+    CreatePropertyDefinitionComponent,
+    ExportIdsComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -73,7 +80,8 @@ export class AppModule {
     httpLink: HttpLink
   ) {
     const http_localhost = httpLink.create({uri: 'http://localhost:8080/graphql'});
-    const http = httpLink.create({uri: 'https://gentle-lake-13895.herokuapp.com/graphql'});
+    // const http = httpLink.create({uri: 'https://gentle-lake-13895.herokuapp.com/graphql'});
+    const http = httpLink.create({uri: 'http://app.informationdeliveryspecification.org/graphql'});
 
     const auth = setContext((_, {headers}) => {
       // get the authentication token from local storage if it exists

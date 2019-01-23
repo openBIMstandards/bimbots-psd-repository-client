@@ -4,6 +4,9 @@ import {InformationDeliverySpecification, RequiredPropertySet} from './informati
 import {PropertyDefinition} from '../property-definition/property-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
+import {LoginComponent} from '../login/login.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ExportIdsComponent} from './export-ids/export-ids.component';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -23,7 +26,8 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   loadingPropUpdate: boolean;
   loadingIDS: InformationDeliverySpecification;
 
-  constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
+  constructor(private modal: NgbModal,
+              private propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
@@ -55,6 +59,14 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     } else {
       this.selectedIDS = ids;
     }
+  }
+
+  onClickExport(): void {
+    const modal = this.modal.open(ExportIdsComponent);
+    modal.result.then((result) => {
+      this.propertySetDefinitionService.exportLink.subscribe((link) => alert(link));
+      this.propertySetDefinitionService.exportIDS(this.selectedIDS.id, <string>result);
+    });
   }
 
   addPset(selectedPSD: PropertySetDefinition): void {

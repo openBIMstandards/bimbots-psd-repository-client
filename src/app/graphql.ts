@@ -9,6 +9,8 @@ export interface Query {
   allPDs: [PropertyDefinition];
   allIDSs: [InformationDeliverySpecification];
   oneIDS: InformationDeliverySpecification;
+  // Export IDS, a link to the result is the return value
+  exportIDS: string;
 }
 
 export interface Mutation {

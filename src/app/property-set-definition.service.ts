@@ -126,6 +126,12 @@ const oneIDS = gql`
   }
 `;
 
+const exportIDS = gql`
+  query exportIDS($id: ID!, $format: ExportFormat!) {
+    exportIDS(id: $id, format: $format)
+  }
+`;
+
 const addPset2Ids = gql`
   mutation addPset2Ids($idsId: ID!, $psetId: ID!, $propIds: [ID]) {
     addPset2Ids(idsId: $idsId, psetId: $psetId, propIds: $propIds) {
@@ -263,6 +269,7 @@ export class PropertySetDefinitionService {
   public idsReceived = new EventEmitter<InformationDeliverySpecification>();
   public idssReceived = new EventEmitter<[InformationDeliverySpecification]>();
   public psdDeleted = new EventEmitter<boolean>();
+  public exportLink = new EventEmitter();
 
   constructor(private apollo: Apollo) {
   }
@@ -308,6 +315,20 @@ export class PropertySetDefinitionService {
       query: oneIDS,
       variables: {id: id}
     }).valueChanges.subscribe(value => this.idsReceived.emit(value.data.oneIDS));
+  }
+
+  public exportIDS(id: string, exportFormat: string): void {
+//    const f = format.pdf
+    this.apollo.watchQuery<Query>({
+      query: exportIDS,
+      variables: {
+        id: id,
+        format: exportFormat
+      }
+    }).valueChanges.subscribe(value => {
+      console.log(value);
+      this.exportLink.emit(value.data.exportIDS);
+    });
   }
 
   public signinUser(auth: AuthData): void {
@@ -446,3 +467,8 @@ export class PropertySetDefinitionService {
   }
 
 }
+
+/*export enum format {
+  PDF,
+  JSON
+}*/
