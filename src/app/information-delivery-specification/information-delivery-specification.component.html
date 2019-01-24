@@ -1,7 +1,13 @@
 <div class="card">
-  <div class="card-header"><h5>Information Delivery Specifications</h5><span *ngIf="loadingAllIDSs"><i
-    class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-          <span class="sr-only">Loading...</span></span></div>
+  <div class="row card-header">
+    <h5>Information Delivery Specifications</h5>
+    <button [disabled]="getToken() == null" type="button" class="col-1 btn" style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+      <fa-icon [icon]="faPlusCircle" size="3x" ngbTooltip="Add an Information Delivery Specification"
+               placement="right"></fa-icon>
+    </button>
+    <span *ngIf="loadingAllIDSs">
+      <fa-icon [icon]="faSpinner" size="2x" fixedWidth></fa-icon>
+      <span class="sr-only">Loading...</span></span></div>
   <div *ngIf="allIDSs" class="card-body">
     <table class="table">
       <thead>
@@ -21,11 +27,15 @@
     </table>
     <div class="card" *ngIf="selectedIDS">
       <div class="card-header">
-        <h6><button (click)="onClickExport()"
-          ngbTooltip="Export IDS" placement="right"
-          type="button" class="btn"
-          style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i class="fa fa-external-link-alt fa-2x"></i>
-        </button> {{selectedIDS.name}}</h6>
+        <h6>
+          <button (click)="onClickExport()"
+                  ngbTooltip="Export IDS" placement="right"
+                  type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
+            class="fa fa-external-link-alt fa-2x"></i>
+          </button>
+          {{selectedIDS.name}}</h6>
+        <a *ngIf="exportLink" [href]="getHost() + '/' + exportLink">{{getHost()}}/{{exportLink}}</a>
       </div>
       <div class="card-body">
         <table class="table">

@@ -326,7 +326,6 @@ export class PropertySetDefinitionService {
         format: exportFormat
       }
     }).valueChanges.subscribe(value => {
-      console.log(value);
       this.exportLink.emit(value.data.exportIDS);
     });
   }
@@ -467,8 +466,3 @@ export class PropertySetDefinitionService {
   }
 
 }
-
-/*export enum format {
-  PDF,
-  JSON
-}*/

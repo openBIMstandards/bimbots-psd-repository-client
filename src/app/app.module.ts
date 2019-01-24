@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 import {AppComponent} from './app.component';
 import {PropertySetDefinitionComponent} from './property-set-definition/property-set-definition.component';
@@ -22,6 +23,7 @@ import {CreatePropertySetDefinitionComponent} from './property-set-repository/cr
 import {CreatePropertyDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-definition/create-property-definition.component';
 import {LoginComponent} from './login/login.component';
 import {ExportIdsComponent} from './information-delivery-specification/export-ids/export-ids.component';
+import {Globals} from './globals';
 
 const appRoutes: Routes = [
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
@@ -64,6 +66,7 @@ const link = onError(({graphQLErrors, networkError}) => {
   imports: [
     BrowserModule,
     FormsModule,
+    FontAwesomeModule,
     AngularFontAwesomeModule,
     RouterModule.forRoot(appRoutes),
     NgbModule,
@@ -71,17 +74,19 @@ const link = onError(({graphQLErrors, networkError}) => {
     ApolloModule,
     HttpLinkModule,
   ],
-  providers: [],
+  providers: [Globals],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
   constructor(
     apollo: Apollo,
-    httpLink: HttpLink
+    httpLink: HttpLink,
+    globals: Globals
   ) {
-    const http_localhost = httpLink.create({uri: 'http://localhost:8080/graphql'});
+    const http = httpLink.create({uri: globals.serverAddress + '/graphql'});
     // const http = httpLink.create({uri: 'https://gentle-lake-13895.herokuapp.com/graphql'});
-    const http = httpLink.create({uri: 'http://app.informationdeliveryspecification.org/graphql'});
+    // const http = httpLink.create({uri: 'http://app.informationdeliveryspecification.org/graphql'});
 
     const auth = setContext((_, {headers}) => {
       // get the authentication token from local storage if it exists
@@ -110,8 +115,7 @@ export class AppModule {
     // });
 
     apollo.create({
-      link: auth.concat(http_localhost),
-      // link: auth.concat(http),
+      link: auth.concat(http),
       cache: new InMemoryCache(),
       defaultOptions: {
         watchQuery: {

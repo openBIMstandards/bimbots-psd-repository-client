@@ -1,11 +1,10 @@
 <div class="card">
   <div class="row card-header">
     <h5>Property set repository</h5>
-    <button ngbTooltip="Add a property set" placement="right" (click)="onAddPropertySet()"
+    <button (click)="onAddPropertySet()"
             [disabled]="getToken() == null"
             type="button" class="col-1 btn"
-            style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
-      <i class="fas fa-plus-circle fa-3x"></i></button>
+            style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><fa-icon [icon]="faPlusCircle" size="3x" ngbTooltip="Add a property set" placement="right"></fa-icon></button>
     <span *ngIf="loadingAllPSDs"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></span>
   </div>

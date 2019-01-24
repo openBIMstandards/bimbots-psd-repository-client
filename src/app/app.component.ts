@@ -4,6 +4,7 @@ import {LoginComponent} from './login/login.component';
 import {User} from './graphql';
 import {PropertySetDefinitionService} from './property-set-definition.service';
 import {Subscription} from 'apollo-client/util/Observable';
+import {faList} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import {Subscription} from 'apollo-client/util/Observable';
 })
 export class AppComponent implements OnInit {
   isCollapsed = true;
+  faList = faList;
 
   constructor(
     private modal: NgbModal,

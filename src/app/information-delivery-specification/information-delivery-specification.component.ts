@@ -4,9 +4,11 @@ import {InformationDeliverySpecification, RequiredPropertySet} from './informati
 import {PropertyDefinition} from '../property-definition/property-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
-import {LoginComponent} from '../login/login.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ExportIdsComponent} from './export-ids/export-ids.component';
+import {HttpLink} from 'apollo-angular-link-http';
+import {Globals} from '../globals';
+import {faSpinner, faPlusCircle} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -14,6 +16,8 @@ import {ExportIdsComponent} from './export-ids/export-ids.component';
   styleUrls: ['./information-delivery-specification.component.css']
 })
 export class InformationDeliverySpecificationComponent implements OnInit {
+  faSpinner = faSpinner;
+  faPlusCircle = faPlusCircle;
   allIDSs: [InformationDeliverySpecification];
   selectedIDS: InformationDeliverySpecification;
   allPSDs: [PropertySetDefinition];
@@ -25,9 +29,12 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
   loadingIDS: InformationDeliverySpecification;
+  exportLink: string;
 
   constructor(private modal: NgbModal,
-              private propertySetDefinitionService: PropertySetDefinitionService) {
+              private propertySetDefinitionService: PropertySetDefinitionService,
+              public httpLink: HttpLink,
+              public globals: Globals) {
   }
 
   ngOnInit() {
@@ -64,7 +71,7 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   onClickExport(): void {
     const modal = this.modal.open(ExportIdsComponent);
     modal.result.then((result) => {
-      this.propertySetDefinitionService.exportLink.subscribe((link) => alert(link));
+      this.propertySetDefinitionService.exportLink.subscribe((link) => this.exportLink = link);
       this.propertySetDefinitionService.exportIDS(this.selectedIDS.id, <string>result);
     });
   }
@@ -128,4 +135,11 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     this.selectedPset = pset === this.selectedPset ? null : pset;
   }
 
+  getHost(): string {
+    return this.globals.serverAddress;
+  }
+
+  getToken(): string {
+    return sessionStorage.token;
+  }
 }

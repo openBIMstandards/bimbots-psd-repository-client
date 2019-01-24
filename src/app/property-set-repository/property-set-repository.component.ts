@@ -5,6 +5,7 @@ import {Subscription} from 'apollo-client/util/Observable';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CreatePropertySetDefinitionComponent} from './create-property-set-definition/create-property-set-definition.component';
 import {User} from '../graphql';
+import {faPlusCircle} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
   selector: 'app-property-set-repository',
@@ -12,6 +13,7 @@ import {User} from '../graphql';
   styleUrls: ['./property-set-repository.component.css']
 })
 export class PropertySetRepositoryComponent implements OnInit {
+  faPlusCircle = faPlusCircle;
   allPSDs: [PropertySetDefinition];
   selectedPSD: PropertySetDefinition;
   loadingAllPSDs: boolean;
