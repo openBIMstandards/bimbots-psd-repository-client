@@ -58,8 +58,12 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   onAddIdsClicked(): void {
     const modal = this.modal.open(CreateIdsComponent);
     modal.result.then((result) => {
-      // this.propertySetDefinitionService.createInformationDeliverySpecification().subscribe((link) => this.exportLink = link);
-      // this.propertySetDefinitionService.createInformationDeliverySpecification(this.selectedIDS.id, <string>result);
+      const subscription = this.propertySetDefinitionService.informationDeliverySpecificationCreated.subscribe(
+        (value) => {
+          alert(value.name);
+        },
+        message => alert(message));
+      this.propertySetDefinitionService.createInformationDeliverySpecification(result.id, result.name);
     });
   }
 

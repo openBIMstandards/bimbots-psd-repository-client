@@ -18,5 +18,6 @@ export class CreateIdsComponent implements OnInit {
   }
 
   onCreateClick(): void {
+    this.activeModal.close(this.ids);
   }
 }
