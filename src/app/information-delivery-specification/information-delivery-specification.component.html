@@ -1,7 +1,8 @@
 <div class="card">
   <div class="row card-header">
     <h5>Information Delivery Specifications</h5>
-    <button [disabled]="getToken() == null" type="button" class="col-1 btn" style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+    <button (click)="onAddIdsClicked()" [disabled]="getToken() == null" type="button" class="col-1 btn"
+            style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
       <fa-icon [icon]="faPlusCircle" size="3x" ngbTooltip="Add an Information Delivery Specification"
                placement="right"></fa-icon>
     </button>

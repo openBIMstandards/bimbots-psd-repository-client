@@ -54,6 +54,9 @@ export class InformationDeliverySpecificationComponent implements OnInit {
     return ids === this.loadingIDS;
   }
 
+  onAddIdsClicked(): void {
+  }
+
   onClickIds(ids: InformationDeliverySpecification) {
     if (!ids.reqPsets) {
       this.propertySetDefinitionService.idsReceived.subscribe(oneIDS => {

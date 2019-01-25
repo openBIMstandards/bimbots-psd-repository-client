@@ -126,6 +126,16 @@ const oneIDS = gql`
   }
 `;
 
+const createInformationDeliverySpecification = gql`
+  mutation createInformationDeliverySpecification($idsId: ID!, $name: String!, $parentId: ID) {
+    createInformationDeliverySpecification(idsId: $idsId, name: $name, parentId: $parentId) {
+      id
+      name
+      parent
+    }
+  }
+`;
+
 const exportIDS = gql`
   query exportIDS($id: ID!, $format: ExportFormat!) {
     exportIDS(id: $id, format: $format)
@@ -270,6 +280,7 @@ export class PropertySetDefinitionService {
   public idssReceived = new EventEmitter<[InformationDeliverySpecification]>();
   public psdDeleted = new EventEmitter<boolean>();
   public exportLink = new EventEmitter();
+  public informationDeliverySpecificationCreated = new EventEmitter<InformationDeliverySpecification>();
 
   constructor(private apollo: Apollo) {
   }
@@ -318,7 +329,6 @@ export class PropertySetDefinitionService {
   }
 
   public exportIDS(id: string, exportFormat: string): void {
-//    const f = format.pdf
     this.apollo.watchQuery<Query>({
       query: exportIDS,
       variables: {
@@ -327,6 +337,25 @@ export class PropertySetDefinitionService {
       }
     }).valueChanges.subscribe(value => {
       this.exportLink.emit(value.data.exportIDS);
+    });
+  }
+
+  public createInformationDeliverySpecification(id: string, name: string, parentId: string): void {
+    this.apollo.mutate<Mutation>(
+      {
+        mutation: createInformationDeliverySpecification,
+        variables: {
+          idsId: id,
+          name: name,
+          parentId: parentId
+        }
+      }
+    ).subscribe(value => {
+      if (value.errors) {
+        this.informationDeliverySpecificationCreated.error(value.errors[0].message);
+      } else {
+        this.informationDeliverySpecificationCreated.emit(value.data.createInformationDeliverySpecification);
+      }
     });
   }
 

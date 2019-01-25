@@ -14,6 +14,13 @@ export interface Query {
 }
 
 export interface Mutation {
+  // Create an information delivery specification.
+  // GRAPHQL: createInformationDeliverySpecification(
+  //  idsId: ID!,
+  //  name: String!,
+  //  parentId: ID): InformationDeliverySpecification
+  createInformationDeliverySpecification(idsId: string, name: String, parentId: string): InformationDeliverySpecification;
+
   // Add a required property set to an information delivery specification
   // GRAPHQL: addPset2Ids(
   //  idsId: String!,
