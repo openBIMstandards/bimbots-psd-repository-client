@@ -9,6 +9,7 @@ import {ExportIdsComponent} from './export-ids/export-ids.component';
 import {HttpLink} from 'apollo-angular-link-http';
 import {Globals} from '../globals';
 import {faSpinner, faPlusCircle} from '@fortawesome/fontawesome-free-solid';
+import {CreateIdsComponent} from './create-ids/create-ids.component';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -55,6 +56,11 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   }
 
   onAddIdsClicked(): void {
+    const modal = this.modal.open(CreateIdsComponent);
+    modal.result.then((result) => {
+      // this.propertySetDefinitionService.createInformationDeliverySpecification().subscribe((link) => this.exportLink = link);
+      // this.propertySetDefinitionService.createInformationDeliverySpecification(this.selectedIDS.id, <string>result);
+    });
   }
 
   onClickIds(ids: InformationDeliverySpecification) {

@@ -24,6 +24,7 @@ import {CreatePropertyDefinitionComponent} from './property-set-repository/creat
 import {LoginComponent} from './login/login.component';
 import {ExportIdsComponent} from './information-delivery-specification/export-ids/export-ids.component';
 import {Globals} from './globals';
+import {CreateIdsComponent} from './information-delivery-specification/create-ids/create-ids.component';
 
 const appRoutes: Routes = [
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
@@ -55,12 +56,14 @@ const link = onError(({graphQLErrors, networkError}) => {
     CreatePropertySetDefinitionComponent,
     CreatePropertyDefinitionComponent,
     LoginComponent,
-    ExportIdsComponent
+    ExportIdsComponent,
+    CreateIdsComponent
   ],
   entryComponents: [
     LoginComponent,
     CreatePropertySetDefinitionComponent,
     CreatePropertyDefinitionComponent,
+    CreateIdsComponent,
     ExportIdsComponent
   ],
   imports: [
