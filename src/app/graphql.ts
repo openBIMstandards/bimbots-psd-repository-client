@@ -9,8 +9,6 @@ export interface Query {
   allPDs: [PropertyDefinition];
   allIDSs: [InformationDeliverySpecification];
   oneIDS: InformationDeliverySpecification;
-  // Export IDS, a link to the result is the return value
-  exportIDS: string;
 }
 
 export interface Mutation {
@@ -79,6 +77,10 @@ export interface Mutation {
   // 	GRAPHQL: signoutUser(token: String!): Boolean!
 
   signoutUser(token: string): boolean;
+
+  //  # Export IDS, a link to the result is the return value
+  //  GRAPHQL: exportIDS(id: ID!, format: ExportFormat!): String
+  exportIDS(id: string, format: string): string;
 }
 
 export class SigninPayload {

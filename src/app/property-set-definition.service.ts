@@ -136,7 +136,7 @@ const createInformationDeliverySpecification = gql`
 `;
 
 const exportIDS = gql`
-  query exportIDS($id: ID!, $format: ExportFormat!) {
+  mutation exportIDS($id: ID!, $format: ExportFormat!) {
     exportIDS(id: $id, format: $format)
   }
 `;
@@ -328,13 +328,13 @@ export class PropertySetDefinitionService {
   }
 
   public exportIDS(id: string, exportFormat: string): void {
-    this.apollo.watchQuery<Query>({
-      query: exportIDS,
+    this.apollo.mutate<Mutation>({
+      mutation: exportIDS,
       variables: {
         id: id,
         format: exportFormat
       }
-    }).valueChanges.subscribe(value => {
+    }).subscribe(value => {
       this.exportLink.emit(value.data.exportIDS);
     });
   }

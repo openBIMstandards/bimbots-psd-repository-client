@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {InformationDeliverySpecification, RequiredPropertySet} from './information-delivery-specification.model';
 import {PropertyDefinition} from '../property-definition/property-definition.model';
@@ -16,7 +16,7 @@ import {CreateIdsComponent} from './create-ids/create-ids.component';
   templateUrl: './information-delivery-specification.component.html',
   styleUrls: ['./information-delivery-specification.component.css']
 })
-export class InformationDeliverySpecificationComponent implements OnInit {
+export class InformationDeliverySpecificationComponent implements OnInit, OnChanges {
   faSpinner = faSpinner;
   faPlusCircle = faPlusCircle;
   allIDSs: [InformationDeliverySpecification];
@@ -39,6 +39,7 @@ export class InformationDeliverySpecificationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.exportLink = null;
     this.loadingAllIDSs = true;
     this.propertySetDefinitionService.idssReceived.subscribe(allIDSs => {
       this.allIDSs = allIDSs;
@@ -49,6 +50,12 @@ export class InformationDeliverySpecificationComponent implements OnInit {
       this.allPSDs = allPSDs;
     });
     this.propertySetDefinitionService.allPSDs();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedIDS']) {
+      this.exportLink = null;
+    }
   }
 
   isLoadingIDS(ids: InformationDeliverySpecification): boolean {
