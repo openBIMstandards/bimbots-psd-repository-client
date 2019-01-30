@@ -8,7 +8,7 @@ import {PropertySetDefinitionService} from '../../property-set-definition.servic
   styleUrls: ['./export-ids.component.css']
 })
 export class ExportIdsComponent implements OnInit {
-  private errorMessage: string;
+  errorMessage: string;
   exportFormat: string;
   formats: string[];
 

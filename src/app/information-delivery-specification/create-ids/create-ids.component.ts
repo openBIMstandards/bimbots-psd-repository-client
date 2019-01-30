@@ -8,6 +8,7 @@ import {InformationDeliverySpecification} from '../information-delivery-specific
   styleUrls: ['./create-ids.component.css']
 })
 export class CreateIdsComponent implements OnInit {
+  errorMessage: string;
   ids: InformationDeliverySpecification;
 
   constructor(public activeModal: NgbActiveModal) {
