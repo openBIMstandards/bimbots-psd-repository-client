@@ -7,23 +7,23 @@ import {AuthData, Mutation, Query, SigninPayload, User} from './graphql';
 import {PropertyDefinition} from './property-definition/property-definition.model';
 
 const PRODUCTS = [
-  'http://ifcowl.openbimstandards.org/IFC4#IfcBeam',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcBuilding',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcBuildingStorey',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcChimney',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcColumn',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcCovering',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcDoor',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcMaterial',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcMember',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcOpeningElement',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcPile',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcPlate',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcSlab',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcSpace',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcStair',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcWall',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcWindow'
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBeam',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBuilding',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBuildingStorey',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4##IfcChimney',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcColumn',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcCovering',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcDoor',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcMaterial',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcMember',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcOpeningElement',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPile',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPlate',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcSlab',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcSpace',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcStair',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWall',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWindow'
 ];
 
 const signinUser = gql`
