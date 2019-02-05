@@ -27,6 +27,8 @@ import {Globals} from './globals';
 import {CreateIdsComponent} from './information-delivery-specification/create-ids/create-ids.component';
 
 const appRoutes: Routes = [
+  {path: '', redirectTo: '/', pathMatch: 'full'},
+  {path: 'property_set_repository', component: PropertySetRepositoryComponent},
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
   {path: 'information_delivery_specification', component: InformationDeliverySpecificationComponent},
   {path: 'products', component: ProductSelectionComponent}
