@@ -90,4 +90,8 @@ export class PropertySetRepositoryComponent implements OnInit {
   getToken(): string {
     return sessionStorage.token;
   }
+
+  getOwnerName(owner: User): string {
+    return owner ? owner.name : '';
+  }
 }

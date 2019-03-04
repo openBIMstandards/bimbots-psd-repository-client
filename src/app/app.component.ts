@@ -3,7 +3,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {LoginComponent} from './login/login.component';
 import {User} from './graphql';
 import {PropertySetDefinitionService} from './property-set-definition.service';
-import {Subscription} from 'apollo-client/util/Observable';
 import {faList} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
@@ -34,17 +33,19 @@ export class AppComponent implements OnInit {
     if (this.getToken() == null) {
       const modal = this.modal.open(LoginComponent);
       modal.result.then((user) => {
-        console.log('Logged in: ' + (<User>user).name);
+        console.log('Logged in: ' + (user ? (<User>user).name : 'null'));
         this.propertySetDefinitionService.user = user;
       }, (reason) => console.log('Login rejected: ' + reason));
     } else {
-      const subscription = <Subscription>this.propertySetDefinitionService.signoutResult.subscribe((result) => {
-        console.log('Logout result value: ' + result);
-        subscription.unsubscribe();
-      });
-      this.propertySetDefinitionService.signoutUser(sessionStorage.getItem('token'));
-      sessionStorage.removeItem('token');
       this.propertySetDefinitionService.user = null;
+      const subscription = this.propertySetDefinitionService.signoutUser(sessionStorage.getItem('token'))
+        .subscribe(
+          (result) => console.log('Logout result value: ' + result),
+          null,
+          () => {
+            sessionStorage.removeItem('token');
+            subscription.unsubscribe();
+          });
     }
   }
 

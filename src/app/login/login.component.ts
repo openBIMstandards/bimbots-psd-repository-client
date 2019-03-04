@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
-import {Subscription} from 'apollo-client/util/Observable';
 import {AuthData, SigninPayload} from '../graphql';
 
 @Component({
@@ -21,31 +20,44 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.errorMessage = undefined;
   }
 
+
   login(): void {
-    this.errorMessage = null;
-    const subscription = <Subscription>this.propertySetDefinitionService.signinPayloadReceived.subscribe(payload => {
-        this.payload = <SigninPayload>payload;
-        if (payload) {
-          sessionStorage.setItem('token', payload.token);
-        } else {
+    this.errorMessage = undefined;
+    console.log('login ' + this.email + '/' + this.password);
+    const subscription = this.propertySetDefinitionService.signinUser(new AuthData(this.email, this.password))
+      .subscribe(
+        payload => {
+          this.payload = <SigninPayload>payload;
+          console.log('login token ' + this.payload.token);
+          if (this.payload.token) {
+            sessionStorage.setItem('token', this.payload.token);
+          } else {
+            sessionStorage.removeItem('token');
+          }
+          if (this.payload.user) {
+            this.activeModal.close(this.payload.user);
+          } else {
+            console.log('login error ' + this.payload.error);
+            this.errorMessage = this.payload.error;
+          }
+        },
+        message => {
+          console.log('login error ' + message);
           sessionStorage.removeItem('token');
+          this.errorMessage = message;
+        },
+        () => {
+          console.log('login complete');
+          subscription.unsubscribe();
         }
-        if (this.payload && this.payload.user) {
-          this.activeModal.close(this.payload.user);
-        }
-      }, message => {
-        console.log(message);
-        sessionStorage.removeItem('token');
-        this.errorMessage = message;
-      }, () => subscription.unsubscribe()
-      )
-    ;
-    this.propertySetDefinitionService.signinUser(new AuthData(this.email, this.password));
+      );
   }
 
   closeAlert(): void {
-    this.errorMessage = null;
+    this.errorMessage = undefined;
+    this.activeModal.close(null);
   }
 }

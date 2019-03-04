@@ -4,13 +4,23 @@
     <button (click)="onAddPropertySet()"
             [disabled]="getToken() == null"
             type="button" class="col-1 btn"
-            style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><fa-icon [icon]="faPlusCircle" size="3x" ngbTooltip="Add a property set" placement="right"></fa-icon></button>
+            style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+      <fa-icon [icon]="faPlusCircle" size="3x" ngbTooltip="Add a property set" placement="right"></fa-icon>
+    </button>
     <span *ngIf="loadingAllPSDs"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></span>
   </div>
   <div class="row card-body repository-body">
     <div [class]="selectedPSD?'col-xs-12 col-sm-12 col-md-4':'col-xs-12 col-sm-12 col-md-12  col-lg-12'">
       <table class="table">
+        <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Property Set</th>
+          <th>Owner</th>
+        </tr>
+        </thead>
         <tr *ngFor="let psd of allPSDs;trackBy: trackById" (click)="selectPsd(psd)"
             [class]="isSelected(psd)?'selected-property-set-def':''">
           <td class="first-column"><i *ngIf="isLoadingOnePSD(psd)"
@@ -26,6 +36,7 @@
             </button>
           </td>
           <td class="link-item name-column">{{psd.name}}</td>
+          <td>{{getOwnerName(psd.owner)}}</td>
         </tr>
       </table>
     </div>

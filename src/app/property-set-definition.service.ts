@@ -5,6 +5,7 @@ import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-
 import {InformationDeliverySpecification} from './information-delivery-specification/information-delivery-specification.model';
 import {AuthData, Mutation, Query, SigninPayload, User} from './graphql';
 import {PropertyDefinition} from './property-definition/property-definition.model';
+import {map} from 'rxjs/operators';
 
 const PRODUCTS = [
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBeam',
@@ -24,8 +25,10 @@ const PRODUCTS = [
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcSlab',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcSpace',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcStair',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcTransportElement',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWall',
-  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWindow'
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWindow',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcZone'
 ];
 
 const signinUser = gql`
@@ -36,6 +39,7 @@ const signinUser = gql`
         id
         name
       }
+      error
     }
   }
 `;
@@ -72,6 +76,10 @@ const allPSDs = gql`
     allPSDs {
       id
       name
+      owner {
+        id
+        name
+      }
     }
   }
 `;
@@ -272,8 +280,6 @@ const deletePropertySetDefinition = gql`
 export class PropertySetDefinitionService {
   public user: User;
 
-  public signinPayloadReceived = new EventEmitter<SigninPayload>();
-  public signoutResult = new EventEmitter<boolean>();
   public psdReceived = new EventEmitter<PropertySetDefinition>();
   public psdsReceived = new EventEmitter<[PropertySetDefinition]>();
   public pdsReceived = new EventEmitter<[PropertyDefinition]>();
@@ -362,31 +368,54 @@ export class PropertySetDefinitionService {
     });
   }
 
-  public signinUser(auth: AuthData): void {
-    this.apollo.mutate<Mutation>({
+  // public signinUser(auth: AuthData): void {
+  //   this.apollo.mutate<Mutation>({
+  //     mutation: signinUser,
+  //     variables: {
+  //       auth: auth
+  //     }
+  //   }).subscribe(
+  //     value => {
+  //       if (value.errors) {
+  //         console.log('value.errors[0].message ' + value.errors[0].message);
+  //         this.signinPayloadReceived.error(value.errors[0].message);
+  //       } else {
+  //         const payload = <SigninPayload>value.data.signinUser;
+  //         this.signinPayloadReceived.emit(payload);
+  //       }
+  //     },
+  //     () => console.log('signinUser error'),
+  //     () => this.apollo.getClient().resetStore());
+  // }
+
+  public signinUser(auth: AuthData) {
+    return this.apollo.mutate<Mutation>({
       mutation: signinUser,
       variables: {
         auth: auth
       }
-    }).subscribe(
-      value => {
-        if (value.errors) {
-          this.signinPayloadReceived.error(value.errors[0].message);
-        } else {
-          this.signinPayloadReceived.emit(value.data.signinUser);
-        }
-      },
-      null,
-      () => this.apollo.getClient().resetStore());
+    }).pipe(map((value) => <SigninPayload>value.data.signinUser));
   }
 
-  public signoutUser(token: string): void {
-    this.apollo.mutate<Mutation>({
+  // public signoutUser(token: string): void {
+  //   this.apollo.mutate<Mutation>({
+  //     mutation: signoutUser,
+  //     variables: {
+  //       token: token
+  //     }
+  //   }).subscribe(
+  //     value => this.signoutResult.emit(value.data.signoutUser),
+  //     null,
+  //     () => this.apollo.getClient().resetStore());
+  // }
+
+  public signoutUser(token: string) {
+    return this.apollo.mutate<Mutation>({
       mutation: signoutUser,
       variables: {
         token: token
       }
-    }).subscribe(value => this.signoutResult.emit(value.data.signoutUser));
+    }).pipe(map((value) => value.data.signoutUser));
   }
 
   public addPset2Ids(idsId: string, psetId: string): void {

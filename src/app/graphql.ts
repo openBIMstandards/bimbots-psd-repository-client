@@ -86,6 +86,7 @@ export interface Mutation {
 export class SigninPayload {
   token: string;
   user: User;
+  error: string;
 }
 
 export class User {
