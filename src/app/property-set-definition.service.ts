@@ -67,6 +67,10 @@ const onePSD = gql`
           enumItems
         }
       }
+      owner {
+        id
+        name
+      }
     }
   }
 `;

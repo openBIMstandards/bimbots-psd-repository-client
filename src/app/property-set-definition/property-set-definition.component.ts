@@ -3,6 +3,7 @@ import {PropertyDefinition, PropertyDefinitionInput, PropertyTypeInput} from '..
 import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
+import {faTrash} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
   selector: 'app-property-set-definition',
@@ -10,8 +11,10 @@ import {PropertySetDefinitionService} from '../property-set-definition.service';
   styleUrls: ['./property-set-definition.component.css']
 })
 export class PropertySetDefinitionComponent implements OnInit, OnChanges {
+  faTrash = faTrash;
   @Input() selectedPropSetDef: PropertySetDefinition;
   @Output() propDefUpdated = new EventEmitter<PropertyDefinition>();
+  @Output() deletePSD = new EventEmitter<PropertySetDefinition>();
   selectedPropDef: PropertyDefinition;
   selectedItem: string;
   editedItem: string;
@@ -20,13 +23,23 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   selectedPD: PropertyDefinition;
   allPDs: [PropertyDefinition];
 
-  constructor(private propertySetDefinitionService: PropertySetDefinitionService) {
+  constructor(public propertySetDefinitionService: PropertySetDefinitionService) {
   }
 
   ngOnInit() {
     this.products = this.propertySetDefinitionService.getProducts();
     this.propertySetDefinitionService.pdsReceived.subscribe((allPDs) => this.allPDs = allPDs);
     this.propertySetDefinitionService.allPDs();
+  }
+
+  onDeletePSD(): void {
+    this.deletePSD.emit(this.selectedPropSetDef);
+  }
+
+  isOwner(): boolean {
+    const owner = this.selectedPropSetDef.owner;
+    const user = this.propertySetDefinitionService.user;
+    return owner.id === user.id;
   }
 
   selectPropertyDef(propertyDef: PropertyDefinition) {
@@ -84,6 +97,7 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
     const psdInput = new PropertySetDefinitionInput(
       this.selectedPropSetDef.id,
       this.selectedPropSetDef.name,
+      this.propertySetDefinitionService.user.id,
       this.selectedPropSetDef.definition,
       this.selectedPropSetDef.applicableClasses,
       this.selectedPropSetDef.propertyDefs ? pdsInput : null);

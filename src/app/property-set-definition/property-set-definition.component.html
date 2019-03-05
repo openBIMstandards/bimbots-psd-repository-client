@@ -1,5 +1,13 @@
-<div *ngIf="selectedPropSetDef" class="card">
-  <div class="card-header"><h5 class="card-title">{{selectedPropSetDef.name}}</h5></div>
+<div *ngIf="selectedPropSetDef" class="row card">
+  <div class="card-header">
+    <h5 class="card-title">{{selectedPropSetDef.name}}</h5>
+    <span><button *ngIf="propertySetDefinitionService.user"
+                  (click)="onDeletePSD()" [disabled]="!isOwner()"
+                  type="button" class="col-1 btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+    <fa-icon [icon]="faTrash" size="2x" ngbTooltip="Delete this property set" placement="right"></fa-icon>
+    </button></span>
+  </div>
   <div class="card-body">
     <table class="table">
       <tbody>
@@ -123,7 +131,8 @@
               <td><select [(ngModel)]="selectedPD" class="form-control">
                 <option *ngFor="let propertyDef of allPDs" [ngValue]="propertyDef">
                   {{propertyDef.name}} <span
-                  *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}})</span>
+                  *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}}
+                  )</span>
                 </option>
               </select></td>
               <td>

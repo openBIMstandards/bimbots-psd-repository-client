@@ -82,19 +82,24 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
               this.pset.propertyDefs[index].propertyType.enumItems)));
         }
       }
-      const psdInput =
-        new PropertySetDefinitionInput(this.pset.id, this.pset.name, this.pset.definition, this.pset.applicableClasses, propDefInputs);
-      const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
-        this.activeModal.close(value);
-        subscription.unsubscribe();
-      }, (message) => {
-        console.log(message);
-//        alert(message);
-        sessionStorage.removeItem('token');
-        this.errorMessage = message;
-      });
-      this.propertySetDefinitionService.createPropertySetDefinition(psdInput);
     }
+    const psdInput =
+      new PropertySetDefinitionInput(
+        this.pset.id,
+        this.pset.name,
+        this.propertySetDefinitionService.user.id,
+        this.pset.definition,
+        this.pset.applicableClasses, propDefInputs);
+    const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe(value => {
+      this.activeModal.close(value);
+      subscription.unsubscribe();
+    }, (message) => {
+      console.log(message);
+//        alert(message);
+      sessionStorage.removeItem('token');
+      this.errorMessage = message;
+    });
+    this.propertySetDefinitionService.createPropertySetDefinition(psdInput);
   }
 
   closeAlert(): void {

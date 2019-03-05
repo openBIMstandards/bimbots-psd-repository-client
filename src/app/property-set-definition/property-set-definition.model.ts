@@ -13,6 +13,7 @@ export class PropertySetDefinition {
 export class PropertySetDefinitionInput {
   constructor(private id: string,
               private name: string,
+              private ownerId: string,
               private definition: string,
               private applicableClasses: string[],
               private propertyDefs: [PropertyDefinitionInput]) {
