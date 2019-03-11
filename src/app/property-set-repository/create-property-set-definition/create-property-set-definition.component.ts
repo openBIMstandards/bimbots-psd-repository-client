@@ -65,7 +65,8 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
 
 
   create(): void {
-    this.pset.id = 'http://openbimstandards.org/pset_repository#' + this.pset.name.replace(/\s/g, '_');
+    const psetName = this.pset.name.replace(/\s/g, '_');
+    this.pset.id = 'http://openbimstandards.org/pset_repository/' + psetName + '#' + psetName;
     const propDefInputs = <[PropertyDefinitionInput]>[];
     if (this.pset.propertyDefs) {
       for (let index = 0; index < this.pset.propertyDefs.length; index++) {

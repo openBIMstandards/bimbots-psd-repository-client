@@ -13,17 +13,17 @@ const PROPERTY_TYPES = [
 ];
 
 const DATA_TYPES = [
-  'http://ifcowl.openbimstandards.org/IFC4#IfcAreaMeasure',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcBoolean',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcIdentifier',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcInteger',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcLabel',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcLogical',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcMassDensityMeasure',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcPlanarForceMeasure',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcPlaneAngleMeasure',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcPositiveLengthMeasure',
-  'http://ifcowl.openbimstandards.org/IFC4#IfcThermalTransmittanceMeasure'
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcAreaMeasure',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBoolean',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcIdentifier',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcInteger',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcLabel',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcLogical',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcMassDensityMeasure',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPlanarForceMeasure',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPlaneAngleMeasure',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPositiveLengthMeasure',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcThermalTransmittanceMeasure'
 ];
 
 @Component({

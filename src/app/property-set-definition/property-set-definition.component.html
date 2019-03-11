@@ -19,13 +19,11 @@
             [class]="selectedItem==='name'?'selected-item link-item':'link-item'">{{selectedPropSetDef.name}}</td>
         <td *ngIf="editedItem==='name'">
           <input class="form-control" type="text" [(ngModel)]="selectedPropSetDef.name" placeholder="Enter name"></td>
-        <td *ngIf="selectedItem==='name'">
-          <button (click)="editItem('name')"
-                  ngbTooltip="Update name"
-                  placement="top"
-                  type="button" class="btn"
-                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
-            class="fas fa-edit fa-2x"></i></button>
+        <td *ngIf="selectedItem==='name' && propertySetDefinitionService.user">
+          <button (click)="editItem('name')" [disabled]="!isOwner()" type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+            <fa-icon [icon]="faEdit" size="2x" ngbTooltip="Update name" placement="top"></fa-icon>
+          </button>
         </td>
         <td *ngIf="!(selectedItem==='name')"></td>
       </tr>
@@ -45,13 +43,11 @@
         <td *ngIf="editedItem==='definition'">
           <input class="form-control" type="text" [(ngModel)]="selectedPropSetDef.definition"
                  placeholder="Enter definition"></td>
-        <td *ngIf="selectedItem==='definition'">
-          <button (click)="editItem('definition')"
-                  ngbTooltip="Update definition"
-                  placement="top"
-                  type="button" class="btn"
-                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
-            class="fas fa-edit fa-2x"></i></button>
+        <td *ngIf="selectedItem==='definition' && propertySetDefinitionService.user">
+          <button (click)="editItem('definition')" [disabled]="!isOwner()" type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+            <fa-icon [icon]="faEdit" size="2x" ngbTooltip="Update definition" placement="top"></fa-icon>
+          </button>
         </td>
         <td *ngIf="!(selectedItem==='definition')"></td>
       </tr>
@@ -92,13 +88,11 @@
             </tr>
           </table>
         </td>
-        <td *ngIf="selectedItem==='applicableClasses'">
-          <button (click)="editItem('applicableClasses')"
-                  ngbTooltip="Update applicable classes"
-                  placement="top"
-                  type="button" class="btn"
-                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
-            class="fas fa-edit fa-2x"></i></button>
+        <td *ngIf="selectedItem==='applicableClasses' && propertySetDefinitionService.user">
+          <button (click)="editItem('applicableClasses')" [disabled]="!isOwner()" type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+            <fa-icon [icon]="faEdit" size="2x" ngbTooltip="Update applicable classes" placement="top"></fa-icon>
+          </button>
         </td>
         <td *ngIf="!(selectedItem==='applicableClasses')"></td>
       </tr>
@@ -146,12 +140,11 @@
             </tr>
           </table>
         </td>
-        <td *ngIf="selectedItem==='propertyDefs'">
-          <button (click)="editItem('propertyDefs')"
-                  ngbTooltip="Update properties" placement="top"
-                  type="button" class="btn"
-                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
-            class="fas fa-edit fa-2x"></i></button>
+        <td *ngIf="selectedItem==='propertyDefs' && propertySetDefinitionService.user">
+          <button (click)="editItem('propertyDefs')" [disabled]="!isOwner()" type="button" class="btn"
+                  style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+            <fa-icon [icon]="faEdit" size="2x" ngbTooltip="Update properties" placement="top"></fa-icon>
+          </button>
         </td>
         <td *ngIf="!(selectedItem==='propertyDefs')"></td>
       </tr>

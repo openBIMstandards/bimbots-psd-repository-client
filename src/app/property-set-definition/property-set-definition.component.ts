@@ -3,7 +3,7 @@ import {PropertyDefinition, PropertyDefinitionInput, PropertyTypeInput} from '..
 import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-definition.model';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
-import {faTrash} from '@fortawesome/fontawesome-free-solid';
+import {faEdit, faTrash} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
   selector: 'app-property-set-definition',
@@ -11,6 +11,7 @@ import {faTrash} from '@fortawesome/fontawesome-free-solid';
   styleUrls: ['./property-set-definition.component.css']
 })
 export class PropertySetDefinitionComponent implements OnInit, OnChanges {
+  faEdit = faEdit;
   faTrash = faTrash;
   @Input() selectedPropSetDef: PropertySetDefinition;
   @Output() propDefUpdated = new EventEmitter<PropertyDefinition>();
