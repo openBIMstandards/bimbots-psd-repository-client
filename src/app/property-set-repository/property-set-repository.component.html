@@ -2,7 +2,7 @@
   <div class="row card-header">
     <h5 class="card-title">Property set repository</h5>
     <span *ngIf="getToken() != null">
-    <button (click)="onAddPropertySet()"
+      <button (click)="onAddPropertySet()"
             [disabled]="getToken() == null"
             type="button" class="col-1 btn"
             style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
@@ -12,7 +12,7 @@
           <span class="sr-only">Loading...</span></span></span>
   </div>
   <div class="row card-body repository-body">
-    <div [class]="selectedPSD?'col-xs-12 col-sm-12 col-md-4':'col-xs-12 col-sm-12 col-md-12  col-lg-12'"
+    <div [class]="selectedPSD?'col-xs-12 col-sm-12 col-md-4':'col-xs-12 col-sm-12 col-md-12 col-lg-12'"
          style="overflow-y: auto; max-height: 800px">
       <table class="table">
         <thead>
@@ -24,15 +24,6 @@
         </thead>
         <tr *ngFor="let psd of allPSDs;trackBy: trackById" (click)="selectPsd(psd)"
             [class]="isSelected(psd)?'selected-property-set-def':''">
-          <!--<td class="first-column">-->
-          <!--<button *ngIf="!isLoadingOnePSD(psd) && isSelected(psd)"-->
-          <!--ngbTooltip="Delete this property set" placement="top"-->
-          <!--(click)="onDeletePropertySet(psd)" [disabled]="!propertySetDefinitionService.user"-->
-          <!--type="button" class="col-1 btn"-->
-          <!--style="color: #15a589; background: transparent; margin: 0px; padding: 0px">-->
-          <!--<i class="fas fa-trash fa-2x"></i>-->
-          <!--</button>-->
-          <!--</td>-->
           <td class="link-item name-column">{{psd.name}}</td>
           <td>{{getOwnerName(psd.owner)}}</td>
           <td class="first-column"><i *ngIf="isLoadingOnePSD(psd)"

@@ -1,15 +1,16 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  InformationDeliverySpecification,
+  RequiredPropertySet
+} from './information-delivery-specification.model';
+import {ExportIdsComponent} from './export-ids/export-ids.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
-import {InformationDeliverySpecification, RequiredPropertySet} from './information-delivery-specification.model';
-import {PropertyDefinition} from '../property-definition/property-definition.model';
+import {Globals} from '../globals';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ExportIdsComponent} from './export-ids/export-ids.component';
-import {HttpLink} from 'apollo-angular-link-http';
-import {Globals} from '../globals';
-import {faSpinner, faPlusCircle} from '@fortawesome/fontawesome-free-solid';
-import {CreateIdsComponent} from './create-ids/create-ids.component';
+import {PropertyDefinition} from '../property-definition/property-definition.model';
+import {faEdit, faExternalLinkAlt, faMinus, faPlus} from '@fortawesome/fontawesome-free-solid';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -17,34 +18,26 @@ import {CreateIdsComponent} from './create-ids/create-ids.component';
   styleUrls: ['./information-delivery-specification.component.css']
 })
 export class InformationDeliverySpecificationComponent implements OnInit, OnChanges {
-  faSpinner = faSpinner;
-  faPlusCircle = faPlusCircle;
-  allIDSs: [InformationDeliverySpecification];
-  selectedIDS: InformationDeliverySpecification;
+  faEdit = faEdit;
+  faExternalLinkAlt = faExternalLinkAlt;
+  faMinus = faMinus;
+  faPlus = faPlus;
+  @Input() selectedIDS: InformationDeliverySpecification;
+  exportLink: string;
+  selectedPset: RequiredPropertySet;
+  editedPset: RequiredPropertySet;
   allPSDs: [PropertySetDefinition];
   selectedPSD: PropertySetDefinition;
-  editedPset: RequiredPropertySet;
-  selectedPset: RequiredPropertySet;
-  loadingAllIDSs: boolean;
-  loadingOneIDS: boolean;
   loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
-  loadingIDS: InformationDeliverySpecification;
-  exportLink: string;
 
-  constructor(private modal: NgbModal,
-              private propertySetDefinitionService: PropertySetDefinitionService,
-              public httpLink: HttpLink,
+  constructor(private propertySetDefinitionService: PropertySetDefinitionService,
+              private modal: NgbModal,
               public globals: Globals) {
   }
 
   ngOnInit() {
     this.exportLink = null;
-    this.loadingAllIDSs = true;
-    this.propertySetDefinitionService.idssReceived.subscribe(allIDSs => {
-      this.allIDSs = allIDSs;
-      this.loadingAllIDSs = false;
-    });
     this.propertySetDefinitionService.allIDSs();
     this.propertySetDefinitionService.psdsReceived.subscribe(allPSDs => {
       this.allPSDs = allPSDs;
@@ -58,42 +51,28 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     }
   }
 
-  isLoadingIDS(ids: InformationDeliverySpecification): boolean {
-    return ids === this.loadingIDS;
-  }
-
-  onAddIdsClicked(): void {
-    const modal = this.modal.open(CreateIdsComponent);
-    modal.result.then((result) => {
-      const subscription = this.propertySetDefinitionService.informationDeliverySpecificationCreated.subscribe(
-        (value) => {
-          alert(value.name);
-        },
-        message => alert(message));
-      this.propertySetDefinitionService.createInformationDeliverySpecification(result.id, result.name);
-    });
-  }
-
-  onClickIds(ids: InformationDeliverySpecification) {
-    if (!ids.reqPsets) {
-      this.propertySetDefinitionService.idsReceived.subscribe(oneIDS => {
-        ids = oneIDS;
-        this.selectedIDS = ids;
-        this.loadingIDS = null;
-      });
-      this.loadingIDS = ids;
-      this.propertySetDefinitionService.oneIDS(ids.id);
-    } else {
-      this.selectedIDS = ids;
-    }
-  }
-
   onClickExport(): void {
     const modal = this.modal.open(ExportIdsComponent);
     modal.result.then((result) => {
       this.propertySetDefinitionService.exportLink.subscribe((link) => this.exportLink = link);
       this.propertySetDefinitionService.exportIDS(this.selectedIDS.id, <string>result);
     });
+  }
+
+  getHost(): string {
+    return this.globals.serverAddress;
+  }
+
+  selectPset(pset: RequiredPropertySet): void {
+    this.selectedPset = pset === this.selectedPset ? null : pset;
+  }
+
+  toggleEditedPset(pset: RequiredPropertySet): void {
+    if (pset === this.editedPset) {
+      this.editedPset = null;
+    } else {
+      this.editedPset = pset;
+    }
   }
 
   addPset(selectedPSD: PropertySetDefinition): void {
@@ -116,14 +95,6 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     });
     this.loadingPsetUpdate = true;
     this.propertySetDefinitionService.removePset2Ids(this.selectedIDS.id, pset.propertySetDef.id);
-  }
-
-  toggleEditedPset(pset: RequiredPropertySet): void {
-    if (pset === this.editedPset) {
-      this.editedPset = null;
-    } else {
-      this.editedPset = pset;
-    }
   }
 
   isChecked(propDef: PropertyDefinition, pset: RequiredPropertySet): boolean {
@@ -151,15 +122,4 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     }
   }
 
-  selectPset(pset: RequiredPropertySet): void {
-    this.selectedPset = pset === this.selectedPset ? null : pset;
-  }
-
-  getHost(): string {
-    return this.globals.serverAddress;
-  }
-
-  getToken(): string {
-    return sessionStorage.token;
-  }
 }

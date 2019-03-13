@@ -17,6 +17,7 @@ import {onError} from 'apollo-link-error';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {HttpClientModule} from '@angular/common/http';
 import {ProductSelectionComponent} from './product-selection/product-selection.component';
+import {InformationDeliverySpecificationRepositoryComponent} from './information-delivery-specification-repository/information-delivery-specification-repository.component';
 import {InformationDeliverySpecificationComponent} from './information-delivery-specification/information-delivery-specification.component';
 import {PropertySetRepositoryComponent} from './property-set-repository/property-set-repository.component';
 import {CreatePropertySetDefinitionComponent} from './property-set-repository/create-property-set-definition/create-property-set-definition.component';
@@ -29,8 +30,7 @@ import {CreateIdsComponent} from './information-delivery-specification/create-id
 const appRoutes: Routes = [
   {path: '', redirectTo: '/', pathMatch: 'full'},
   {path: 'property_set_repository', component: PropertySetRepositoryComponent},
-  {path: 'property_set_repository', component: PropertySetRepositoryComponent},
-  {path: 'information_delivery_specification', component: InformationDeliverySpecificationComponent},
+  {path: 'information_delivery_specification_repository', component: InformationDeliverySpecificationRepositoryComponent},
   {path: 'products', component: ProductSelectionComponent}
 ];
 const link = onError(({graphQLErrors, networkError}) => {
@@ -53,6 +53,7 @@ const link = onError(({graphQLErrors, networkError}) => {
     PropertySetDefinitionComponent,
     PropertyDefinitionComponent,
     ProductSelectionComponent,
+    InformationDeliverySpecificationRepositoryComponent,
     InformationDeliverySpecificationComponent,
     PropertySetRepositoryComponent,
     CreatePropertySetDefinitionComponent,
