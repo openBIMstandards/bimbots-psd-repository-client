@@ -19,6 +19,12 @@ export interface Mutation {
   //  parentId: ID): InformationDeliverySpecification
   createInformationDeliverySpecification(idsId: string, name: String, parentId: string): InformationDeliverySpecification;
 
+  // Delete an information delivery specification
+  // GRAPHQL: deleteInformationDeliverySpecification(
+  //  idsId: ID!): Boolean
+
+  deleteInformationDeliverySpecification(idsId: string): boolean;
+
   // Add a required property set to an information delivery specification
   // GRAPHQL: addPset2Ids(
   //  idsId: String!,

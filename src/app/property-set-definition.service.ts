@@ -114,6 +114,10 @@ const allIDSs = gql`
     allIDSs {
       id
       name
+      owner {
+        id
+        name
+      }
     }
   }
 `;
@@ -136,15 +140,23 @@ const oneIDS = gql`
           name
         }
       }
+      owner {
+        id
+        name
+      }
     }
   }
 `;
 
 const createInformationDeliverySpecification = gql`
-  mutation createInformationDeliverySpecification($idsId: ID!, $name: String!, $parentId: ID) {
-    createInformationDeliverySpecification(idsId: $idsId, name: $name, parentId: $parentId) {
+  mutation createInformationDeliverySpecification($idsId: ID!, $name: String!, $ownerId: String!, $parentId: ID) {
+    createInformationDeliverySpecification(idsId: $idsId, name: $name, ownerId: $ownerId, parentId: $parentId) {
       id
       name
+      owner {
+        id
+        name
+      }
     }
   }
 `;
@@ -173,6 +185,10 @@ const addPset2Ids = gql`
           name
         }
       }
+      owner {
+        id
+        name
+      }
     }
   }
 `;
@@ -194,6 +210,10 @@ const removePset2Ids = gql`
         reqProps {
           name
         }
+      }
+      owner {
+        id
+        name
       }
     }
   }
@@ -217,6 +237,10 @@ const addProp2Pset2Ids = gql`
           name
         }
       }
+      owner {
+        id
+        name
+      }
     }
   }
 `;
@@ -238,6 +262,10 @@ const removeProp2Pset2Ids = gql`
         reqProps {
           name
         }
+      }
+      owner {
+        id
+        name
       }
     }
   }
@@ -278,6 +306,12 @@ const deletePropertySetDefinition = gql`
   }
 `;
 
+const deleteInformationDeliverySpecification = gql`
+  mutation deleteInformationDeliverySpecification($idsId: ID!) {
+    deleteInformationDeliverySpecification(idsId: $idsId)
+  }
+`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -289,6 +323,7 @@ export class PropertySetDefinitionService {
   public pdsReceived = new EventEmitter<[PropertyDefinition]>();
   public idsReceived = new EventEmitter<InformationDeliverySpecification>();
   public idssReceived = new EventEmitter<[InformationDeliverySpecification]>();
+  public idsDeleted = new EventEmitter<boolean>();
   public psdDeleted = new EventEmitter<boolean>();
   public exportLink = new EventEmitter();
   public informationDeliverySpecificationCreated = new EventEmitter<InformationDeliverySpecification>();
@@ -351,13 +386,14 @@ export class PropertySetDefinitionService {
     });
   }
 
-  public createInformationDeliverySpecification(id: string, name: string): void {
+  public createInformationDeliverySpecification(id: string, name: string, ownerId: string): void {
     this.apollo.mutate<Mutation>(
       {
         mutation: createInformationDeliverySpecification,
         variables: {
           idsId: id,
-          name: name
+          name: name,
+          ownerId: ownerId
         },
         refetchQueries: [{
           query: allIDSs
@@ -372,26 +408,6 @@ export class PropertySetDefinitionService {
     });
   }
 
-  // public signinUser(auth: AuthData): void {
-  //   this.apollo.mutate<Mutation>({
-  //     mutation: signinUser,
-  //     variables: {
-  //       auth: auth
-  //     }
-  //   }).subscribe(
-  //     value => {
-  //       if (value.errors) {
-  //         console.log('value.errors[0].message ' + value.errors[0].message);
-  //         this.signinPayloadReceived.error(value.errors[0].message);
-  //       } else {
-  //         const payload = <SigninPayload>value.data.signinUser;
-  //         this.signinPayloadReceived.emit(payload);
-  //       }
-  //     },
-  //     () => console.log('signinUser error'),
-  //     () => this.apollo.getClient().resetStore());
-  // }
-
   public signinUser(auth: AuthData) {
     return this.apollo.mutate<Mutation>({
       mutation: signinUser,
@@ -400,18 +416,6 @@ export class PropertySetDefinitionService {
       }
     }).pipe(map((value) => <SigninPayload>value.data.signinUser));
   }
-
-  // public signoutUser(token: string): void {
-  //   this.apollo.mutate<Mutation>({
-  //     mutation: signoutUser,
-  //     variables: {
-  //       token: token
-  //     }
-  //   }).subscribe(
-  //     value => this.signoutResult.emit(value.data.signoutUser),
-  //     null,
-  //     () => this.apollo.getClient().resetStore());
-  // }
 
   public signoutUser(token: string) {
     return this.apollo.mutate<Mutation>({
@@ -528,6 +532,25 @@ export class PropertySetDefinitionService {
       },
       null,
       () => this.psdDeleted.emit(result));
+  }
+
+  public deleteInformationDeliverySpecification(idsId: string): void {
+    let result = false;
+    this.apollo.mutate<Mutation>({
+      mutation: deleteInformationDeliverySpecification,
+      variables: {
+        idsId
+      },
+      refetchQueries: [{query: allIDSs}]
+    }).subscribe(
+      (value) => {
+        result = value.data.deleteInformationDeliverySpecification;
+        if (value.errors) {
+          this.idsDeleted.error(value.errors[0].message);
+        } else {
+          this.idsDeleted.emit(result);
+        }
+      });
   }
 
 }

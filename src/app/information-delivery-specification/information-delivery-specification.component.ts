@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
   InformationDeliverySpecification,
   RequiredPropertySet
@@ -10,7 +10,8 @@ import {Globals} from '../globals';
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
 import {PropertyDefinition} from '../property-definition/property-definition.model';
-import {faEdit, faExternalLinkAlt, faMinus, faPlus} from '@fortawesome/fontawesome-free-solid';
+import {faEdit, faExternalLinkAlt, faMinus, faPlus, faTrash} from '@fortawesome/fontawesome-free-solid';
+import {User} from '../graphql';
 
 @Component({
   selector: 'app-information-delivery-specification',
@@ -22,7 +23,9 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
   faExternalLinkAlt = faExternalLinkAlt;
   faMinus = faMinus;
   faPlus = faPlus;
+  faTrash = faTrash;
   @Input() selectedIDS: InformationDeliverySpecification;
+  @Output() deleteIDS = new EventEmitter<InformationDeliverySpecification>();
   exportLink: string;
   selectedPset: RequiredPropertySet;
   editedPset: RequiredPropertySet;
@@ -31,7 +34,7 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
   loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
 
-  constructor(private propertySetDefinitionService: PropertySetDefinitionService,
+  constructor(public propertySetDefinitionService: PropertySetDefinitionService,
               private modal: NgbModal,
               public globals: Globals) {
   }
@@ -120,6 +123,16 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     } else {
       this.propertySetDefinitionService.addProp2Pset2Ids(this.selectedIDS.id, this.editedPset.propertySetDef.id, propdef.id);
     }
+  }
+
+  onDeleteIDS(): void {
+    this.deleteIDS.emit(this.selectedIDS);
+  }
+
+  isOwner(): boolean {
+    const owner = this.selectedIDS.owner;
+    const user = this.propertySetDefinitionService.user;
+    return (owner.id && user.id) ? owner.id === user.id : false;
   }
 
 }

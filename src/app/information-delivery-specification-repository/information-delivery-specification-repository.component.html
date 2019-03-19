@@ -16,18 +16,17 @@
   <div class="row card-body repository-body">
     <div [class]="selectedIDS?'col-xs-12 col-sm-12 col-md-4':'col-xs-12 col-sm-12 col-md-12 col-lg-12'"
          style="overflow-y: auto; max-height: 800px">
-      <!--<div *ngIf="allIDSs" class="card-body">-->
-      <table class="table">
+       <table class="table">
         <thead>
-        <th>id</th>
         <th>name</th>
+        <th>owner</th>
         </thead>
         <tbody>
         <tr [class]="selectedIDS?(ids.name===selectedIDS.name?'selected-item link-item':'link-item'):'link-item'"
             (click)="onClickIds(ids)"
             *ngFor="let ids of allIDSs">
-          <td class="d-sm-table-cell">{{ids.id}}</td>
           <td>{{ids.name}}</td>
+          <td>{{getOwnerName(ids.owner)}}</td>
           <td *ngIf="isLoadingIDS(ids)"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
             <span class="sr-only">Loading...</span></td>
         </tr>
@@ -35,7 +34,9 @@
       </table>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-8">
-      <app-information-delivery-specification *ngIf="selectedIDS" [selectedIDS]="selectedIDS"></app-information-delivery-specification>
+      <app-information-delivery-specification
+        *ngIf="selectedIDS" [selectedIDS]="selectedIDS"
+        (deleteIDS)="onDeleteInformationDeliverySpecification($event)"></app-information-delivery-specification>
     </div>
   </div>
 </div>

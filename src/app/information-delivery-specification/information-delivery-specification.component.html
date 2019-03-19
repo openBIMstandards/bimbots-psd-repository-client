@@ -6,10 +6,22 @@
               style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
         <fa-icon [icon]="faExternalLinkAlt" size="2x" ngbTooltip="Export IDS" placement="right"></fa-icon>
       </button>
-      {{selectedIDS.name}}</h6>
+      <span><button *ngIf="propertySetDefinitionService.user"
+                    (click)="onDeleteIDS()" [disabled]="!isOwner()"
+                    type="button" class="col-1 btn"
+                    style="color: #15a589; background: transparent; margin: 0px; padding: 0px">
+    <fa-icon [icon]="faTrash" size="2x" ngbTooltip="Delete this information delivery specification"
+             placement="right"></fa-icon>
+    </button></span>
+      {{selectedIDS.name}}
+    </h6>
     <a *ngIf="exportLink" [href]="getHost() + '/' + exportLink">{{getHost()}}/{{exportLink}}</a>
   </div>
   <div class="card-body">
+    <!-- ID -->
+    <label>ID</label>
+    <input class="form-control" type="text" [disabled]="true" [value]="selectedIDS.id">
+
     <table class="table">
       <thead>
       <tr>
@@ -22,8 +34,8 @@
           *ngFor="let pset of selectedIDS.reqPsets" (click)="pset!==editedPset?selectPset(pset):''">
         <td>{{pset.propertySetDef.name}}</td>
         <td>
-          <button *ngIf="pset==selectedPset" type="button" [class]="'btn'"
-                  (click)="removePset(pset)">
+          <button *ngIf="pset==selectedPset && propertySetDefinitionService.user" type="button" [class]="'btn'"
+                  (click)="removePset(pset)" [disabled]="!isOwner()">
             <fa-icon [icon]="faMinus" size="1x" ngbTooltip="Remove Pset from IDS" placement="right"></fa-icon>
           </button>
         </td>
@@ -35,21 +47,21 @@
           type="checkbox"> {{propdef.name}}</label>
         </td>
         <td *ngIf="!loadingPropUpdate && pset!==selectedPset"></td>
-        <td *ngIf="!loadingPropUpdate && pset==selectedPset">
+        <td *ngIf="!loadingPropUpdate && pset==selectedPset && propertySetDefinitionService.user">
           <button type="button" [class]="pset===editedPset? 'btn btn-success':'btn'"
-                  (click)="toggleEditedPset(pset)">
+                  (click)="toggleEditedPset(pset)" [disabled]="!isOwner()">
             <fa-icon [icon]="faEdit" size="1x" ngbTooltip="Edit mandatory properties" placement="right"></fa-icon>
           </button>
         </td>
         <td *ngIf="loadingPropUpdate && pset===editedPset"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></td>
       </tr>
-      <tr>
+      <tr *ngIf="propertySetDefinitionService.user">
         <td><select class="form-control" [(ngModel)]="selectedPSD" [ngbTooltip]="'Select PSet'">
           <option *ngFor="let pset of allPSDs" [ngValue]="pset">{{pset.name}}</option>
         </select></td>
         <td *ngIf="!loadingPsetUpdate">
-          <button type="button" class="btn" [disabled]="!selectedPSD"
+          <button type="button" class="btn" [disabled]="!selectedPSD || !isOwner()"
                   (click)="addPset(selectedPSD)">
             <fa-icon [icon]="faPlus" size="1x" ngbTooltip="Add Pset to IDS" placement="right"></fa-icon>
           </button>

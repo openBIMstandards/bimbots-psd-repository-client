@@ -16,6 +16,13 @@ export class CreateIdsComponent implements OnInit {
 
   ngOnInit() {
     this.ids = new InformationDeliverySpecification();
+    this.ids.name = 'My IDS';
+    this.ids.id = this.generateIdsId(this.ids);
+  }
+
+  generateIdsId(ids: InformationDeliverySpecification): string {
+    const localName = ids.name.toLowerCase().replace(' ', '_');
+    return 'http://openbimstandards.org/information-delivery-specification/' + localName + '#' + localName;
   }
 
   onCreateClick(): void {
