@@ -40,7 +40,7 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   isOwner(): boolean {
     const owner = this.selectedPropSetDef.owner;
     const user = this.propertySetDefinitionService.user;
-    return owner.id === user.id;
+    return (owner && user) ? owner.id === user.id : false;
   }
 
   selectPropertyDef(propertyDef: PropertyDefinition) {
