@@ -276,17 +276,16 @@ const createPropertySetDefinition = gql`
     createPropertySetDefinition(psdInput: $psdInput) {
       id
       name
-      reqPsets {
-        propertySetDef {
-          id
-          name
-          propertyDefs {
-            id
-            name
-          }
-        }
-        reqProps {
-          name
+      definition
+      applicableClasses
+      propertyDefs {
+        id
+        name
+        definition
+        propertyType {
+          type
+          dataType
+          enumItems
         }
       }
       owner {

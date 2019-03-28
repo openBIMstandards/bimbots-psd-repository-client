@@ -8,8 +8,8 @@
         <th><label for="ifcProductClass">IFC Product class: </label></th>
         <td><select id="ifcProductClass" class="form-control" [ngModel]="classId"
                     (ngModelChange)="onProductClassSelection($event)">
-          <option [ngValue]="null">Select IFC Product class</option>
-          <option *ngFor="let product of products" [ngValue]="product"
+          <option [value]="null">Select IFC Product class</option>
+          <option *ngFor="let product of products" [value]="product"
                   [selected]="product===classId">{{product}}</option>
         </select></td>
       </tr>

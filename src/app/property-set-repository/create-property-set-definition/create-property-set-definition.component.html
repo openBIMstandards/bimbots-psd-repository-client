@@ -38,7 +38,7 @@
       </ng-container>
       <tr>
         <td><select [(ngModel)]="selectedPD" class="form-control">
-          <option *ngFor="let propertyDef of allPDs" [ngValue]="propertyDef">
+          <option *ngFor="let propertyDef of allPDs" [value]="propertyDef">
             {{propertyDef.name}} <span
             *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}})</span>
           </option>
