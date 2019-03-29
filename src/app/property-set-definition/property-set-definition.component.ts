@@ -4,6 +4,8 @@ import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {faEdit, faTrash} from '@fortawesome/fontawesome-free-solid';
+import {CreatePropertyDefinitionComponent} from '../property-set-repository/create-property-set-definition/create-property-definition/create-property-definition.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-property-set-definition',
@@ -24,7 +26,8 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   selectedPD: PropertyDefinition;
   allPDs: [PropertyDefinition];
 
-  constructor(public propertySetDefinitionService: PropertySetDefinitionService) {
+  constructor(public propertySetDefinitionService: PropertySetDefinitionService,
+              private modal: NgbModal) {
   }
 
   ngOnInit() {
@@ -141,5 +144,39 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
       const index = this.selectedPropSetDef.propertyDefs.indexOf(propertyDef);
       this.selectedPropSetDef.propertyDefs.splice(index, 1);
     }
+  }
+
+  createPropertyDef(): void {
+    const modal = this.modal.open(CreatePropertyDefinitionComponent);
+    modal.result.then((result) => {
+      console.log('CreatePropertyDefinitionComponent fulfilled');
+      if (!this.selectedPropSetDef.propertyDefs) {
+        this.selectedPropSetDef.propertyDefs = <[PropertyDefinition]>[];
+      }
+      this.selectedPropSetDef.propertyDefs.push(<PropertyDefinition>result);
+      const pdInputs = <[PropertyDefinitionInput]>[];
+      for (let index = 0; index < this.selectedPropSetDef.propertyDefs.length; index++) {
+        pdInputs.push(new PropertyDefinitionInput(
+          this.selectedPropSetDef.propertyDefs[index].id,
+          this.selectedPropSetDef.propertyDefs[index].name,
+          this.selectedPropSetDef.propertyDefs[index].definition,
+          new PropertyTypeInput(
+            this.selectedPropSetDef.propertyDefs[index].propertyType.type,
+            this.selectedPropSetDef.propertyDefs[index].propertyType.dataType,
+            this.selectedPropSetDef.propertyDefs[index].propertyType.enumItems
+            )
+        ));
+      }
+      const psdInput = new PropertySetDefinitionInput(
+        this.selectedPropSetDef.id,
+        this.selectedPropSetDef.name,
+        this.propertySetDefinitionService.user.id,
+        this.selectedPropSetDef.definition,
+        this.selectedPropSetDef.applicableClasses,
+        pdInputs);
+      this.propertySetDefinitionService.updatePropertySetDefinition(psdInput);
+    }, () => {
+      console.log('CreatePropertyDefinitionComponent rejected');
+    });
   }
 }

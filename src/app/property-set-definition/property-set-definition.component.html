@@ -123,7 +123,7 @@
             </ng-container>
             <tr>
               <td><select [(ngModel)]="selectedPD" class="form-control">
-                <option *ngFor="let propertyDef of allPDs" [ngValue]="propertyDef">
+                <option *ngFor="let propertyDef of allPDs" [value]="propertyDef">
                   {{propertyDef.name}} <span
                   *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}}
                   )</span>
@@ -135,6 +135,13 @@
                         [disabled]="!selectedPD"
                         style="color: #15a589; background: transparent; margin: 0px; padding: 0px"><i
                   class="fas fa-plus-circle fa-2x"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button type="button" class="btn btn-secondary" (click)="createPropertyDef()">
+                  Create new property definition
                 </button>
               </td>
             </tr>
