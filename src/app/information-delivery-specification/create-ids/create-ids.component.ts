@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {InformationDeliverySpecification} from '../information-delivery-specification.model';
+import {InformationDeliverySpecification, InformationDeliverySpecificationInput} from '../information-delivery-specification.model';
+import {PropertySetDefinitionService} from '../../property-set-definition.service';
 
 @Component({
   selector: 'app-create-ids',
@@ -8,20 +9,30 @@ import {InformationDeliverySpecification} from '../information-delivery-specific
   styleUrls: ['./create-ids.component.css']
 })
 export class CreateIdsComponent implements OnInit {
+  allIDSs: [InformationDeliverySpecification];
   errorMessage: string;
-  ids: InformationDeliverySpecification;
+  ids: InformationDeliverySpecificationInput;
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor(private propertySetDefinitionService: PropertySetDefinitionService,
+              public activeModal: NgbActiveModal) {
   }
 
   ngOnInit() {
-    this.ids = new InformationDeliverySpecification();
-    this.ids.name = 'My IDS';
-    this.ids.id = this.generateIdsId(this.ids);
+    this.propertySetDefinitionService.idssReceived.subscribe(allIDSs => {
+      this.allIDSs = allIDSs;
+    });
+    this.propertySetDefinitionService.allIDSs();
+
+    this.ids = new InformationDeliverySpecificationInput();
   }
 
-  generateIdsId(ids: InformationDeliverySpecification): string {
-    const localName = ids.name.toLowerCase().replace(' ', '_');
+  onIdsNameChange() {
+    this.ids.id = this.ids ? this.generateIdsId(this.ids) : null;
+  }
+
+
+  private generateIdsId(ids: InformationDeliverySpecificationInput): string {
+    const localName = ids.name.toLowerCase().replace(/ /g, '_');
     return 'http://openbimstandards.org/information-delivery-specification/' + localName + '#' + localName;
   }
 

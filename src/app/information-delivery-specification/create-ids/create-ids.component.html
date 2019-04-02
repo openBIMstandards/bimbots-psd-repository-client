@@ -6,14 +6,18 @@
 </div>
 <div class="modal-body">
   <div class="property-item">
+    <label>Name</label><input class="form-control" [(ngModel)]="ids.name" placeholder="Enter IDS name"
+                              (ngModelChange)="onIdsNameChange()"></div>
+  <div class="property-item">
     <label>ID</label><input class="form-control" [(ngModel)]="ids.id" placeholder="Enter IDS URI"></div>
   <div class="property-item">
-    <label>Name</label><input class="form-control" [(ngModel)]="ids.name" placeholder="Enter IDS name"></div>
+    <label>Base IDS</label><select class="form-control" [(ngModel)]="ids.parentId">
+    <option *ngFor="let ids of allIDSs" [value]="ids.id">{{ids.name}}</option>
+  </select>
+  </div>
 </div>
 <div class="modal-footer">
-  <button *ngIf="!errorMessage" (click)="onCreateClick()" [disabled]="!(ids.id && ids.name)" type="button" class="btn btn-success">Create
+  <button *ngIf="!errorMessage" (click)="onCreateClick()" [disabled]="!(ids.id && ids.name)" type="button"
+          class="btn btn-success">Create
   </button>
-  <!--  <div *ngIf="errorMessage" class="container-fluid">
-      <ngb-alert (close)="closeAlert()">{{errorMessage}}</ngb-alert>
-    </div>-->
 </div>

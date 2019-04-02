@@ -12,80 +12,95 @@ export interface Query {
 }
 
 export interface Mutation {
-  // Create an information delivery specification.
-  // GRAPHQL: createInformationDeliverySpecification(
-  //  idsId: ID!,
-  //  name: String!,
-  //  parentId: ID): InformationDeliverySpecification
-  createInformationDeliverySpecification(idsId: string, name: String, parentId: string): InformationDeliverySpecification;
+/*
+  Create an information delivery specification.
+  GRAPHQL: createInformationDeliverySpecification(
+    idsId: ID!,
+    name: String!,
+    ownerId: ID!,
+    parentId: ID): InformationDeliverySpecification
+*/
+  createInformationDeliverySpecification(idsId: string, name: string, ownerId: string, parentId: string): InformationDeliverySpecification;
 
-  // Delete an information delivery specification
-  // GRAPHQL: deleteInformationDeliverySpecification(
-  //  idsId: ID!): Boolean
-
+/*
+  Delete an information delivery specification
+  GRAPHQL: deleteInformationDeliverySpecification(
+    idsId: ID!): Boolean
+*/
   deleteInformationDeliverySpecification(idsId: string): boolean;
 
-  // Add a required property set to an information delivery specification
-  // GRAPHQL: addPset2Ids(
-  //  idsId: String!,
-  //  psetId: String!,
-  //  propIds: [String]): InformationDeliverySpecification
-
+/*
+  Add a required property set to an information delivery specification
+  GRAPHQL: addPset2Ids(
+   idsId: String!,
+   psetId: String!,
+   propIds: [String]): InformationDeliverySpecification
+*/
   addPset2Ids(idsId: string, psetId: string, propIds: [string]): InformationDeliverySpecification;
 
-  // Remove a required property set from an information delivery specification
-  // GRAPHQL: removePset2Ids(
-  //  idsId: ID!,
-  //  psetId: ID!): InformationDeliverySpecification
-
+/*
+  Remove a required property set from an information delivery specification
+  GRAPHQL: removePset2Ids(
+   idsId: ID!,
+   psetId: ID!): InformationDeliverySpecification
+*/
   removePsetIds(idsId: string, psetId: string): InformationDeliverySpecification;
 
-  // Add a mandatory property to a required property set to an information delivery specification
-  // GRAPHQL: addProp2Pset2Ids(
-  //  idsId: String!,
-  //  psetId: String!,
-  //  propId: String!): InformationDeliverySpecification
-
+/*
+  Add a mandatory property to a required property set to an information delivery specification
+  GRAPHQL: addProp2Pset2Ids(
+   idsId: String!,
+   psetId: String!,
+   propId: String!): InformationDeliverySpecification
+*/
   addProp2Pset2Ids(idsId: string, psetId: string, propId: string): InformationDeliverySpecification;
 
-  // Remove a mandatory property from a required property set to an information delivery specification
-  // GRAPHQL: addProp2Pset2Ids(
-  //  idsId: String!,
-  //  psetId: String!,
-  //  propId: String!): InformationDeliverySpecification
-
+/*
+  Remove a mandatory property from a required property set to an information delivery specification
+  GRAPHQL: addProp2Pset2Ids(
+   idsId: String!,
+   psetId: String!,
+   propId: String!): InformationDeliverySpecification
+*/
   removeProp2Pset2Ids(idsId: string, psetId: string, propId: string): InformationDeliverySpecification;
 
-  // Create a property set definition specified by this PropertySetDefinitionInput instance
-  // GRAPHQL: createPropertySetDefinition(
-  //  psdInput: PropertySetDefinitionInput!): PropertySetDefinition
-
+/*
+  Create a property set definition specified by this PropertySetDefinitionInput instance
+  GRAPHQL: createPropertySetDefinition(
+   psdInput: PropertySetDefinitionInput!): PropertySetDefinition
+*/
   createPropertySetDefinition(psdInput: PropertySetDefinitionInput): PropertySetDefinition;
 
-  // Update a property set definition specified by this PropertySetDefinitionInput instance
-  // GRAPHQL: updatePropertySetDefinition(
-  //  psdInput: PropertySetDefinitionInput!): PropertySetDefinition
-
+/*
+  Update a property set definition specified by this PropertySetDefinitionInput instance
+  GRAPHQL: updatePropertySetDefinition(
+   psdInput: PropertySetDefinitionInput!): PropertySetDefinition
+*/
   updatePropertySetDefinition(psdInput: PropertySetDefinitionInput): PropertySetDefinition;
 
-  // Delete a property set definition
-  // GRAPHQL: deletePropertySetDefinition(
-  //  psetId: ID!): Boolean
-
+/*
+  Delete a property set definition
+  GRAPHQL: deletePropertySetDefinition(
+   psetId: ID!): Boolean
+*/
   deletePropertySetDefinition(psetId: string): boolean;
 
-  // 		# Sign in a user.
-  // 	GRAPHQL: signinUser(auth: AuthData): SigninPayload
-
+/*
+  Sign in a user.
+  GRAPHQL: signinUser(auth: AuthData): SigninPayload
+*/
   signinUser(auth: AuthData): SigninPayload;
 
-  // 		# Sign out a user.
-  // 	GRAPHQL: signoutUser(token: String!): Boolean!
-
+/*
+  Sign out a user.
+  GRAPHQL: signoutUser(token: String!): Boolean!
+*/
   signoutUser(token: string): boolean;
 
-  //  # Export IDS, a link to the result is the return value
-  //  GRAPHQL: exportIDS(id: ID!, format: ExportFormat!): String
+/*
+  Export IDS, a link to the result is the return value
+  GRAPHQL: exportIDS(id: ID!, format: ExportFormat!): String
+*/
   exportIDS(id: string, format: string): string;
 }
 

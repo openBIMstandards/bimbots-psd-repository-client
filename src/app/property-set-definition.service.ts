@@ -149,7 +149,7 @@ const oneIDS = gql`
 `;
 
 const createInformationDeliverySpecification = gql`
-  mutation createInformationDeliverySpecification($idsId: ID!, $name: String!, $ownerId: String!, $parentId: ID) {
+  mutation createInformationDeliverySpecification($idsId: ID!, $name: String!, $ownerId: ID!, $parentId: ID) {
     createInformationDeliverySpecification(idsId: $idsId, name: $name, ownerId: $ownerId, parentId: $parentId) {
       id
       name
@@ -402,14 +402,15 @@ export class PropertySetDefinitionService {
     });
   }
 
-  public createInformationDeliverySpecification(id: string, name: string, ownerId: string): void {
+  public createInformationDeliverySpecification(id: string, name: string, ownerId: string, parentId: string): void {
     this.apollo.mutate<Mutation>(
       {
         mutation: createInformationDeliverySpecification,
         variables: {
           idsId: id,
           name: name,
-          ownerId: ownerId
+          ownerId: ownerId,
+          parentId: parentId
         },
         refetchQueries: [{
           query: allIDSs

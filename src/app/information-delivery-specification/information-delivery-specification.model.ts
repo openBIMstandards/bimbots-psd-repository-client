@@ -13,3 +13,10 @@ export class InformationDeliverySpecification {
   reqPsets: [RequiredPropertySet];
   owner: User;
 }
+
+export class InformationDeliverySpecificationInput {
+  id: string;
+  name: string;
+  ownerId: string;
+  parentId: string;
+}
