@@ -59,7 +59,7 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     modal.result.then((result) => {
       this.propertySetDefinitionService.exportLink.subscribe((link) => this.exportLink = link);
       this.propertySetDefinitionService.exportIDS(this.selectedIDS.id, <string>result);
-    });
+    }, (reason) => console.log('Export rejected: ', reason));
   }
 
   getHost(): string {

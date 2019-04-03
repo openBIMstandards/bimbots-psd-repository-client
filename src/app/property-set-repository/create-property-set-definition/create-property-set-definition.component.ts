@@ -28,7 +28,7 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
     this.errorMessage = null;
     this.pset = new PropertySetDefinition();
     this.products = this.propertySetDefinitionService.getProducts();
-    this.propertySetDefinitionService.pdsReceived.subscribe((values) => this.allPDs = values);
+    this.propertySetDefinitionService.pdsReceived.subscribe((values) => this.allPDs = <[PropertyDefinition]>values);
     this.propertySetDefinitionService.allPDs();
   }
 

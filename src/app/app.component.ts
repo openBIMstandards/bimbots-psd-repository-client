@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import {LoginComponent} from './login/login.component';
 import {User} from './graphql';
 import {PropertySetDefinitionService} from './property-set-definition.service';
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
   onLogin(): void {
     if (this.getToken() == null) {
-      const modal = this.modal.open(LoginComponent);
+      const modal = this.modal.open(LoginComponent, {size: 'sm'});
       modal.result.then((user) => {
         console.log('Logged in: ' + (user ? (<User>user).name : 'null'));
         this.propertySetDefinitionService.user = user;

@@ -1,35 +1,49 @@
-<div class="modal-header">
-  <h4 class="modal-title">Create new property definition</h4>
+<div class="modal-header bg-success">
+  <h4 class="modal-title text-white">Create new property definition</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <label>Name</label><input class="form-control" [(ngModel)]="propDef.name" placeholder="Enter property name">
-  <label>Definition</label><input class="form-control" [(ngModel)]="propDef.definition"
-                                  placeholder="Enter property definition">
-  <label>Type</label><select class="form-control" [(ngModel)]="propDef.propertyType.type" (ngModelChange)="onChangeType()">
-  <option *ngFor="let type of types" [value]="type">{{type.substring(type.indexOf('#') + 1)}}</option></select>
+  <div class="form-group">
+    <label class="col-form-label-sm">Name</label>
+    <input class="form-control" [(ngModel)]="propDef.name" placeholder="Enter property name"></div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Definition</label>
+    <input class="form-control" [(ngModel)]="propDef.definition" placeholder="Enter property definition">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Type</label>
+    <select class="form-control" [(ngModel)]="propDef.propertyType.type" (ngModelChange)="onChangeType()">
+      <option *ngFor="let type of types" [value]="type">{{type.substring(type.indexOf('#') + 1)}}</option>
+    </select>
+  </div>
   <ng-container *ngIf="propDef.propertyType.type!==types[2]">
-    <label>Data type</label><select class="form-control" [(ngModel)]="propDef.propertyType.dataType">
-    <option *ngFor="let dataType of dataTypes"
-            [value]="dataType">{{dataType.substring(dataType.indexOf('#') + 1)}}</option></select>
+    <div class="form-group">
+      <label class="col-form-label-sm">Data type</label>
+      <select class="form-control" [(ngModel)]="propDef.propertyType.dataType">
+        <option *ngFor="let dataType of dataTypes"
+                [value]="dataType">{{dataType.substring(dataType.indexOf('#') + 1)}}</option>
+      </select>
+    </div>
   </ng-container>
   <ng-container *ngIf="propDef.propertyType.type==types[2]">
-    <label>Enumeration items</label>
-    <table class="table">
-      <ng-container *ngIf="propDef.propertyType.enumItems">
-        <tr *ngFor="let item of propDef.propertyType.enumItems">
-          <td colspan="2">{{item}}</td>
+    <div class="form-group">
+      <label class="col-form-label-sm">Enumeration items</label>
+      <table class="table table-bordered table-sm">
+        <ng-container *ngIf="propDef.propertyType.enumItems">
+          <tr *ngFor="let item of propDef.propertyType.enumItems">
+            <td colspan="2">{{item}}</td>
+          </tr>
+        </ng-container>
+        <tr>
+          <td><input class="form-control" type="text" [(ngModel)]="item"></td>
+          <td>
+            <button (click)="addItem()" type="button" class="btn btn-secondary" [disabled]="!item">Add</button>
+          </td>
         </tr>
-      </ng-container>
-      <tr>
-        <td><input class="form-control" type="text" [(ngModel)]="item"></td>
-        <td>
-          <button (click)="addItem()" type="button" class="btn btn-secondary" [disabled]="!item">Add</button>
-        </td>
-      </tr>
-    </table>
+      </table>
+    </div>
   </ng-container>
 </div>
 <div class="modal-footer">

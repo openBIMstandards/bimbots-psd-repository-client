@@ -1,19 +1,24 @@
-<div class="modal-header">
-  <h4 class="modal-title">Create IDS</h4>
+<div class="modal-header bg-success">
+  <h4 class="modal-title text-white">Create IDS</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="property-item">
-    <label>Name</label><input class="form-control" [(ngModel)]="ids.name" placeholder="Enter IDS name"
-                              (ngModelChange)="onIdsNameChange()"></div>
-  <div class="property-item">
-    <label>ID</label><input class="form-control" [(ngModel)]="ids.id" placeholder="Enter IDS URI"></div>
-  <div class="property-item">
-    <label>Base IDS</label><select class="form-control" [(ngModel)]="ids.parentId">
-    <option *ngFor="let ids of allIDSs" [value]="ids.id">{{ids.name}}</option>
-  </select>
+  <div class="form-group">
+    <label class="col-form-label-sm">Name</label>
+    <input class="form-control" [(ngModel)]="ids.name" placeholder="Enter IDS name"
+           (ngModelChange)="onIdsNameChange()">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">ID</label>
+    <input class="form-control" [(ngModel)]="ids.id" placeholder="Enter IDS URI">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Base IDS</label>
+    <select class="form-control" [(ngModel)]="ids.parentId">
+      <option *ngFor="let ids of allIDSs" [value]="ids.id">{{ids.name}}</option>
+    </select>
   </div>
 </div>
 <div class="modal-footer">

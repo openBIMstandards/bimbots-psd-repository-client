@@ -71,7 +71,7 @@ export class PropertySetRepositoryComponent implements OnInit {
     const modal = this.modal.open(CreatePropertySetDefinitionComponent);
     modal.result.then((result) => {
       this.selectPsd(result);
-    });
+    }, (reason) => console.log('Add property set rejected: ' + reason));
   }
 
   onDeletePropertySet(pset: PropertySetDefinition): void {

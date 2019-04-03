@@ -1,21 +1,24 @@
-<div class="modal-header">
-  <h4 class="modal-title">Create new property set definition</h4>
+<div class="modal-header bg-success">
+  <h4 class="modal-title text-white">Create new property set definition</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
-  <div class="property-item">
-    <label>Name</label><input class="form-control" [(ngModel)]="pset.name" placeholder="Enter pset name"></div>
-  <div class="property-item">
-    <label>Definition</label>
-    <input class="form-control" [(ngModel)]="pset.definition" placeholder="Enter pset definition"></div>
-  <div class="property-item">
-    <label>Applicable classes</label>
-    <table>
+  <div class="form-group">
+    <label class="col-form-label-sm">Name</label>
+    <input class="form-control" [(ngModel)]="pset.name" placeholder="Enter pset name">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Definition</label>
+    <input class="form-control" [(ngModel)]="pset.definition" placeholder="Enter pset definition">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Applicable classes</label>
+    <table class="table table-bordered table-sm">
       <ng-container *ngIf="pset.applicableClasses">
         <tr *ngFor="let applicableClass of pset.applicableClasses">
-          <td>{{applicableClass}}</td>
+          <td colspan="2">{{applicableClass.substr(applicableClass.indexOf('#') + 1)}}</td>
         </tr>
       </ng-container>
       <tr>
@@ -28,17 +31,17 @@
       </tr>
     </table>
   </div>
-  <div class="property-item">
-    <label>Property definitions</label>
-    <table class="table">
+  <div class="form-group">
+    <label class="col-form-label-sm">Property definitions</label>
+    <table class="table table-bordered table-sm">
       <ng-container *ngIf="pset.propertyDefs">
         <tr *ngFor="let propertyDef of pset.propertyDefs">
-          <td>{{propertyDef.name}}</td>
+          <td colspan="2">{{propertyDef.name}}</td>
         </tr>
       </ng-container>
       <tr>
         <td><select [(ngModel)]="selectedPD" class="form-control">
-          <option *ngFor="let propertyDef of allPDs" [value]="propertyDef">
+          <option *ngFor="let propertyDef of allPDs" [ngValue]="propertyDef">
             {{propertyDef.name}} <span
             *ngIf="propertyDef.invPropertySetDefinitions">({{propertyDef.invPropertySetDefinitions[0].name}})</span>
           </option>
@@ -48,7 +51,7 @@
         </td>
       </tr>
       <tr>
-        <td>
+        <td colspan="2">
           <button type="button" class="btn btn-secondary" (click)="onAddProperty()">Create new property definition
           </button>
         </td>
@@ -57,7 +60,9 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button *ngIf="!errorMessage" type="button" class="btn btn-success" (click)="create()" [disabled]="!pset.name">Create</button>
+  <button *ngIf="!errorMessage" type="button" class="btn btn-success" (click)="create()" [disabled]="!pset.name">
+    Create
+  </button>
   <div *ngIf="errorMessage" class="container-fluid">
     <ngb-alert (close)="closeAlert()">{{errorMessage}}</ngb-alert>
   </div>

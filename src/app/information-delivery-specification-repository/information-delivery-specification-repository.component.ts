@@ -63,7 +63,7 @@ export class InformationDeliverySpecificationRepositoryComponent implements OnIn
         message => alert(message));
       this.propertySetDefinitionService
         .createInformationDeliverySpecification(result.id, result.name, this.propertySetDefinitionService.user.id, result.parentId);
-    });
+    }, (reason) => console.log('Add IDS rejected: ' + reason));
   }
 
   getOwnerName(owner: User): string {
