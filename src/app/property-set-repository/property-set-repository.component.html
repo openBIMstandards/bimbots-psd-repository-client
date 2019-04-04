@@ -32,9 +32,8 @@
         </tr>
       </table>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-8">
+    <div *ngIf="selectedPSD" class="col-xs-12 col-sm-12 col-md-8">
       <app-property-set-definition
-        *ngIf="selectedPSD"
         [selectedPropSetDef]="selectedPSD" (deletePSD)="onDeletePropertySet($event)"></app-property-set-definition>
     </div>
   </div>

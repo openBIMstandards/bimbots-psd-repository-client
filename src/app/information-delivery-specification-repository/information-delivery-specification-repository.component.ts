@@ -14,6 +14,7 @@ import {Subscription} from 'apollo-client/util/Observable';
   styleUrls: ['./information-delivery-specification-repository.component.css']
 })
 export class InformationDeliverySpecificationRepositoryComponent implements OnInit {
+  static savedSelectedIDS: InformationDeliverySpecification;
   faSpinner = faSpinner;
   faPlusCircle = faPlusCircle;
   loadingAllIDSs: boolean;
@@ -26,6 +27,7 @@ export class InformationDeliverySpecificationRepositoryComponent implements OnIn
   }
 
   ngOnInit() {
+    this.selectedIDS = InformationDeliverySpecificationRepositoryComponent.savedSelectedIDS;
     this.loadingAllIDSs = true;
     this.propertySetDefinitionService.idssReceived.subscribe(allIDSs => {
       this.allIDSs = allIDSs;
@@ -46,6 +48,7 @@ export class InformationDeliverySpecificationRepositoryComponent implements OnIn
     const subscription = <Subscription>this.propertySetDefinitionService.idsReceived.subscribe(oneIDS => {
       ids = oneIDS;
       this.selectedIDS = ids;
+      InformationDeliverySpecificationRepositoryComponent.savedSelectedIDS = this.selectedIDS;
       this.loadingIDS = null;
       subscription.unsubscribe();
     });
@@ -73,6 +76,7 @@ export class InformationDeliverySpecificationRepositoryComponent implements OnIn
   onDeleteInformationDeliverySpecification(ids: InformationDeliverySpecification): void {
     const subscription = <Subscription>this.propertySetDefinitionService.idsDeleted.subscribe((value) => {
       this.selectedIDS = null;
+      InformationDeliverySpecificationRepositoryComponent.savedSelectedIDS = this.selectedIDS;
       console.log('Result delete information delivery specification: ' + value);
       subscription.unsubscribe();
     }, (message) => {

@@ -13,9 +13,10 @@ import {faPlusCircle} from '@fortawesome/fontawesome-free-solid';
   styleUrls: ['./property-set-repository.component.css']
 })
 export class PropertySetRepositoryComponent implements OnInit {
+  static savedSelectedPSD: PropertySetDefinition;
+  selectedPSD: PropertySetDefinition;
   faPlusCircle = faPlusCircle;
   allPSDs: [PropertySetDefinition];
-  selectedPSD: PropertySetDefinition;
   loadingAllPSDs: boolean;
   loadingOnePSD: string;
 
@@ -24,6 +25,7 @@ export class PropertySetRepositoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectedPSD = PropertySetRepositoryComponent.savedSelectedPSD;
     this.propertySetDefinitionService.psdsReceived.subscribe(allPSDs => {
       this.allPSDs = allPSDs;
       if (this.selectedPSD) {
@@ -53,6 +55,7 @@ export class PropertySetRepositoryComponent implements OnInit {
       const subscription = <Subscription>this.propertySetDefinitionService.psdReceived.subscribe((onePSD) => {
           psd = onePSD;
           this.selectedPSD = psd;
+          PropertySetRepositoryComponent.savedSelectedPSD = this.selectedPSD;
           this.loadingOnePSD = null;
         }
       );
@@ -60,6 +63,7 @@ export class PropertySetRepositoryComponent implements OnInit {
       this.propertySetDefinitionService.getPropertySetDefinition(psd.name);
     } else {
       this.selectedPSD = null;
+      PropertySetRepositoryComponent.savedSelectedPSD = this.selectedPSD;
     }
   }
 
