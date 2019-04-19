@@ -35,7 +35,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-8">
       <app-information-delivery-specification
-        *ngIf="selectedIDS" [selectedIDS]="selectedIDS"
+        *ngIf="selectedIDS" [selectedIDS]="selectedIDS" [allIDSs]="allIDSs"
         (deleteIDS)="onDeleteInformationDeliverySpecification($event)"></app-information-delivery-specification>
     </div>
   </div>

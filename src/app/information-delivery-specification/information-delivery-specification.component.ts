@@ -25,14 +25,17 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
   faPlus = faPlus;
   faTrash = faTrash;
   @Input() selectedIDS: InformationDeliverySpecification;
+  @Input() allIDSs: [InformationDeliverySpecification];
   @Output() deleteIDS = new EventEmitter<InformationDeliverySpecification>();
   exportLink: string;
   selectedPset: RequiredPropertySet;
+  selectedMergeIDS: InformationDeliverySpecification;
   editedPset: RequiredPropertySet;
   allPSDs: [PropertySetDefinition];
   selectedPSD: PropertySetDefinition;
   loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
+  loadingIdsUpdate: boolean;
 
   constructor(public propertySetDefinitionService: PropertySetDefinitionService,
               private modal: NgbModal,
@@ -98,6 +101,19 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     });
     this.loadingPsetUpdate = true;
     this.propertySetDefinitionService.removePset2Ids(this.selectedIDS.id, pset.propertySetDef.id);
+  }
+
+  getOtherIDSs(): [InformationDeliverySpecification] {
+    return <[InformationDeliverySpecification]>this.allIDSs.filter((value) => value.id !== this.selectedIDS.id);
+  }
+
+  mergeIDS(mergeIds: InformationDeliverySpecification): void {
+    this.loadingIdsUpdate = true;
+    this.propertySetDefinitionService.addIds2Ids(this.selectedIDS.id, mergeIds.id).subscribe((ids) => {
+      this.selectedIDS = ids;
+      this.selectedMergeIDS = null;
+      this.loadingIdsUpdate = false;
+    });
   }
 
   isChecked(propDef: PropertyDefinition, pset: RequiredPropertySet): boolean {

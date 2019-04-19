@@ -41,10 +41,11 @@
         </td>
         <td *ngIf="!(pset==editedPset)"><span
           *ngFor="let propDef of pset.reqProps; let last = last">{{propDef.name}}{{last ? '' : ', '}}</span>
-        <td *ngIf="(pset==editedPset)"><label style="margin-right: 2em"
-                                              *ngFor="let propdef of pset.propertySetDef.propertyDefs"><input
-          class="form-check-inline" [checked]="isChecked(propdef, pset)" (change)="onChange(propdef, pset)"
-          type="checkbox"> {{propdef.name}}</label>
+        <td *ngIf="(pset==editedPset)">
+          <label style="margin-right: 2em" *ngFor="let propdef of pset.propertySetDef.propertyDefs">
+            <input class="form-check-inline" [checked]="isChecked(propdef, pset)" (change)="onChange(propdef, pset)"
+                   type="checkbox"> {{propdef.name}}
+          </label>
         </td>
         <td *ngIf="!loadingPropUpdate && pset!==selectedPset"></td>
         <td *ngIf="!loadingPropUpdate && pset==selectedPset && propertySetDefinitionService.user">
@@ -57,16 +58,33 @@
           <span class="sr-only">Loading...</span></td>
       </tr>
       <tr *ngIf="propertySetDefinitionService.user">
-        <td><select class="form-control" [(ngModel)]="selectedPSD" [ngbTooltip]="'Select PSet'">
-          <option *ngFor="let pset of allPSDs" [ngValue]="pset">{{pset.name}}</option>
-        </select></td>
-        <td *ngIf="!loadingPsetUpdate">
+        <td>
+          <label>append property set</label>
+          <select class="form-control" [(ngModel)]="selectedPSD" [ngbTooltip]="'Select PSet'">
+            <option *ngFor="let pset of allPSDs" [ngValue]="pset">{{pset.name}}</option>
+          </select></td>
+        <td *ngIf="!loadingPsetUpdate" style="vertical-align:bottom">
           <button type="button" class="btn" [disabled]="!selectedPSD || !isOwner()"
                   (click)="addPset(selectedPSD)">
             <fa-icon [icon]="faPlus" size="1x" ngbTooltip="Add Pset to IDS" placement="right"></fa-icon>
           </button>
         </td>
         <td *ngIf="loadingPsetUpdate"><i class=" fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span></td>
+      </tr>
+      <tr *ngIf="propertySetDefinitionService.user">
+        <td>
+          <label>merge information delivery specification</label>
+          <select class="form-control" [(ngModel)]="selectedMergeIDS" [ngbTooltip]="'Select IDS'">
+            <option *ngFor="let ids of getOtherIDSs()" [ngValue]="ids">{{ids.name}}</option>
+          </select></td>
+        <td *ngIf="!loadingPsetUpdate" style="vertical-align:bottom">
+          <button type="button" class="btn" [disabled]="!selectedMergeIDS || !isOwner()"
+                  (click)="mergeIDS(selectedMergeIDS)">
+            <fa-icon [icon]="faPlus" size="1x" ngbTooltip="Merge to IDS" placement="right"></fa-icon>
+          </button>
+        </td>
+        <td *ngIf="loadingIdsUpdate"><i class=" fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span></td>
       </tr>
       </tbody>

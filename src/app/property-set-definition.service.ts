@@ -109,6 +109,18 @@ const allPDs = gql`
   }
 `;
 
+const searchPD = gql`
+  query searchPD($searchString: String!) {
+    searchPD(searchString: $searchString) {
+      id
+      name
+      invPropertySetDefinitions {
+        name
+      }
+    }
+  }
+`;
+
 const allIDSs = gql`
   query allIDSs {
     allIDSs {
@@ -153,6 +165,32 @@ const createInformationDeliverySpecification = gql`
     createInformationDeliverySpecification(idsId: $idsId, name: $name, ownerId: $ownerId, parentId: $parentId) {
       id
       name
+      owner {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const addIds2Ids = gql`
+  mutation addIds2Ids($thisIdsId: ID!, $otherIdsId: ID!){
+    addIds2Ids(thisIdsId:$thisIdsId, otherIdsId:$otherIdsId){
+      id
+      name
+      reqPsets {
+        propertySetDef {
+          id
+          name
+          propertyDefs {
+            id
+            name
+          }
+        }
+        reqProps {
+          name
+        }
+      }
       owner {
         id
         name
@@ -425,6 +463,18 @@ export class PropertySetDefinitionService {
     });
   }
 
+  public addIds2Ids(thisIdsId: string, otherIdsId: string) {
+    return this.apollo.mutate<Mutation>(
+      {
+        mutation: addIds2Ids,
+        variables: {
+          thisIdsId: thisIdsId,
+          otherIdsId: otherIdsId
+        }
+      }
+    ).pipe(map((value) => value.data.addIds2Ids));
+  }
+
   public signinUser(auth: AuthData) {
     return this.apollo.mutate<Mutation>({
       mutation: signinUser,
@@ -570,4 +620,11 @@ export class PropertySetDefinitionService {
       });
   }
 
+  searchPD(searchString: string) {
+    return this.apollo.watchQuery<Query>({
+        query: searchPD,
+        variables: {searchString: searchString}
+      }
+    ).valueChanges.pipe(map((value) => <[PropertyDefinition]>value.data.searchPD));
+  }
 }

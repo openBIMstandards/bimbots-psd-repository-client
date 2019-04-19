@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PropertySetDefinition} from '../property-set-definition/property-set-definition.model';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {Subscription} from 'apollo-client/util/Observable';
+import {PropertyDefinition} from '../property-definition/property-definition.model';
 
 @Component({
   selector: 'app-product-selection',
@@ -9,6 +10,8 @@ import {Subscription} from 'apollo-client/util/Observable';
   styleUrls: ['./product-selection.component.css']
 })
 export class ProductSelectionComponent implements OnInit {
+  searchString: string;
+  foundPropDefs: [PropertyDefinition];
   selectedPropSetDef: PropertySetDefinition;
   propertySetDefinitions: [PropertySetDefinition];
   classId: string;
@@ -20,6 +23,7 @@ export class ProductSelectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.searchString = '';
     this.classId = this.products[0];
     this.propertySetDefinitionService.psdsReceived.subscribe(psds => {
       this.propertySetDefinitions = psds;
@@ -27,6 +31,22 @@ export class ProductSelectionComponent implements OnInit {
     });
     this.loadingAllPSDsForClass = true;
     this.propertySetDefinitionService.allPSDsForClass(this.classId);
+  }
+
+  search() {
+    if (this.searchString.length > 2) {
+      this.propertySetDefinitionService.searchPD(this.searchString).subscribe((value) => this.foundPropDefs = value);
+    } else {
+      this.foundPropDefs = null;
+    }
+  }
+
+  getFirstPsdName(propSetDefs: [PropertySetDefinition]): string {
+    if (propSetDefs && propSetDefs.length > 0) {
+      return propSetDefs[0].name;
+    } else {
+      return '';
+    }
   }
 
   onProductClassSelection(product: string): void {
