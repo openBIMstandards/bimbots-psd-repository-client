@@ -93,6 +93,12 @@ export interface Mutation {
   deletePropertySetDefinition(psetId: string): boolean;
 
   /*
+     Sign up a user.
+     GRAPHQL: signupUser(auth: AuthData): Boolean!
+   */
+  signupUser(auth: AuthData): boolean;
+
+  /*
     Sign in a user.
     GRAPHQL: signinUser(auth: AuthData): SigninPayload
   */
@@ -124,6 +130,8 @@ export class User {
 }
 
 export class AuthData {
+  name: string;
+
   constructor(private email: string, private password: string) {
   }
 }

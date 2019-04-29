@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
-import {AuthData, SigninPayload} from '../graphql';
+import {AuthData, SigninPayload, User} from '../graphql';
+import {SignUpComponent} from './sign-up/sign-up.component';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
 
   constructor(
+    private modal: NgbModal,
     public activeModal: NgbActiveModal,
     private propertySetDefinitionService: PropertySetDefinitionService) {
   }
@@ -23,6 +25,15 @@ export class LoginComponent implements OnInit {
     this.errorMessage = undefined;
   }
 
+  signUp(): void {
+    const modal = this.modal.open(SignUpComponent, {size: 'sm'});
+    modal.result.then((success) => {
+      console.log('Signed up: ' + success);
+      modal.close();
+      alert('Signed up: ' + success);
+      this.activeModal.close();
+    }, (reason) => console.log('Sign up rejected: ' + reason));
+  }
 
   login(): void {
     this.errorMessage = undefined;

@@ -31,6 +31,12 @@ const PRODUCTS = [
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcZone'
 ];
 
+const signupUser = gql`
+  mutation signupUser($auth: AuthData!) {
+    signupUser(auth: $auth)
+  }
+`;
+
 const signinUser = gql`
   mutation signinUser($auth: AuthData!) {
     signinUser(auth: $auth) {
@@ -473,6 +479,15 @@ export class PropertySetDefinitionService {
         }
       }
     ).pipe(map((value) => value.data.addIds2Ids));
+  }
+
+  public signupUser(auth: AuthData) {
+    return this.apollo.mutate<Mutation>({
+      mutation: signupUser,
+      variables: {
+        auth: auth
+      }
+    }).pipe(map((value) => value.data.signupUser));
   }
 
   public signinUser(auth: AuthData) {

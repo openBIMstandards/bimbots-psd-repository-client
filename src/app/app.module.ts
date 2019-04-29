@@ -26,6 +26,7 @@ import {LoginComponent} from './login/login.component';
 import {ExportIdsComponent} from './information-delivery-specification/export-ids/export-ids.component';
 import {Globals} from './globals';
 import {CreateIdsComponent} from './information-delivery-specification/create-ids/create-ids.component';
+import { SignUpComponent } from './login/sign-up/sign-up.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/', pathMatch: 'full'},
@@ -60,10 +61,12 @@ const link = onError(({graphQLErrors, networkError}) => {
     CreatePropertyDefinitionComponent,
     LoginComponent,
     ExportIdsComponent,
-    CreateIdsComponent
+    CreateIdsComponent,
+    SignUpComponent
   ],
   entryComponents: [
     LoginComponent,
+    SignUpComponent,
     CreatePropertySetDefinitionComponent,
     CreatePropertyDefinitionComponent,
     CreateIdsComponent,

@@ -1,0 +1,31 @@
+<div class="modal-header bg-success">
+  <h4 class="modal-title text-white">Sign Up</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label class="col-form-label-sm">Name</label>
+    <input type="text" class="form-control" [(ngModel)]="name" placeholder="Enter name">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Email</label>
+    <input type="text" class="form-control" [(ngModel)]="email" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Password&nbsp;&nbsp;&nbsp;
+      <span style="padding: 0.75em; border:solid 1px grey"><input type="button" class="btn btn-sm"
+                                                               (click)="hideValue=!hideValue"
+                                                               [value]="hideValue ? 'show' : 'hide'"> characters</span></label>
+
+    <input [type]="hideValue?'password':'text'" class="form-control" [(ngModel)]="password"
+           placeholder="Enter password">
+  </div>
+
+</div>
+<div class="modal-footer">
+  <p>You will receive an e-mail as soon as your request to sign up is approved</p>
+  <button type="button" class="btn btn-success" (click)="signUp()" [disabled]="!name || !email || !password">Sign up
+  </button>
+</div>
