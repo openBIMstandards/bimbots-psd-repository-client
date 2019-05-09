@@ -9,9 +9,14 @@ import {PropertyDefinition} from './property-definition.model';
 export class PropertyDefinitionComponent implements OnInit {
   @Input() selectedPropDef: PropertyDefinition;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  getPropertyType(): string {
+    return (this.selectedPropDef) ? this.selectedPropDef.propertyType.type.substr(this.selectedPropDef.propertyType.type.indexOf('#')) : '';
   }
 
 }

@@ -12,6 +12,7 @@ export class PropertyType {
   type: string;
   dataType: string;
   enumItems: string[];
+  reftype: string;
 }
 
 export class PropertyDefinitionInput {
@@ -23,6 +24,6 @@ export class PropertyDefinitionInput {
 }
 
 export class PropertyTypeInput {
-  constructor(private type: string, private dataType: string, private enumItems: string[]) {
+  constructor(private type: string, private dataType: string, private enumItems: string[], private reftype) {
   }
 }

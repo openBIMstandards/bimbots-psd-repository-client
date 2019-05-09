@@ -80,7 +80,8 @@ export class CreatePropertySetDefinitionComponent implements OnInit {
             new PropertyTypeInput(
               this.pset.propertyDefs[index].propertyType.type,
               this.pset.propertyDefs[index].propertyType.dataType,
-              this.pset.propertyDefs[index].propertyType.enumItems)));
+              this.pset.propertyDefs[index].propertyType.enumItems,
+              this.pset.propertyDefs[index].propertyType.reftype)));
         }
       }
     }

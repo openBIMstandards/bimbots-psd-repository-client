@@ -71,6 +71,7 @@ const onePSD = gql`
           type
           dataType
           enumItems
+          reftype
         }
       }
       owner {
@@ -330,6 +331,7 @@ const createPropertySetDefinition = gql`
           type
           dataType
           enumItems
+          reftype
         }
       }
       owner {
@@ -354,6 +356,7 @@ const updatePropertySetDefinition = gql`
           type
           dataType
           enumItems
+          reftype
         }
       }
     }

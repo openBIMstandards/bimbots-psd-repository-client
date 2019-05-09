@@ -14,12 +14,21 @@
         <th>property type</th>
         <td>{{selectedPropDef.propertyType.type}}</td>
       </tr>
-      <tr>
-        <th><span>{{selectedPropDef.propertyType.dataType ? 'data type' : 'enum items'}}</span></th>
-        <td *ngIf="selectedPropDef.propertyType.dataType">{{selectedPropDef.propertyType.dataType}}</td>
-        <td *ngIf="!selectedPropDef.propertyType.dataType"><span
-          *ngFor="let item of selectedPropDef.propertyType.enumItems; let last = last">{{last ? item : item + ', '}}</span>
+      <tr *ngIf="selectedPropDef.propertyType.dataType">
+        <th>data type</th>
+        <td>{{selectedPropDef.propertyType.dataType}}</td>
+      </tr>
+      <tr *ngIf="getPropertyType() === '#TypePropertyEnumeratedValue'">
+        <th>enum items</th>
+        <td>
+          <span
+            *ngFor="let item of selectedPropDef.propertyType.enumItems; let last = last">{{last ? item : item + ', '}}
+          </span>
         </td>
+      </tr>
+      <tr *ngIf="getPropertyType() === '#TypePropertyReferenceValue'">
+        <th>ref type</th>
+        <td>{{selectedPropDef.propertyType.reftype}}</td>
       </tr>
       </tbody>
     </table>

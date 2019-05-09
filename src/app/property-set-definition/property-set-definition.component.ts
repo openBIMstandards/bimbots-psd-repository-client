@@ -163,7 +163,8 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
           new PropertyTypeInput(
             this.selectedPropSetDef.propertyDefs[index].propertyType.type,
             this.selectedPropSetDef.propertyDefs[index].propertyType.dataType,
-            this.selectedPropSetDef.propertyDefs[index].propertyType.enumItems
+            this.selectedPropSetDef.propertyDefs[index].propertyType.enumItems,
+            this.selectedPropSetDef.propertyDefs[index].propertyType.reftype
             )
         ));
       }
