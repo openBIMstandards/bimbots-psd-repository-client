@@ -30,6 +30,16 @@
         <th>ref type</th>
         <td>{{selectedPropDef.propertyType.reftype}}</td>
       </tr>
+      <ng-container *ngIf="getPropertyType() === '#TypePropertyTableValue'">
+        <tr>
+          <th>defining value</th>
+          <td>{{selectedPropDef.propertyType.definingValue}}</td>
+        </tr>
+        <tr>
+          <th>defined value</th>
+          <td>{{selectedPropDef.propertyType.definedValue}}</td>
+        </tr>
+      </ng-container>
       </tbody>
     </table>
   </div>

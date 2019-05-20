@@ -13,6 +13,8 @@ export class PropertyType {
   dataType: string;
   enumItems: string[];
   reftype: string;
+  definingValue: string;
+  definedValue: string;
 }
 
 export class PropertyDefinitionInput {

@@ -8,7 +8,11 @@ import {PropertyDefinition} from './property-definition/property-definition.mode
 import {map} from 'rxjs/operators';
 
 const PRODUCTS = [
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcActionRequest',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcActor',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcAsset',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBeam',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBoiler',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBuilding',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBuildingStorey',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBuildingSystem',
@@ -72,6 +76,8 @@ const onePSD = gql`
           dataType
           enumItems
           reftype
+          definingValue
+          definedValue
         }
       }
       owner {
