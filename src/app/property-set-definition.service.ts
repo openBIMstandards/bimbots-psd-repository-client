@@ -40,6 +40,7 @@ const PRODUCTS = [
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcMaterial',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcMember',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcOpeningElement',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcOutlet',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPile',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcPlate',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcSlab',
