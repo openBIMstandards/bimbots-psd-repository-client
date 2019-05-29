@@ -59,6 +59,24 @@
       </tr>
       <tr *ngIf="propertySetDefinitionService.user">
         <td>
+          <label>append property</label>
+          <input class="form-control" [(ngModel)]="searchString" (ngModelChange)="search()" type="text"
+                 placeholder="Enter search string (at least 3 characters)" [ngbTooltip]="'Search for a property'">
+          <select class="form-control" [(ngModel)]="selectedProp" [ngbTooltip]="'Select Property'">
+            <option *ngFor="let prop of foundPropDefs" [ngValue]="prop">{{prop.name}}
+              ({{getFirstPsdName(prop.invPropertySetDefinitions)}})
+            </option>
+          </select>
+        </td>
+        <td style="vertical-align:bottom;">
+          <button type="button" class="btn" [disabled]="!selectedProp || !isOwner()"
+                  (click)="addProp()">
+            <fa-icon [icon]="faPlus" size="1x" ngbTooltip="Add Property with its defining Pset to IDS" placement="right"></fa-icon>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="propertySetDefinitionService.user">
+        <td>
           <label>append property set</label>
           <select class="form-control" [(ngModel)]="selectedPSD" [ngbTooltip]="'Select PSet'">
             <option *ngFor="let pset of allPSDs" [ngValue]="pset">{{pset.name}}</option>

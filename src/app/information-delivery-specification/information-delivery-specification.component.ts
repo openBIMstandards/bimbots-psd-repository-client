@@ -33,6 +33,9 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
   editedPset: RequiredPropertySet;
   allPSDs: [PropertySetDefinition];
   selectedPSD: PropertySetDefinition;
+  searchString: string;
+  foundPropDefs: [PropertyDefinition];
+  selectedProp: PropertyDefinition;
   loadingPsetUpdate: boolean;
   loadingPropUpdate: boolean;
   loadingIdsUpdate: boolean;
@@ -151,4 +154,37 @@ export class InformationDeliverySpecificationComponent implements OnInit, OnChan
     return (owner.id && user.id) ? owner.id === user.id : false;
   }
 
+  search() {
+    if (this.searchString.length > 2) {
+      this.propertySetDefinitionService.searchPD(this.searchString).subscribe((value) => {
+        this.foundPropDefs = value;
+        this.selectedProp =
+          (this.foundPropDefs && this.foundPropDefs.length > 0) ? this.selectedProp = this.foundPropDefs[0] : this.selectedProp = null;
+      });
+    } else {
+      this.foundPropDefs = null;
+    }
+  }
+
+  getFirstPsdName(propSetDefs: [PropertySetDefinition]): string {
+    if (propSetDefs && propSetDefs.length > 0) {
+      return propSetDefs[0].name;
+    } else {
+      return '';
+    }
+  }
+
+  addProp(): void {
+    const subscription = this.propertySetDefinitionService.idsReceived.subscribe((ids) => {
+        this.selectedIDS = ids;
+        subscription.unsubscribe();
+      }
+    );
+    const pset = this.selectedProp.invPropertySetDefinitions[0];
+    this.propertySetDefinitionService
+      .addProp2Pset2Ids(
+        this.selectedIDS.id,
+        pset.id,
+        this.selectedProp.id);
+  }
 }

@@ -10,6 +10,8 @@ import {map} from 'rxjs/operators';
 const PRODUCTS = [
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcActionRequest',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcActor',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcActuator',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcAirTerminal',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcAsset',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBeam',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcBoiler',
@@ -56,7 +58,9 @@ const PRODUCTS = [
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcStair',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcTransportElement',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWall',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWasteTerminal',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWindow',
+  'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcWorkControl',
   'http://www.buildingsmart-tech.org/ifcOWL/IFC4#IfcZone'
 ];
 
@@ -153,6 +157,7 @@ const searchPD = gql`
       id
       name
       invPropertySetDefinitions {
+        id
         name
       }
     }
