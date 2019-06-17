@@ -101,10 +101,10 @@
       <tr>
         <th>property definitions</th>
         <td *ngIf="!(editedItem==='propertyDefs')" (click)="selectItem('propertyDefs')"
-            [class]="selectedItem==='propertyDefs'?'selected-item link-item':'link-item'">
+            >
           <a *ngFor="let propertyDef of sort(selectedPropSetDef.propertyDefs); let last = last"
              (click)="selectPropertyDef(propertyDef)"
-             [class]="selectedPropDef?(propertyDef.name==selectedPropDef.name?'selected-property-def link-item':'link-item'):'link-item'"
+             [class]="selectedPropDef?(propertyDef.name===selectedPropDef.name?'selected-property-def link-item':'link-item'):'link-item'"
           >{{propertyDef.name}}{{last ? '' : ', '}}</a>
         </td>
         <td *ngIf="editedItem==='propertyDefs'">
