@@ -6,7 +6,7 @@ export class PropertySetDefinition {
   name: string;
   definition: string;
   applicableClasses: string[];
-  propertyDefs: [PropertyDefinition];
+  propertyDefs: PropertyDefinition[];
   owner: User;
 }
 
@@ -16,6 +16,6 @@ export class PropertySetDefinitionInput {
               private ownerId: string,
               private definition: string,
               private applicableClasses: string[],
-              private propertyDefs: [PropertyDefinitionInput]) {
+              private propertyDefs: PropertyDefinitionInput[]) {
   }
 }

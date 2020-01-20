@@ -4,6 +4,7 @@ import {PropertySetDefinition, PropertySetDefinitionInput} from './property-set-
 import {Subscription} from 'apollo-client/util/Observable';
 import {PropertySetDefinitionService} from '../property-set-definition.service';
 import {faEdit, faTrash} from '@fortawesome/fontawesome-free-solid';
+// tslint:disable-next-line:max-line-length
 import {CreatePropertyDefinitionComponent} from '../property-set-repository/create-property-set-definition/create-property-definition/create-property-definition.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -90,7 +91,7 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   }
 
   update(): void {
-    const pdsInput = <[PropertyDefinitionInput]>[];
+    const pdsInput = <PropertyDefinitionInput[]> [];
     if (this.selectedPropSetDef.propertyDefs) {
       for (let index = 0; index < this.selectedPropSetDef.propertyDefs.length; index++) {
         pdsInput.push(new PropertyDefinitionInput(
@@ -132,7 +133,7 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
   addPropertyDef(): void {
     if (this.selectedPropSetDef) {
       if (!this.selectedPropSetDef.propertyDefs) {
-        this.selectedPropSetDef.propertyDefs = <[PropertyDefinition]>[];
+        this.selectedPropSetDef.propertyDefs = <PropertyDefinition[]>[];
       }
       this.selectedPropSetDef.propertyDefs.push(this.selectedPD);
       this.selectedPD = null;
@@ -151,10 +152,10 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
     modal.result.then((result) => {
       console.log('CreatePropertyDefinitionComponent fulfilled');
       if (!this.selectedPropSetDef.propertyDefs) {
-        this.selectedPropSetDef.propertyDefs = <[PropertyDefinition]>[];
+        this.selectedPropSetDef.propertyDefs = <PropertyDefinition[]>[];
       }
       this.selectedPropSetDef.propertyDefs.push(<PropertyDefinition>result);
-      const pdInputs = <[PropertyDefinitionInput]>[];
+      const pdInputs = <PropertyDefinitionInput[]>[];
       for (let index = 0; index < this.selectedPropSetDef.propertyDefs.length; index++) {
         pdInputs.push(new PropertyDefinitionInput(
           this.selectedPropSetDef.propertyDefs[index].id,
@@ -165,7 +166,7 @@ export class PropertySetDefinitionComponent implements OnInit, OnChanges {
             this.selectedPropSetDef.propertyDefs[index].propertyType.dataType,
             this.selectedPropSetDef.propertyDefs[index].propertyType.enumItems,
             this.selectedPropSetDef.propertyDefs[index].propertyType.reftype
-            )
+          )
         ));
       }
       const psdInput = new PropertySetDefinitionInput(
